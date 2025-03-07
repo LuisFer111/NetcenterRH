@@ -41,11 +41,12 @@
 <body>
 
   <h1>Buscador de Empleados</h1>
+  <p>Escribe un nombre, extensión, puesto o departamento para buscar.</p>
+
   <input type="text" id="searchInput" placeholder="Busca por nombre, extensión, etc." />
   <ul id="suggestions"></ul>
 
   <div id="employeeDetail">
-    <!-- Aquí se mostrará la información del empleado seleccionado -->
     <h2>Información del Empleado</h2>
     <p>Selecciona un empleado en el buscador para ver sus datos.</p>
   </div>
@@ -56,10 +57,10 @@
       const result = [];
 
       function recurse(employee) {
-        // Agrega el empleado actual al arreglo result
+        // Agrega el empleado actual
         result.push(employee);
 
-        // Recursivamente procesar los subordinados
+        // Si tiene subordinados, recorre recursivamente
         if (employee.Subordinados && employee.Subordinados.length > 0) {
           employee.Subordinados.forEach(sub => {
             recurse(sub);
@@ -70,7 +71,7 @@
       // Recorremos cada "empresa" en el JSON
       for (const empresaKey in data) {
         const empresa = data[empresaKey];
-        // Por cada empleado de primer nivel, hacemos la recursión
+        // Por cada empleado de primer nivel
         empresa.empleados.forEach(emp => recurse(emp));
       }
 
@@ -78,13 +79,18 @@
     }
 
     // 2. Cargar el archivo JSON y preparar todo
-    let allEmployees = [];  // Arreglo donde guardaremos todos los empleados
+    let allEmployees = [];  // Aquí guardaremos a todos los empleados
 
-    fetch('./Data/empleados_final.json') // Ajusta la ruta según tu estructura
-      .then(response => response.json())
+    fetch('./Data/empleados_final.json')  // Ajusta la ruta si lo ubicas en otro lado
+      .then(response => {
+        console.log('Fetch status:', response.status); // Verificar si es 200 OK
+        return response.json();
+      })
       .then(jsonData => {
-        // Aplanamos la estructura y guardamos los empleados
+        console.log('JSON Data recibido:', jsonData);
+        // Aplanar la estructura
         allEmployees = flattenEmployees(jsonData);
+        console.log('allEmployees (aplanado):', allEmployees);
       })
       .catch(error => {
         console.error('Error cargando el JSON:', error);
@@ -95,7 +101,7 @@
     const suggestionsList = document.getElementById('suggestions');
     const employeeDetail = document.getElementById('employeeDetail');
 
-    // Función para renderizar sugerencias en el <ul>
+    // Función para renderizar sugerencias
     function renderSuggestions(results) {
       // Limpiar el <ul> anterior
       suggestionsList.innerHTML = '';
@@ -104,16 +110,13 @@
       results.forEach(emp => {
         const li = document.createElement('li');
         li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
-
-        // Cuando hagan click en la sugerencia:
         li.addEventListener('click', () => {
-          // Muestra el detalle del empleado
+          // Mostrar detalle del empleado
           showEmployeeDetail(emp);
-          // Limpia sugerencias y el texto del buscador
+          // Limpiar sugerencias y el texto del buscador
           suggestionsList.innerHTML = '';
           searchInput.value = '';
         });
-
         suggestionsList.appendChild(li);
       });
     }
@@ -134,11 +137,11 @@
       `;
     }
 
-    // Event listener para el input (cada que el usuario escribe)
+    // Event listener cada que el usuario escriba
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.trim().toLowerCase();
 
-      // Si no hay nada escrito, limpia las sugerencias
+      // Si no hay nada en el input, se limpian las sugerencias
       if (!query) {
         suggestionsList.innerHTML = '';
         return;
@@ -149,16 +152,17 @@
         const nombre = emp.Nombre.toLowerCase();
         const extension = (emp["Extension Telefonica"] || '').toLowerCase();
         const puesto = (emp.Puesto || '').toLowerCase();
-        const depto = (emp.Departamento || '').toLowerCase();
+        const departamento = (emp.Departamento || '').toLowerCase();
+
         return (
           nombre.includes(query) ||
           extension.includes(query) ||
           puesto.includes(query) ||
-          depto.includes(query)
+          departamento.includes(query)
         );
       });
 
-      // Mostrar sólo un máximo de 10 resultados
+      // Mostrar solo un máximo de 10 resultados
       renderSuggestions(filtered.slice(0, 10));
     });
   </script>
