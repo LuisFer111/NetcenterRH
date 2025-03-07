@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title>Buscador de Empleados</title>
   <style>
-    /* --------------------------------------------------------
-       ESTILOS BÁSICOS
-       -------------------------------------------------------- */
+    /* ESTILOS BÁSICOS */
     body {
       font-family: Arial, sans-serif;
       margin: 20px auto;
@@ -17,8 +15,6 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-
-    /* Contenedor principal del buscador */
     #searchContainer {
       display: flex;
       flex-direction: column;
@@ -37,14 +33,11 @@
     #searchInput:focus {
       border-color: #007bff;
     }
-
     #resultsInfo {
       margin: 0.5rem 0;
       font-size: 0.9rem;
       color: #555;
     }
-
-    /* Lista de sugerencias */
     #suggestions {
       margin: 0;
       padding: 0;
@@ -65,24 +58,25 @@
       background-color: #f2f2f2;
     }
 
-    /* Caja de detalle */
+    /* CAJA DE DETALLE */
     #employeeDetail {
       margin-top: 1rem;
       border: 1px solid #ccc;
       padding: 15px;
       border-radius: 5px;
       background-color: #fafafa;
+      position: relative; /* Para poder posicionar la silueta absoluta */
+      min-height: 220px;  /* Espacio para que no se sobreponga el texto */
     }
     #employeeDetail h2 {
       margin-top: 0;
     }
-
     .label {
       font-weight: bold;
       color: #555;
     }
 
-    /* Logo centrado para la empresa */
+    /* LOGO EMPRESA */
     .logo-empresa {
       display: block;
       max-width: 150px; 
@@ -90,21 +84,16 @@
       margin: 0 auto 1rem; 
     }
 
-    /* Fila donde va el texto y la silueta */
-    .employeeRow {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
-
+    /* TEXTO Y SILUETA */
     .employeeText {
-      flex: 1;
+      /* Deja que el texto fluya */
     }
-
     .silueta {
-      width: 120px; 
-      height: 120px;
+      position: absolute; 
+      top: 15px; 
+      right: 15px; 
+      width: 150px; /* Más grande */
+      height: 150px;
       object-fit: contain;
     }
   </style>
@@ -113,70 +102,54 @@
 
   <h1>Buscador de Empleados</h1>
 
-  <!-- Contenedor del buscador -->
   <div id="searchContainer">
     <input type="text" id="searchInput" placeholder="Busca por nombre, extensión, puesto..." />
     <div id="resultsInfo"></div>
     <ul id="suggestions"></ul>
   </div>
 
-  <!-- Detalle del empleado -->
   <div id="employeeDetail">
     <h2>Información del Empleado</h2>
     <p>Selecciona un empleado en el buscador para ver sus datos.</p>
   </div>
 
   <script>
-    /* --------------------------------------------------------
+    /* -------------------------------------------------------
        1. Variables Globales
-       -------------------------------------------------------- */
+       ------------------------------------------------------- */
     let allEmployees = [];
 
-    /* --------------------------------------------------------
-       2. Función para aplanar la estructura de empleados
-          (Buscando recursivamente en Subordinados)
-       -------------------------------------------------------- */
+    /* -------------------------------------------------------
+       2. Aplanar la estructura (incluyendo Subordinados)
+       ------------------------------------------------------- */
     function flattenEmployees(data) {
       const result = [];
-
       function recurse(employee) {
-        // Agregamos el empleado actual
         result.push(employee);
-        // Si tiene subordinados, los recorremos
         if (employee.Subordinados && employee.Subordinados.length > 0) {
-          employee.Subordinados.forEach(sub => {
-            recurse(sub);
-          });
+          employee.Subordinados.forEach(sub => recurse(sub));
         }
       }
-
-      // Recorremos cada "empresa" en el JSON
       for (const empresaKey in data) {
-        const empresaObj = data[empresaKey];
-        // Cada "empleados" de esa empresa
-        empresaObj.empleados.forEach(emp => {
-          recurse(emp);
-        });
+        data[empresaKey].empleados.forEach(emp => recurse(emp));
       }
       return result;
     }
 
-    /* --------------------------------------------------------
+    /* -------------------------------------------------------
        3. Cargar el JSON con fetch
-       Ajusta la ruta según tu carpeta:
-       - ./Data/empleados_final.json  (si está en subcarpeta)
-       - ./empleados_final.json       (si está junto a este HTML)
-       -------------------------------------------------------- */
+         Ajusta la ruta según tu estructura:
+         -> './Data/empleados_final.json' si tu JSON está en Data/
+         -> './empleados_final.json' si está junto a este HTML
+       ------------------------------------------------------- */
     async function loadEmployees() {
       try {
-        const response = await fetch('./Data/empleados_final.json'); 
-        // ↑ Cambia a './empleados_final.json' si tu JSON está en la misma carpeta
+        const response = await fetch('./Data/empleados_final.json');
         if (!response.ok) {
           throw new Error('No se pudo cargar el JSON de empleados.');
         }
         const jsonData = await response.json();
-
-        // Aplanamos los empleados (incluyendo Subordinados)
+        // Aplanamos los empleados
         allEmployees = flattenEmployees(jsonData);
         console.log('Empleados cargados:', allEmployees);
       } catch (error) {
@@ -184,21 +157,23 @@
       }
     }
 
-    /* --------------------------------------------------------
+    /* -------------------------------------------------------
        4. Funciones auxiliares para logos y siluetas
-       -------------------------------------------------------- */
-    // Logo según la empresa
+       ------------------------------------------------------- */
+    // Logo según la empresa (ahora incluye BALFER)
     function getLogoUrl(empresa) {
       if (empresa === "TAFER") {
         return "./imagenes/TAFER.png";
       } else if (empresa === "VILLAGROUP") {
         return "./imagenes/VILLAGROUP.png";
+      } else if (empresa === "BALFER") {
+        return "./imagenes/BALFER.png";
       } else {
         return "./imagenes/default.png";
       }
     }
 
-    // Silueta según el "Genero" (Hombre / Mujer) en el JSON
+    // Silueta según el "Genero" (Hombre/Mujer)
     function getSilhouetteUrl(genero) {
       if (genero === "Mujer") {
         return "./imagenes/siluetamujer.png";
@@ -207,49 +182,71 @@
       }
     }
 
-    /* --------------------------------------------------------
-       5. Mostrar detalle del empleado seleccionado
-       -------------------------------------------------------- */
+    /* -------------------------------------------------------
+       5. Mostrar detalle del empleado (todos los atributos)
+         - Excepto "FotoUrl"
+         - "Subordinados" se listan aparte
+       ------------------------------------------------------- */
     function showEmployeeDetail(emp) {
-      // Tomamos logo y silueta
       const logoUrl = getLogoUrl(emp.Empresa);
       const siluetaUrl = getSilhouetteUrl(emp.Genero);
 
-      // Creamos HTML
+      // Generamos el HTML de los atributos
+      const attributesHtml = generateEmployeeAttributes(emp);
+
+      // Renderizamos en la caja de detalle
       document.getElementById('employeeDetail').innerHTML = `
         <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
-
-        <div class="employeeRow">
-          <div class="employeeText">
-            <h2>${emp.Nombre}</h2>
-            <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
-            <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
-            <p><span class="label">Extensión:</span> ${emp["Extension Telefonica"] || 'N/A'}</p>
-            <p><span class="label">Jefe Inmediato:</span> ${emp["Jefe Inmediato"] || 'N/A'}</p>
-            <p><span class="label">Género:</span> ${emp.Genero || 'N/A'}</p>
-          </div>
-          <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
+        <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
+        <div class="employeeText">
+          <h2>${emp.Nombre}</h2>
+          ${attributesHtml}
         </div>
       `;
     }
 
-    /* --------------------------------------------------------
-       6. Renderizar sugerencias
-       -------------------------------------------------------- */
+    /* -------------------------------------------------------
+       6. Generar HTML de todos los atributos (salvo FotoUrl)
+         y Subordinados (solo nombres)
+       ------------------------------------------------------- */
+    function generateEmployeeAttributes(emp) {
+      let html = "";
+
+      // 6a. Guardamos los nombres de subordinados
+      let subordinatesStr = "N/A";
+      if (emp.Subordinados && emp.Subordinados.length > 0) {
+        // Unir solo los nombres
+        const names = emp.Subordinados.map(s => s.Nombre).join(", ");
+        subordinatesStr = names;
+      }
+
+      // 6b. Listamos todas las propiedades, excepto "FotoUrl" y "Subordinados"
+      //     (La "Nombre" la ponemos aparte en <h2>)
+      const ignoreKeys = ["FotoUrl", "Subordinados", "Nombre"];
+      for (const key in emp) {
+        if (ignoreKeys.includes(key)) continue;
+        const value = emp[key] || "N/A";
+        html += `<p><span class="label">${key}:</span> ${value}</p>`;
+      }
+
+      // 6c. Agregamos al final la lista de subordinados
+      html += `<p><span class="label">Subordinados:</span> ${subordinatesStr}</p>`;
+
+      return html;
+    }
+
+    /* -------------------------------------------------------
+       7. Renderizar sugerencias en la lista
+       ------------------------------------------------------- */
     function renderSuggestions(results) {
       const suggestionsList = document.getElementById('suggestions');
-      // Limpiar la lista antes
       suggestionsList.innerHTML = '';
 
-      // Crear un <li> por cada resultado
       results.forEach(emp => {
         const li = document.createElement('li');
         li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
-
-        // Al hacer click, mostramos detalle
         li.addEventListener('click', () => {
           showEmployeeDetail(emp);
-          // Limpiamos las sugerencias y el input
           suggestionsList.innerHTML = '';
           searchInput.value = '';
           resultsInfo.textContent = '';
@@ -258,28 +255,25 @@
       });
     }
 
-    /* --------------------------------------------------------
-       7. Búsqueda en tiempo real
-       -------------------------------------------------------- */
+    /* -------------------------------------------------------
+       8. Búsqueda en tiempo real
+       ------------------------------------------------------- */
     const searchInput = document.getElementById('searchInput');
     const resultsInfo = document.getElementById('resultsInfo');
 
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.trim().toLowerCase();
-
-      // Si no hay texto, limpiamos
       if (!query) {
         document.getElementById('suggestions').innerHTML = '';
         resultsInfo.textContent = '';
         return;
       }
 
-      // Filtramos por nombre, extensión, puesto
+      // Filtramos por nombre, extensión o puesto
       const filtered = allEmployees.filter(emp => {
         const nombre = emp.Nombre.toLowerCase();
         const extension = (emp["Extension Telefonica"] || "").toLowerCase();
         const puesto = (emp.Puesto || "").toLowerCase();
-
         return (
           nombre.includes(query) ||
           extension.includes(query) ||
@@ -287,16 +281,13 @@
         );
       });
 
-      // Mostramos cuántos resultados hay
       resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
-
-      // Mostramos máximo 10 sugerencias
       renderSuggestions(filtered.slice(0, 10));
     });
 
-    /* --------------------------------------------------------
-       8. Iniciar: Cargar Empleados al abrir la página
-       -------------------------------------------------------- */
+    /* -------------------------------------------------------
+       9. Iniciar => cargar empleados al abrir
+       ------------------------------------------------------- */
     loadEmployees();
   </script>
 </body>
