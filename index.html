@@ -4,9 +4,6 @@
   <meta charset="UTF-8" />
   <title>Buscador de Empleados</title>
   <style>
-    /* ----------------- 
-       Estilos Básicos 
-       ----------------- */
     body {
       font-family: Arial, sans-serif;
       margin: 20px auto;
@@ -46,9 +43,6 @@
       color: #555;
     }
 
-    /* ----------------- 
-       Sugerencias
-       ----------------- */
     #suggestions {
       margin: 0;
       padding: 0;
@@ -71,15 +65,6 @@
       background-color: #f2f2f2;
     }
 
-    /* Resaltar texto buscado */
-    .highlight {
-      background-color: yellow;
-      font-weight: bold;
-    }
-
-    /* ----------------- 
-       Detalle del empleado
-       ----------------- */
     #employeeDetail {
       margin-top: 1rem;
       border: 1px solid #ccc;
@@ -96,38 +81,38 @@
       font-weight: bold;
       color: #555;
     }
+
+    .company-logo {
+      max-width: 150px;
+      display: block;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
   <h1>Buscador de Empleados</h1>
 
-  <!-- Contenedor principal del buscador -->
   <div id="searchContainer">
     <input type="text" id="searchInput" placeholder="Busca por nombre, extensión, puesto..." />
     <div id="resultsInfo"></div>
     <ul id="suggestions"></ul>
   </div>
 
-  <!-- Sección para mostrar la información del empleado seleccionado -->
   <div id="employeeDetail">
     <h2>Información del Empleado</h2>
     <p>Selecciona un empleado en el buscador para ver sus datos.</p>
   </div>
 
   <script>
-    // ---------------------------
-    // 1. Función para aplanar la jerarquía y obtener todos los empleados
-    // ---------------------------
+    // 1. Aplanar la jerarquía (recorrer Subordinados recursivamente)
     function flattenEmployees(data) {
       const result = [];
 
       function recurse(employee) {
         result.push(employee);
         if (employee.Subordinados && employee.Subordinados.length > 0) {
-          employee.Subordinados.forEach(sub => {
-            recurse(sub);
-          });
+          employee.Subordinados.forEach(sub => recurse(sub));
         }
       }
 
@@ -138,12 +123,10 @@
       return result;
     }
 
-    // ---------------------------
-    // 2. Cargar el archivo JSON e inicializar
-    // ---------------------------
-    let allEmployees = [];  // Donde se guardan los empleados aplanados
+    // 2. Cargar el JSON
+    let allEmployees = [];
 
-    fetch('./Data/empleados_final.json')  // Ajusta si cambias tu carpeta
+    fetch('./Data/empleados_final.json')
       .then(response => response.json())
       .then(jsonData => {
         allEmployees = flattenEmployees(jsonData);
@@ -152,58 +135,24 @@
         console.error('Error cargando el JSON:', err);
       });
 
-    // ---------------------------
-    // 3. Manejo de la búsqueda en tiempo real
-    // ---------------------------
+    // 3. Manejo de la búsqueda
     const searchInput = document.getElementById('searchInput');
     const suggestionsList = document.getElementById('suggestions');
     const employeeDetail = document.getElementById('employeeDetail');
     const resultsInfo = document.getElementById('resultsInfo');
 
-    // (3a) Función para resaltar la parte de texto que coincide con la búsqueda
-    function highlightText(originalText, query) {
-      const index = originalText.toLowerCase().indexOf(query.toLowerCase());
-      if (index === -1) {
-        // No hay coincidencia, retorna el texto normal
-        return originalText;
-      }
-      // Extraemos la parte que coincide
-      const matchedText = originalText.substr(index, query.length);
-      // Envolvemos la coincidencia con un <span> highlight
-      return (
-        originalText.substr(0, index) +
-        '<span class="highlight">' + matchedText + '</span>' +
-        originalText.substr(index + query.length)
-      );
-    }
-
-    // (3b) Renderizar sugerencias
-    function renderSuggestions(results, query) {
-      suggestionsList.innerHTML = '';
-      results.forEach(emp => {
-        const li = document.createElement('li');
-
-        // Resaltar coincidencia en Nombre
-        const highlightedName = highlightText(emp.Nombre, query);
-
-        // Mostrar también la extensión entre paréntesis
-        li.innerHTML = `${highlightedName} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
-
-        // Click => mostrar detalle
-        li.addEventListener('click', () => {
-          showEmployeeDetail(emp);
-          // Limpia sugerencias y el texto del buscador
-          suggestionsList.innerHTML = '';
-          searchInput.value = '';
-          resultsInfo.textContent = '';
-        });
-        suggestionsList.appendChild(li);
-      });
-    }
-
-    // (3c) Función para mostrar detalle de un empleado
+    // Mostrar detalle del empleado seleccionado
     function showEmployeeDetail(emp) {
+      // Determinar la imagen según la empresa
+      let imageUrl = './imagenes/default.png'; // Imagen por defecto
+      if (emp.Empresa && emp.Empresa.toLowerCase() === 'tafer') {
+        imageUrl = './imagenes/TAFER.png';
+      } else if (emp.Empresa && emp.Empresa.toLowerCase() === 'villagroup') {
+        imageUrl = './imagenes/VILLAGROUP.png';
+      }
+
       employeeDetail.innerHTML = `
+        <img src="${imageUrl}" alt="Logo Empresa" class="company-logo" />
         <h2>${emp.Nombre}</h2>
         <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
         <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
@@ -217,18 +166,36 @@
       `;
     }
 
-    // (3d) Event listener al escribir
+    // Renderizar sugerencias en la lista
+    function renderSuggestions(results) {
+      suggestionsList.innerHTML = '';
+      results.forEach(emp => {
+        const li = document.createElement('li');
+        li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
+
+        li.addEventListener('click', () => {
+          showEmployeeDetail(emp);
+          // Limpiar sugerencias y el input
+          suggestionsList.innerHTML = '';
+          searchInput.value = '';
+          resultsInfo.textContent = '';
+        });
+
+        suggestionsList.appendChild(li);
+      });
+    }
+
+    // Event listener cuando se escribe en el input
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.trim().toLowerCase();
 
-      // Si no hay nada escrito, limpia resultados y sugerencias
       if (!query) {
         suggestionsList.innerHTML = '';
         resultsInfo.textContent = '';
         return;
       }
 
-      // Filtrar por nombre, extensión, puesto, depto
+      // Filtrar por nombre, extensión, puesto, departamento
       const filtered = allEmployees.filter(emp => {
         const nombre = emp.Nombre.toLowerCase();
         const extension = (emp["Extension Telefonica"] || '').toLowerCase();
@@ -243,11 +210,11 @@
         );
       });
 
-      // Mostrar cuántos resultados hay
+      // Mostrar cuántos resultados se encontraron
       resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
 
-      // Mostrar solo un máximo de 10 sugerencias
-      renderSuggestions(filtered.slice(0, 10), query);
+      // Mostrar sólo los primeros 10
+      renderSuggestions(filtered.slice(0, 10));
     });
   </script>
 </body>
