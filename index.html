@@ -16,6 +16,7 @@
       margin-bottom: 1rem;
     }
 
+    /* Contenedor principal del buscador */
     #searchContainer {
       display: flex;
       flex-direction: column;
@@ -43,6 +44,7 @@
       color: #555;
     }
 
+    /* Lista de sugerencias */
     #suggestions {
       margin: 0;
       padding: 0;
@@ -54,25 +56,24 @@
       background: #fff;
       overflow: hidden;
     }
-
     #suggestions li {
       padding: 10px;
       cursor: pointer;
       border-bottom: 1px solid #eee;
     }
-
     #suggestions li:hover {
       background-color: #f2f2f2;
     }
 
+    /* Caja de detalle */
     #employeeDetail {
       margin-top: 1rem;
       border: 1px solid #ccc;
       padding: 15px;
       border-radius: 5px;
       background-color: #fafafa;
+      position: relative; /* Para posicionar elementos dentro */
     }
-
     #employeeDetail h2 {
       margin-top: 0;
     }
@@ -82,10 +83,29 @@
       color: #555;
     }
 
+    /* Encabezado del detalle (logo y silueta) */
+    #employeeHeader {
+      display: flex;
+      justify-content: center; /* Logo centrado */
+      align-items: center;
+      position: relative;     /* Para ubicar la silueta a la derecha */
+      margin-bottom: 1rem;
+    }
+
+    /* Logo de la empresa */
     .company-logo {
       max-width: 150px;
-      display: block;
-      margin-bottom: 10px;
+    }
+
+    /* Silueta a la derecha */
+    .silueta {
+      position: absolute;
+      right: 0;           /* Pegado al extremo derecho */
+      top: 50%;           /* Centrado verticalmente */
+      transform: translateY(-50%);
+      width: 70px;        /* Ajusta según tu imagen */
+      height: 70px;       /* Ajusta según tu imagen */
+      object-fit: contain;/* Asegura que se mantenga la proporción */
     }
   </style>
 </head>
@@ -105,17 +125,15 @@
   </div>
 
   <script>
-    // 1. Aplanar la jerarquía (recorrer Subordinados recursivamente)
+    // 1. Aplanar la jerarquía para listar todos los empleados
     function flattenEmployees(data) {
       const result = [];
-
       function recurse(employee) {
         result.push(employee);
         if (employee.Subordinados && employee.Subordinados.length > 0) {
           employee.Subordinados.forEach(sub => recurse(sub));
         }
       }
-
       for (const empresaKey in data) {
         const empresa = data[empresaKey];
         empresa.empleados.forEach(emp => recurse(emp));
@@ -125,7 +143,6 @@
 
     // 2. Cargar el JSON
     let allEmployees = [];
-
     fetch('./Data/empleados_final.json')
       .then(response => response.json())
       .then(jsonData => {
@@ -135,24 +152,30 @@
         console.error('Error cargando el JSON:', err);
       });
 
-    // 3. Manejo de la búsqueda
+    // 3. Elementos del DOM
     const searchInput = document.getElementById('searchInput');
     const suggestionsList = document.getElementById('suggestions');
     const employeeDetail = document.getElementById('employeeDetail');
     const resultsInfo = document.getElementById('resultsInfo');
 
-    // Mostrar detalle del empleado seleccionado
+    // 4. Mostrar detalle del empleado
     function showEmployeeDetail(emp) {
-      // Determinar la imagen según la empresa
-      let imageUrl = './imagenes/default.png'; // Imagen por defecto
+      // Logo según empresa
+      let imageUrl = './imagenes/default.png';
       if (emp.Empresa && emp.Empresa.toLowerCase() === 'tafer') {
         imageUrl = './imagenes/TAFER.png';
       } else if (emp.Empresa && emp.Empresa.toLowerCase() === 'villagroup') {
         imageUrl = './imagenes/VILLAGROUP.png';
       }
 
+      // Estructura HTML del detalle
       employeeDetail.innerHTML = `
-        <img src="${imageUrl}" alt="Logo Empresa" class="company-logo" />
+        <div id="employeeHeader">
+          <img src="${imageUrl}" alt="Logo Empresa" class="company-logo" />
+          <!-- Silueta: se muestra siempre, independientemente de la empresa -->
+          <img src="./imagenes/silueta.png" alt="Silueta" class="silueta" />
+        </div>
+
         <h2>${emp.Nombre}</h2>
         <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
         <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
@@ -166,7 +189,7 @@
       `;
     }
 
-    // Renderizar sugerencias en la lista
+    // 5. Renderizar sugerencias
     function renderSuggestions(results) {
       suggestionsList.innerHTML = '';
       results.forEach(emp => {
@@ -175,7 +198,7 @@
 
         li.addEventListener('click', () => {
           showEmployeeDetail(emp);
-          // Limpiar sugerencias y el input
+          // Limpiar sugerencias e input
           suggestionsList.innerHTML = '';
           searchInput.value = '';
           resultsInfo.textContent = '';
@@ -185,7 +208,7 @@
       });
     }
 
-    // Event listener cuando se escribe en el input
+    // 6. Búsqueda en tiempo real
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.trim().toLowerCase();
 
@@ -195,13 +218,12 @@
         return;
       }
 
-      // Filtrar por nombre, extensión, puesto, departamento
+      // Filtra por nombre, extensión, puesto, departamento
       const filtered = allEmployees.filter(emp => {
         const nombre = emp.Nombre.toLowerCase();
         const extension = (emp["Extension Telefonica"] || '').toLowerCase();
         const puesto = (emp.Puesto || '').toLowerCase();
         const depto = (emp.Departamento || '').toLowerCase();
-
         return (
           nombre.includes(query) ||
           extension.includes(query) ||
@@ -210,10 +232,9 @@
         );
       });
 
-      // Mostrar cuántos resultados se encontraron
       resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
 
-      // Mostrar sólo los primeros 10
+      // Muestra solo 10 sugerencias
       renderSuggestions(filtered.slice(0, 10));
     });
   </script>
