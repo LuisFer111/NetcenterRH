@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Buscador de Empleados</title>
   <style>
+    /* Estilos básicos */
     body {
       font-family: Arial, sans-serif;
       margin: 20px auto;
@@ -32,7 +33,6 @@
       border-radius: 5px;
       outline: none;
     }
-
     #searchInput:focus {
       border-color: #007bff;
     }
@@ -43,6 +43,7 @@
       color: #555;
     }
 
+    /* Lista de sugerencias */
     #suggestions {
       margin: 0;
       padding: 0;
@@ -54,17 +55,16 @@
       background: #fff;
       overflow: hidden;
     }
-
     #suggestions li {
       padding: 10px;
       cursor: pointer;
       border-bottom: 1px solid #eee;
     }
-
     #suggestions li:hover {
       background-color: #f2f2f2;
     }
 
+    /* Caja de detalle */
     #employeeDetail {
       margin-top: 1rem;
       border: 1px solid #ccc;
@@ -72,7 +72,6 @@
       border-radius: 5px;
       background-color: #fafafa;
     }
-
     #employeeDetail h2 {
       margin-top: 0;
     }
@@ -82,13 +81,15 @@
       color: #555;
     }
 
+    /* Logo centrado */
     .logo-empresa {
       display: block;
-      max-width: 150px;
+      max-width: 150px; /* Tamaño uniforme para los logos */
       max-height: 150px;
-      margin: 0 auto 1rem;
+      margin: 0 auto 1rem; /* Centrado + margen inferior */
     }
 
+    /* Fila para texto + silueta */
     .employeeRow {
       display: flex;
       justify-content: space-between;
@@ -112,7 +113,7 @@
   <h1>Buscador de Empleados</h1>
 
   <div id="searchContainer">
-    <input type="text" id="searchInput" placeholder="Busca por nombre, extensión, puesto..." />
+    <input type="text" id="searchInput" placeholder="Escribe algo (nombre, extensión, etc.)">
     <div id="resultsInfo"></div>
     <ul id="suggestions"></ul>
   </div>
@@ -123,103 +124,127 @@
   </div>
 
   <script>
+    /************************************************************
+     * 1. Variables globales
+     ************************************************************/
     let allEmployees = [];
 
-    // Función para cargar el JSON desde GitHub correctamente
-    async function loadEmployees() {
-        try {
-            const response = await fetch('empleados_final.json'); // ⚠️ Verifica la ruta en tu repositorio
-            if (!response.ok) throw new Error("No se pudo cargar el archivo JSON.");
-            const jsonData = await response.json();
-            allEmployees = flattenEmployees(jsonData);
-        } catch (error) {
-            console.error("Error cargando el JSON:", error);
-        }
-    }
-
-    // Función para recorrer empleados y subordinados
+    /************************************************************
+     * 2. Función para aplanar la estructura (recursivo)
+     ************************************************************/
     function flattenEmployees(data) {
-        const result = [];
-        function recurse(employee) {
-            result.push(employee);
-            if (employee.Subordinados && employee.Subordinados.length > 0) {
-                employee.Subordinados.forEach(sub => recurse(sub));
-            }
+      const result = [];
+      function recurse(employee) {
+        result.push(employee);
+        if (employee.Subordinados && employee.Subordinados.length > 0) {
+          employee.Subordinados.forEach(sub => recurse(sub));
         }
-        for (const empresaKey in data) {
-            data[empresaKey].empleados.forEach(emp => recurse(emp));
-        }
-        return result;
+      }
+      for (const empresaKey in data) {
+        data[empresaKey].empleados.forEach(emp => recurse(emp));
+      }
+      return result;
     }
 
-    // Obtener la silueta según el género
-    function getSilhouette(gender) {
-        return gender === "Mujer" ? "imagenes/siluetamujer.png" : "imagenes/siluetahombre.png";
+    /************************************************************
+     * 3. Cargar el JSON (AJUSTA LA RUTA SI ESTÁ EN CARPETA Data)
+     ************************************************************/
+    fetch('./empleados_final.json')  // <--- Ajusta a ./Data/empleados_final.json si está en carpeta Data
+      .then(response => response.json())
+      .then(jsonData => {
+        allEmployees = flattenEmployees(jsonData);
+      })
+      .catch(error => {
+        console.error('Error cargando el JSON:', error);
+      });
+
+    /************************************************************
+     * 4. Funciones de apoyo
+     ************************************************************/
+    function getLogoUrl(empresa) {
+      if (empresa === "TAFER") return "./imagenes/TAFER.png";
+      if (empresa === "VILLAGROUP") return "./imagenes/VILLAGROUP.png";
+      return "./imagenes/default.png";
     }
 
-    // Mostrar detalles del empleado seleccionado
+    function getSilhouetteUrl(gender) {
+      return (gender === "Mujer") ? "./imagenes/siluetamujer.png" : "./imagenes/siluetahombre.png";
+    }
+
+    /************************************************************
+     * 5. Mostrar detalle del empleado
+     ************************************************************/
     function showEmployeeDetail(emp) {
-        const logoUrl = emp.Empresa === "TAFER" ? "imagenes/TAFER.png" :
-                        emp.Empresa === "VILLAGROUP" ? "imagenes/VILLAGROUP.png" :
-                        "imagenes/default.png";
+      const logoUrl = getLogoUrl(emp.Empresa);
+      const siluetaUrl = getSilhouetteUrl(emp.Genero);
 
-        const silhouetteUrl = getSilhouette(emp.Genero);
+      document.getElementById('employeeDetail').innerHTML = `
+        <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa">
 
-        employeeDetail.innerHTML = `
-            <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa">
-
-            <div class="employeeRow">
-              <div class="employeeText">
-                <h2>${emp.Nombre}</h2>
-                <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
-                <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
-                <p><span class="label">Extensión:</span> ${emp["Extension Telefonica"] || 'N/A'}</p>
-                <p><span class="label">Jefe Inmediato:</span> ${emp["Jefe Inmediato"] || 'N/A'}</p>
-              </div>
-              <img class="silueta" src="${silhouetteUrl}" alt="Silueta">
-            </div>
-        `;
+        <div class="employeeRow">
+          <div class="employeeText">
+            <h2>${emp.Nombre}</h2>
+            <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
+            <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
+            <p><span class="label">Extensión:</span> ${emp["Extension Telefonica"] || 'N/A'}</p>
+            <p><span class="label">Jefe Inmediato:</span> ${emp["Jefe Inmediato"] || 'N/A'}</p>
+          </div>
+          <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado">
+        </div>
+      `;
     }
 
-    // Renderizar sugerencias
+    /************************************************************
+     * 6. Renderizar sugerencias
+     ************************************************************/
     function renderSuggestions(results) {
-        suggestionsList.innerHTML = '';
-        results.forEach(emp => {
-            const li = document.createElement('li');
-            li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
+      const suggestionsList = document.getElementById('suggestions');
+      suggestionsList.innerHTML = '';
 
-            li.addEventListener('click', () => {
-                showEmployeeDetail(emp);
-                suggestionsList.innerHTML = '';
-                searchInput.value = '';
-                resultsInfo.textContent = '';
-            });
-
-            suggestionsList.appendChild(li);
+      results.forEach(emp => {
+        const li = document.createElement('li');
+        li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
+        li.addEventListener('click', () => {
+          showEmployeeDetail(emp);
+          suggestionsList.innerHTML = '';
+          searchInput.value = '';
+          resultsInfo.textContent = '';
         });
+        suggestionsList.appendChild(li);
+      });
     }
 
-    // Lógica de búsqueda en tiempo real
+    /************************************************************
+     * 7. Búsqueda en tiempo real
+     ************************************************************/
+    const searchInput = document.getElementById('searchInput');
+    const resultsInfo = document.getElementById('resultsInfo');
+    const suggestionsList = document.getElementById('suggestions');
+
     searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim().toLowerCase();
-        if (!query) {
-            suggestionsList.innerHTML = '';
-            resultsInfo.textContent = '';
-            return;
-        }
+      const query = searchInput.value.trim().toLowerCase();
 
-        const filtered = allEmployees.filter(emp =>
-            emp.Nombre.toLowerCase().includes(query) ||
-            (emp["Extension Telefonica"] || '').toLowerCase().includes(query) ||
-            (emp.Puesto || '').toLowerCase().includes(query)
+      if (!query) {
+        suggestionsList.innerHTML = '';
+        resultsInfo.textContent = '';
+        return;
+      }
+
+      // Filtrar por nombre, extensión, puesto...
+      const filtered = allEmployees.filter(emp => {
+        const nombre = emp.Nombre.toLowerCase();
+        const extension = (emp["Extension Telefonica"] || '').toLowerCase();
+        const puesto = (emp.Puesto || '').toLowerCase();
+        return (
+          nombre.includes(query) ||
+          extension.includes(query) ||
+          puesto.includes(query)
         );
+      });
 
-        resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
-        renderSuggestions(filtered.slice(0, 10));
+      resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
+      renderSuggestions(filtered.slice(0, 10));
     });
-
-    // Cargar empleados al iniciar
-    loadEmployees();
   </script>
 </body>
 </html>
