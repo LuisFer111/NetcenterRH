@@ -33,7 +33,6 @@
       border-radius: 5px;
       outline: none;
     }
-
     #searchInput:focus {
       border-color: #007bff;
     }
@@ -72,7 +71,6 @@
       padding: 15px;
       border-radius: 5px;
       background-color: #fafafa;
-      position: relative; /* Para posicionar elementos dentro */
     }
     #employeeDetail h2 {
       margin-top: 0;
@@ -83,29 +81,31 @@
       color: #555;
     }
 
-    /* Encabezado del detalle (logo y silueta) */
-    #employeeHeader {
-      display: flex;
-      justify-content: center; /* Logo centrado */
-      align-items: center;
-      position: relative;     /* Para ubicar la silueta a la derecha */
-      margin-bottom: 1rem;
+    /* Logo centrado */
+    #companyLogo {
+      display: block;       /* Para que respete el margin auto */
+      margin: 0 auto 1rem;  /* Centrado horizontal + margen abajo */
+      max-width: 150px;
     }
 
-    /* Logo de la empresa */
-    .company-logo {
-      max-width: 150px;
+    /* Contenedor para texto e imagen de silueta a la derecha */
+    .employeeRow {
+      display: flex;
+      justify-content: space-between; /* texto a la izq, silueta a la der */
+      align-items: center;           /* alineado verticalmente al centro */
+      gap: 20px;                     /* espacio entre texto y silueta */
+    }
+
+    /* Bloque de texto */
+    .employeeText {
+      flex: 1; /* Para ocupar el espacio disponible */
     }
 
     /* Silueta a la derecha */
     .silueta {
-      position: absolute;
-      right: 0;           /* Pegado al extremo derecho */
-      top: 50%;           /* Centrado verticalmente */
-      transform: translateY(-50%);
       width: 70px;        /* Ajusta según tu imagen */
-      height: 70px;       /* Ajusta según tu imagen */
-      object-fit: contain;/* Asegura que se mantenga la proporción */
+      height: 70px;
+      object-fit: contain; 
     }
   </style>
 </head>
@@ -125,13 +125,95 @@
   </div>
 
   <script>
-    // 1. Aplanar la jerarquía para listar todos los empleados
+    /*************************************************************
+     * 1. Diccionario de género por nombre EXACTO
+     *    (basado en el JSON que compartiste; se ignoran tildes)
+     *    Si algún nombre no está aquí, asignamos por defecto "M".
+     *************************************************************/
+    const knownGenders = {
+      "KYARA TREJO": "F",
+      "MARIA MACIAS OROZCO": "F",
+      "ANGEL MENDOZA CASTELAN": "M",
+      "VALERIA CORREA FIGUEROA": "F",
+      "EMILIO MARTINEZ CATALAN": "M",
+      "BRAYAN ROMERO": "M",
+      "DANIEL ASUNCION SANCHEZ": "M",
+      "DIEGO RAMIREZ": "M",
+      "CRISTIAN GOMEZ": "M",
+      "YAEL CASTAÑEDA": "M",
+      "NATASHA MARTINEZ": "F",
+      "RICARDO GUEVARA": "M",
+      "LUIS SOTO ZANABRIA": "M",
+      "CHRISTIAN FLORES": "M",
+      "VIVIANA GASTELUM": "F",
+      "ANA KAREN HERNANDEZ": "F",
+      "ADAD IBARRA RANGEL": "M",
+      "LUIS MARTINEZ GOMEZ": "M",
+      "LUZ ARELI GARCIA": "F",
+      "JOSE OCTAVIO PEREZ": "M",
+      "EVERT RUTGER": "M",
+      "MARCO ANTONIO SANCHEZ": "M",
+      "PERLA JOCELINE CHAVEZ": "F",
+      "ITZEL SAMANTHA GONZALEZ": "F",
+      "JORGE YAN HERNANDEZ": "M",
+      "PABLO FERNANDEZ": "M",
+      "EYMAR SANCHEZ": "M",
+      "NAOMI SANCHEZ": "F",
+      "ANA ALVAREZ": "F",
+      "LUIS JIMENEZ": "M",
+      "CITLALI SANCHEZ": "F",
+      "MIGUEL SALAIS": "M",
+      "REYNALDO AVILA": "M",
+      "GUSTAVO MACIEL": "M",
+      "ORLANDO DELGADO": "M",
+      "GLORIA MEDINA": "F",
+      "MELISSA ESPINOZA": "F",
+      "NOE GOMEZ": "M",
+      "EDUARDO CRUZ": "M",
+      "DIEGO VILLA": "M",
+      "SUI SARABIA": "F",
+      "ENRIQUE ROBLES": "M",
+      "PASCUAL REYNOSO": "M",
+      "KEVIN GARCIA": "M",
+      "MIGUEL GUTIERREZ": "M",
+      "MARTHA GAMEZ": "F",
+      "CHRISTIAN VIRGEN": "M",
+      "EMMANUEL CARRILLO": "M",
+      "TIBNY GRASSO": "F",
+      "ANGEL JARET MARTINEZ": "M",
+      "JUAN ROGELIO MEDINA": "M",
+      "VERENICE SANCHEZ": "F",
+      "EDGAR LOPEZ": "M",
+      "ALAN SOLORSANO": "M",
+      "JOSE FRANCISCO MALDONADO": "M",
+      "FERNANDO MELGAR": "M",
+      "SANTIAGO GANEM": "M",
+      "ADRIANA GONZALEZ": "F",
+      "MARCO RODRIGUEZ": "M",
+      "JESUS EDUARDO DE LA TORRE": "M",
+      "JUAN CARLOS OCHOA": "M",
+      "FRANZ MADRIGAL": "M",
+      "FRANCISCO RODRIGUEZ": "M"
+    };
+
+    // Función para obtener "F" o "M"
+    function getGender(employeeName) {
+      const upperName = employeeName.trim().toUpperCase();
+      // Si no se encuentra en el diccionario, asumimos "M"
+      return knownGenders[upperName] || "M";
+    }
+
+    /*************************************************************
+     * 2. Función para aplanar empleados (recorrer subordinados)
+     *************************************************************/
     function flattenEmployees(data) {
       const result = [];
       function recurse(employee) {
         result.push(employee);
         if (employee.Subordinados && employee.Subordinados.length > 0) {
-          employee.Subordinados.forEach(sub => recurse(sub));
+          employee.Subordinados.forEach(sub => {
+            recurse(sub);
+          });
         }
       }
       for (const empresaKey in data) {
@@ -141,7 +223,9 @@
       return result;
     }
 
-    // 2. Cargar el JSON
+    /*************************************************************
+     * 3. Cargar el JSON de empleados
+     *************************************************************/
     let allEmployees = [];
     fetch('./Data/empleados_final.json')
       .then(response => response.json())
@@ -152,44 +236,62 @@
         console.error('Error cargando el JSON:', err);
       });
 
-    // 3. Elementos del DOM
+    /*************************************************************
+     * 4. Elementos del DOM
+     *************************************************************/
     const searchInput = document.getElementById('searchInput');
     const suggestionsList = document.getElementById('suggestions');
     const employeeDetail = document.getElementById('employeeDetail');
     const resultsInfo = document.getElementById('resultsInfo');
 
-    // 4. Mostrar detalle del empleado
+    /*************************************************************
+     * 5. Mostrar detalle del empleado
+     *************************************************************/
     function showEmployeeDetail(emp) {
-      // Logo según empresa
-      let imageUrl = './imagenes/default.png';
-      if (emp.Empresa && emp.Empresa.toLowerCase() === 'tafer') {
-        imageUrl = './imagenes/TAFER.png';
-      } else if (emp.Empresa && emp.Empresa.toLowerCase() === 'villagroup') {
-        imageUrl = './imagenes/VILLAGROUP.png';
+      // Determinar logo según empresa
+      let logoUrl = './imagenes/default.png';
+      if (emp.Empresa && emp.Empresa.toUpperCase() === 'TAFER') {
+        logoUrl = './imagenes/TAFER.png';
+      } else if (emp.Empresa && emp.Empresa.toUpperCase() === 'VILLAGROUP') {
+        logoUrl = './imagenes/VILLAGROUP.png';
       }
 
-      // Estructura HTML del detalle
-      employeeDetail.innerHTML = `
-        <div id="employeeHeader">
-          <img src="${imageUrl}" alt="Logo Empresa" class="company-logo" />
-          <!-- Silueta: se muestra siempre, independientemente de la empresa -->
-          <img src="./imagenes/silueta.png" alt="Silueta" class="silueta" />
-        </div>
+      // Determinar silueta según género
+      const gender = getGender(emp.Nombre);
+      let silhouetteUrl = './imagenes/siluetahombre.png';
+      if (gender === 'F') {
+        silhouetteUrl = './imagenes/siluetamujer.png';
+      }
 
-        <h2>${emp.Nombre}</h2>
-        <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
-        <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
-        <p><span class="label">Extensión:</span> ${emp["Extension Telefonica"] || 'N/A'}</p>
-        <p><span class="label">Jefe Inmediato:</span> ${emp["Jefe Inmediato"] || 'N/A'}</p>
-        <p><span class="label">Departamento:</span> ${emp.Departamento || 'N/A'}</p>
-        <p><span class="label">Turno:</span> ${emp.Turno || 'N/A'}</p>
-        <p><span class="label">Status:</span> ${emp.Status || 'N/A'}</p>
-        <p><span class="label">E-mail:</span> ${emp["E-mail"] || 'N/A'}</p>
-        <p><span class="label">Celular:</span> ${emp.Celular || 'N/A'}</p>
+      // Generar HTML
+      employeeDetail.innerHTML = `
+        <!-- Logo centrado -->
+        <img id="companyLogo" src="${logoUrl}" alt="Logo Empresa" />
+
+        <!-- Fila con texto e imagen de silueta a la derecha -->
+        <div class="employeeRow">
+          <div class="employeeText">
+            <h2>${emp.Nombre}</h2>
+            <p><span class="label">Empresa:</span> ${emp.Empresa || 'N/A'}</p>
+            <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
+            <p><span class="label">Extensión:</span> ${emp["Extension Telefonica"] || 'N/A'}</p>
+            <p><span class="label">Jefe Inmediato:</span> ${emp["Jefe Inmediato"] || 'N/A'}</p>
+            <p><span class="label">Departamento:</span> ${emp.Departamento || 'N/A'}</p>
+            <p><span class="label">Turno:</span> ${emp.Turno || 'N/A'}</p>
+            <p><span class="label">Status:</span> ${emp.Status || 'N/A'}</p>
+            <p><span class="label">E-mail:</span> ${emp["E-mail"] || 'N/A'}</p>
+            <p><span class="label">Celular:</span> ${emp.Celular || 'N/A'}</p>
+          </div>
+          <div class="employeeRight">
+            <img class="silueta" src="${silhouetteUrl}" alt="Silueta" />
+          </div>
+        </div>
       `;
     }
 
-    // 5. Renderizar sugerencias
+    /*************************************************************
+     * 6. Renderizar sugerencias
+     *************************************************************/
     function renderSuggestions(results) {
       suggestionsList.innerHTML = '';
       results.forEach(emp => {
@@ -208,17 +310,18 @@
       });
     }
 
-    // 6. Búsqueda en tiempo real
+    /*************************************************************
+     * 7. Lógica de búsqueda en tiempo real
+     *************************************************************/
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.trim().toLowerCase();
-
       if (!query) {
         suggestionsList.innerHTML = '';
         resultsInfo.textContent = '';
         return;
       }
 
-      // Filtra por nombre, extensión, puesto, departamento
+      // Filtrar por nombre, extensión, puesto, departamento
       const filtered = allEmployees.filter(emp => {
         const nombre = emp.Nombre.toLowerCase();
         const extension = (emp["Extension Telefonica"] || '').toLowerCase();
@@ -232,6 +335,7 @@
         );
       });
 
+      // Mostrar cuántos resultados se encontraron
       resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
 
       // Muestra solo 10 sugerencias
