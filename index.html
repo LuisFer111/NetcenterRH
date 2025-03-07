@@ -33,6 +33,7 @@
       border-radius: 5px;
       outline: none;
     }
+
     #searchInput:focus {
       border-color: #007bff;
     }
@@ -55,11 +56,13 @@
       background: #fff;
       overflow: hidden;
     }
+
     #suggestions li {
       padding: 10px;
       cursor: pointer;
       border-bottom: 1px solid #eee;
     }
+
     #suggestions li:hover {
       background-color: #f2f2f2;
     }
@@ -72,6 +75,7 @@
       border-radius: 5px;
       background-color: #fafafa;
     }
+
     #employeeDetail h2 {
       margin-top: 0;
     }
@@ -82,30 +86,31 @@
     }
 
     /* Logo centrado */
-    #companyLogo {
-      display: block;       /* Para que respete el margin auto */
-      margin: 0 auto 1rem;  /* Centrado horizontal + margen abajo */
-      max-width: 150px;
+    .logo-empresa {
+      display: block;
+      max-width: 150px; /* Tamaño uniforme */
+      max-height: 150px;
+      margin: 0 auto 1rem; /* Centrado horizontal y margen abajo */
     }
 
     /* Contenedor para texto e imagen de silueta a la derecha */
     .employeeRow {
       display: flex;
-      justify-content: space-between; /* texto a la izq, silueta a la der */
-      align-items: center;           /* alineado verticalmente al centro */
-      gap: 20px;                     /* espacio entre texto y silueta */
+      justify-content: space-between; /* Texto a la izq, silueta a la der */
+      align-items: center; /* Alineado verticalmente */
+      gap: 20px; /* Espacio entre texto y silueta */
     }
 
     /* Bloque de texto */
     .employeeText {
-      flex: 1; /* Para ocupar el espacio disponible */
+      flex: 1;
     }
 
     /* Silueta a la derecha */
     .silueta {
-      width: 70px;        /* Ajusta según tu imagen */
-      height: 70px;
-      object-fit: contain; 
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
     }
   </style>
 </head>
@@ -126,81 +131,10 @@
 
   <script>
     /*************************************************************
-     * 1. Diccionario de género por nombre EXACTO
-     *    (basado en el JSON que compartiste; se ignoran tildes)
-     *    Si algún nombre no está aquí, asignamos por defecto "M".
+     * 1. Función para obtener la silueta según género
      *************************************************************/
-    const knownGenders = {
-      "KYARA TREJO": "F",
-      "MARIA MACIAS OROZCO": "F",
-      "ANGEL MENDOZA CASTELAN": "M",
-      "VALERIA CORREA FIGUEROA": "F",
-      "EMILIO MARTINEZ CATALAN": "M",
-      "BRAYAN ROMERO": "M",
-      "DANIEL ASUNCION SANCHEZ": "M",
-      "DIEGO RAMIREZ": "M",
-      "CRISTIAN GOMEZ": "M",
-      "YAEL CASTAÑEDA": "M",
-      "NATASHA MARTINEZ": "F",
-      "RICARDO GUEVARA": "M",
-      "LUIS SOTO ZANABRIA": "M",
-      "CHRISTIAN FLORES": "M",
-      "VIVIANA GASTELUM": "F",
-      "ANA KAREN HERNANDEZ": "F",
-      "ADAD IBARRA RANGEL": "M",
-      "LUIS MARTINEZ GOMEZ": "M",
-      "LUZ ARELI GARCIA": "F",
-      "JOSE OCTAVIO PEREZ": "M",
-      "EVERT RUTGER": "M",
-      "MARCO ANTONIO SANCHEZ": "M",
-      "PERLA JOCELINE CHAVEZ": "F",
-      "ITZEL SAMANTHA GONZALEZ": "F",
-      "JORGE YAN HERNANDEZ": "M",
-      "PABLO FERNANDEZ": "M",
-      "EYMAR SANCHEZ": "M",
-      "NAOMI SANCHEZ": "F",
-      "ANA ALVAREZ": "F",
-      "LUIS JIMENEZ": "M",
-      "CITLALI SANCHEZ": "F",
-      "MIGUEL SALAIS": "M",
-      "REYNALDO AVILA": "M",
-      "GUSTAVO MACIEL": "M",
-      "ORLANDO DELGADO": "M",
-      "GLORIA MEDINA": "F",
-      "MELISSA ESPINOZA": "F",
-      "NOE GOMEZ": "M",
-      "EDUARDO CRUZ": "M",
-      "DIEGO VILLA": "M",
-      "SUI SARABIA": "F",
-      "ENRIQUE ROBLES": "M",
-      "PASCUAL REYNOSO": "M",
-      "KEVIN GARCIA": "M",
-      "MIGUEL GUTIERREZ": "M",
-      "MARTHA GAMEZ": "F",
-      "CHRISTIAN VIRGEN": "M",
-      "EMMANUEL CARRILLO": "M",
-      "TIBNY GRASSO": "F",
-      "ANGEL JARET MARTINEZ": "M",
-      "JUAN ROGELIO MEDINA": "M",
-      "VERENICE SANCHEZ": "F",
-      "EDGAR LOPEZ": "M",
-      "ALAN SOLORSANO": "M",
-      "JOSE FRANCISCO MALDONADO": "M",
-      "FERNANDO MELGAR": "M",
-      "SANTIAGO GANEM": "M",
-      "ADRIANA GONZALEZ": "F",
-      "MARCO RODRIGUEZ": "M",
-      "JESUS EDUARDO DE LA TORRE": "M",
-      "JUAN CARLOS OCHOA": "M",
-      "FRANZ MADRIGAL": "M",
-      "FRANCISCO RODRIGUEZ": "M"
-    };
-
-    // Función para obtener "F" o "M"
-    function getGender(employeeName) {
-      const upperName = employeeName.trim().toUpperCase();
-      // Si no se encuentra en el diccionario, asumimos "M"
-      return knownGenders[upperName] || "M";
+    function getSilhouette(gender) {
+      return gender === "Mujer" ? "./imagenes/siluetamujer.png" : "./imagenes/siluetahombre.png";
     }
 
     /*************************************************************
@@ -211,9 +145,7 @@
       function recurse(employee) {
         result.push(employee);
         if (employee.Subordinados && employee.Subordinados.length > 0) {
-          employee.Subordinados.forEach(sub => {
-            recurse(sub);
-          });
+          employee.Subordinados.forEach(sub => recurse(sub));
         }
       }
       for (const empresaKey in data) {
@@ -227,7 +159,7 @@
      * 3. Cargar el JSON de empleados
      *************************************************************/
     let allEmployees = [];
-    fetch('./Data/empleados_final.json')
+    fetch('./empleados_final.json')  // ⚠️ Verifica la ruta en GitHub
       .then(response => response.json())
       .then(jsonData => {
         allEmployees = flattenEmployees(jsonData);
@@ -249,24 +181,17 @@
      *************************************************************/
     function showEmployeeDetail(emp) {
       // Determinar logo según empresa
-      let logoUrl = './imagenes/default.png';
-      if (emp.Empresa && emp.Empresa.toUpperCase() === 'TAFER') {
-        logoUrl = './imagenes/TAFER.png';
-      } else if (emp.Empresa && emp.Empresa.toUpperCase() === 'VILLAGROUP') {
-        logoUrl = './imagenes/VILLAGROUP.png';
-      }
+      const logoUrl = emp.Empresa === "TAFER" ? "./imagenes/TAFER.png" :
+                      emp.Empresa === "VILLAGROUP" ? "./imagenes/VILLAGROUP.png" :
+                      "./imagenes/default.png";
 
       // Determinar silueta según género
-      const gender = getGender(emp.Nombre);
-      let silhouetteUrl = './imagenes/siluetahombre.png';
-      if (gender === 'F') {
-        silhouetteUrl = './imagenes/siluetamujer.png';
-      }
+      const silhouetteUrl = getSilhouette(emp.Genero);
 
       // Generar HTML
       employeeDetail.innerHTML = `
         <!-- Logo centrado -->
-        <img id="companyLogo" src="${logoUrl}" alt="Logo Empresa" />
+        <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa">
 
         <!-- Fila con texto e imagen de silueta a la derecha -->
         <div class="employeeRow">
@@ -276,15 +201,8 @@
             <p><span class="label">Puesto:</span> ${emp.Puesto || 'N/A'}</p>
             <p><span class="label">Extensión:</span> ${emp["Extension Telefonica"] || 'N/A'}</p>
             <p><span class="label">Jefe Inmediato:</span> ${emp["Jefe Inmediato"] || 'N/A'}</p>
-            <p><span class="label">Departamento:</span> ${emp.Departamento || 'N/A'}</p>
-            <p><span class="label">Turno:</span> ${emp.Turno || 'N/A'}</p>
-            <p><span class="label">Status:</span> ${emp.Status || 'N/A'}</p>
-            <p><span class="label">E-mail:</span> ${emp["E-mail"] || 'N/A'}</p>
-            <p><span class="label">Celular:</span> ${emp.Celular || 'N/A'}</p>
           </div>
-          <div class="employeeRight">
-            <img class="silueta" src="${silhouetteUrl}" alt="Silueta" />
-          </div>
+          <img class="silueta" src="${silhouetteUrl}" alt="Silueta">
         </div>
       `;
     }
@@ -300,7 +218,6 @@
 
         li.addEventListener('click', () => {
           showEmployeeDetail(emp);
-          // Limpiar sugerencias e input
           suggestionsList.innerHTML = '';
           searchInput.value = '';
           resultsInfo.textContent = '';
@@ -321,24 +238,14 @@
         return;
       }
 
-      // Filtrar por nombre, extensión, puesto, departamento
-      const filtered = allEmployees.filter(emp => {
-        const nombre = emp.Nombre.toLowerCase();
-        const extension = (emp["Extension Telefonica"] || '').toLowerCase();
-        const puesto = (emp.Puesto || '').toLowerCase();
-        const depto = (emp.Departamento || '').toLowerCase();
-        return (
-          nombre.includes(query) ||
-          extension.includes(query) ||
-          puesto.includes(query) ||
-          depto.includes(query)
-        );
-      });
+      // Filtrar por nombre, extensión o puesto
+      const filtered = allEmployees.filter(emp =>
+        emp.Nombre.toLowerCase().includes(query) ||
+        (emp["Extension Telefonica"] || '').toLowerCase().includes(query) ||
+        (emp.Puesto || '').toLowerCase().includes(query)
+      );
 
-      // Mostrar cuántos resultados se encontraron
       resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
-
-      // Muestra solo 10 sugerencias
       renderSuggestions(filtered.slice(0, 10));
     });
   </script>
