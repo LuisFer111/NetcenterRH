@@ -526,7 +526,7 @@
         );
       });
 
-      resultsInfo.textContent = `Se encontraron ${filtered.length} resultados.`;
+      resultsInfo.textContent = ''; // Limpiamos el mensaje de resultados
       renderSuggestions(filtered.slice(0, 10)); // Mostramos máx 10 sugerencias
     });
 
@@ -551,11 +551,8 @@
         suggestionsList.appendChild(li);
       });
     }
-
-    /* -------------------------------------------------------
-      15. INICIAR AL CARGAR EL DOCUMENTO
-       ------------------------------------------------------- */
-    loadEmployees();
+    document.getElementById('employeesGrid').style.display = "none"; // ✅ Oculta el grid al inicio
+    loadEmployees(); // ✅ Carga los empleados al abrir la página
   </script>
 </body>
 </html>
