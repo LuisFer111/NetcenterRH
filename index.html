@@ -449,19 +449,22 @@
     /* -------------------------------------------------------
        12. EVENTO PARA CAMBIO DE FILTRO (EMPRESA)
        ------------------------------------------------------- */
-    document.getElementById('companyFilter').addEventListener('change', (e) => {
-      const selectedCompany = e.target.value; // Valor del <option>
-      if (selectedCompany === "") {
-        // Sin filtro => todos
-        filteredEmployees = [...allEmployees];
-      } else {
-        filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-      }
-      // Reiniciamos a página 1 y renderizamos
-      currentPage = 1;
-      renderGrid(currentPage);
-    });
+  document.getElementById('companyFilter').addEventListener('change', (e) => {
+      const selectedCompany = e.target.value; // Obtiene el valor seleccionado en el <select>
 
+      if (selectedCompany === "") {
+        // ❌ Si no hay empresa seleccionada, vaciamos los empleados y ocultamos el grid
+        filteredEmployees = [];
+        document.getElementById('employeesGrid').style.display = "none";
+      } else {
+      // ✅ Si hay empresa seleccionada, filtramos los empleados
+        filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
+    document.getElementById('employeesGrid').style.display = "grid"; // Mostramos el grid
+      }
+
+      // Renderizamos la lista filtrada en el grid
+        renderGrid(currentPage);
+      });
     /* -------------------------------------------------------
        13. BÚSQUEDA EN TIEMPO REAL (SUGERENCIAS)
        ------------------------------------------------------- */
