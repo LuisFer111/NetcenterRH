@@ -83,6 +83,12 @@
       font-weight: bold;
       color: #555;
     }
+    #employeesGrid {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
 
     /* ---------------------
        LOGO DE LA EMPRESA
@@ -317,8 +323,9 @@
     function showEmployeeDetail(emp) {
       const logoUrl = getLogoUrl(emp.Empresa);
       const siluetaUrl = getSilhouetteUrl(emp.Genero);
-
       const detailDiv = document.getElementById('employeeDetail');
+      const employeesGrid = document.getElementById('employeesGrid');
+      
       const attributesHtml = generateEmployeeAttributes(emp);
 
       detailDiv.innerHTML = `
@@ -329,6 +336,8 @@
           ${attributesHtml}
         </div>
       `;
+      // 🔹 Ocultar el grid al seleccionar un empleado
+      employeesGrid.style.display = "none";
     }
 
     /* -------------------------------------------------------
@@ -449,22 +458,24 @@
     /* -------------------------------------------------------
        12. EVENTO PARA CAMBIO DE FILTRO (EMPRESA)
        ------------------------------------------------------- */
-  document.getElementById('companyFilter').addEventListener('change', (e) => {
-      const selectedCompany = e.target.value; // Obtiene el valor seleccionado en el <select>
+       document.getElementById('companyFilter').addEventListener('change', (e) => {
+        const selectedCompany = e.target.value; // Obtiene la empresa seleccionada
+        const employeesGrid = document.getElementById('employeesGrid'); // Referencia al grid
 
-      if (selectedCompany === "") {
+        if (selectedCompany === "") {
         // ❌ Si no hay empresa seleccionada, vaciamos los empleados y ocultamos el grid
         filteredEmployees = [];
-        document.getElementById('employeesGrid').style.display = "none";
+        employeesGrid.style.display = "none";
       } else {
-      // ✅ Si hay empresa seleccionada, filtramos los empleados
+        // ✅ Si hay empresa seleccionada, filtramos los empleados y mostramos el grid
         filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-    document.getElementById('employeesGrid').style.display = "grid"; // Mostramos el grid
+        employeesGrid.style.display = "grid";
       }
 
-      // Renderizamos la lista filtrada en el grid
+        // Renderizamos la lista filtrada en el grid
         renderGrid(currentPage);
       });
+
     /* -------------------------------------------------------
        13. BÚSQUEDA EN TIEMPO REAL (SUGERENCIAS)
        ------------------------------------------------------- */
