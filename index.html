@@ -40,12 +40,12 @@
       border-color: #007bff;
     }
     #resultsInfo {
-      margin: 0.5rem 0;
+      margin: 0;
       font-size: 0.9rem;
       color: #555;
     }
     #suggestions {
-      margin: 0;
+      margin: -2px;
       padding: 0;
       list-style: none;
       border: 1px solid #ccc;
@@ -121,7 +121,7 @@
        --------------------- */
     #employeesGrid {
       display: none;
-      grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 20px;
       margin-top: 20px;
     }
@@ -254,12 +254,6 @@
 
       // 🔹 Llenamos el filtro de empresas
       populateCompanyFilter(allEmployees);
-
-      // 🔹 Por defecto, sin filtro, se muestran todos los empleados
-      filteredEmployees = [...allEmployees];
-
-      // 🔹 Renderizamos la primera página con los empleados
-      renderGrid(currentPage);
     
       console.log("✅ Empleados actualizados correctamente desde GitHub.");
 
