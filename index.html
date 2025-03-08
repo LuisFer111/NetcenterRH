@@ -85,9 +85,6 @@
     }
 
     /* TEXTO Y SILUETA */
-    .employeeText {
-      /* Deja que el texto fluya */
-    }
     .silueta {
       position: absolute; 
       top: 15px; 
@@ -95,6 +92,54 @@
       width: 150px; /* Más grande */
       height: 150px;
       object-fit: contain;
+    }
+    #filterContainer {
+      text-align: center;
+      margin-bottom: 1rem;
+    }   
+    #employeesGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 columnas por fila */
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .employeeCard {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      background: #f9f9f9;
+    }
+    .employeeCard img {
+      width: 80px; /* Tamaño del logo */
+      height: 80px;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+    .employeeCard h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+    .employeeCard p {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+    #pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .pageButton {
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .pageButton:disabled {
+      background: #ccc;
     }
   </style>
 </head>
@@ -107,10 +152,25 @@
     <div id="resultsInfo"></div>
     <ul id="suggestions"></ul>
   </div>
+    <!-- FILTRO POR EMPRESA -->
+  <div id="filterContainer">
+    <label for="companyFilter">Filtrar por empresa:</label>
+    <select id="companyFilter">
+      <option value="">-- Selecciona una empresa --</option>
+    </select>
+  </div>
 
   <div id="employeeDetail">
     <h2>Información del Empleado</h2>
     <p>Selecciona un empleado en el buscador para ver sus datos.</p>
+  </div>
+  <div id="employeesGrid"></div>
+
+  <!-- PAGINACIÓN -->
+  <div id="pagination">
+    <button id="prevPage" class="pageButton">Anterior</button>
+    <span id="pageInfo"></span>
+    <button id="nextPage" class="pageButton">Siguiente</button>
   </div>
 
   <script>
