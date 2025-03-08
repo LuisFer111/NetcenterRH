@@ -360,51 +360,55 @@
        9. RENDERIZAR EL GRID DE EMPLEADOS (Con paginación)
        ------------------------------------------------------- */
        function renderGrid(page) {
-      const employeesGrid = document.getElementById('employeesGrid');
-      employeesGrid.innerHTML = '';
+  const employeesGrid = document.getElementById('employeesGrid');
 
-      // Calcular índices de paginación
-      const startIndex = (page - 1) * pageSize;
-      const endIndex = startIndex + pageSize;
-      const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
+  // Si no hay empleados filtrados, ocultamos el grid
+  if (filteredEmployees.length === 0) {
+    employeesGrid.style.display = "none";
+    return;
+  }
 
-      // Generar tarjetas
-      pageEmployees.forEach(emp => {
-        const card = document.createElement('div');
-        card.classList.add('employeeCard');
+  // Si hay empleados filtrados, mostramos el grid
+  employeesGrid.style.display = "grid";
+  employeesGrid.innerHTML = '';
 
-        // Imagen de la empresa o de silueta
-        // (Aquí preferimos usar el logo de empresa en la parte circular)
-        const img = document.createElement('img');
-        img.src = getLogoUrl(emp.Empresa);
+  // Calcular índices de paginación
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
 
-        const name = document.createElement('h3');
-        name.textContent = emp.Nombre || "Sin nombre";
+  // Generar tarjetas
+  pageEmployees.forEach(emp => {
+    const card = document.createElement('div');
+    card.classList.add('employeeCard');
 
-        const puesto = document.createElement('p');
-        puesto.textContent = emp.Puesto || "Puesto no especificado";
+    const img = document.createElement('img');
+    img.src = getLogoUrl(emp.Empresa);
 
-        const extension = document.createElement('p');
-        extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
+    const name = document.createElement('h3');
+    name.textContent = emp.Nombre || "Sin nombre";
 
-        // Al hacer click en la tarjeta => mostrar detalle
-        card.addEventListener('click', () => {
-          showEmployeeDetail(emp);
-        });
+    const puesto = document.createElement('p');
+    puesto.textContent = emp.Puesto || "Puesto no especificado";
 
-        // Agregar elementos al card
-        card.appendChild(img);
-        card.appendChild(name);
-        card.appendChild(puesto);
-        card.appendChild(extension);
+    const extension = document.createElement('p');
+    extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
 
-        employeesGrid.appendChild(card);
-      });
+    card.addEventListener('click', () => {
+      showEmployeeDetail(emp);
+    });
 
-      // Actualizar info de paginación
-      updatePaginationControls();
-    }
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(puesto);
+    card.appendChild(extension);
 
+    employeesGrid.appendChild(card);
+  });
+
+  // Actualizar paginación
+  updatePaginationControls();
+}
     /* -------------------------------------------------------
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
        ------------------------------------------------------- */
@@ -511,6 +515,7 @@
         suggestionsList.appendChild(li);
       });
     }
+
     /* -------------------------------------------------------
        15. INICIAR AL CARGAR EL DOCUMENTO
        ------------------------------------------------------- */
