@@ -5,7 +5,7 @@
   <title>Buscador de Empleados</title>
   <style>
     /* ---------------------
-       ESTILOS GENERALES
+      ESTILOS GENERALES
        --------------------- */
     body {
       font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@
     }
 
     /* ---------------------
-       BUSCADOR PRINCIPAL
+      BUSCADOR PRINCIPAL
        --------------------- */
     #searchContainer {
       display: flex;
@@ -65,7 +65,7 @@
     }
 
     /* ---------------------
-       CAJA DE DETALLE
+      CAJA DE DETALLE
        --------------------- */
     #employeeDetail {
       margin-top: 1rem;
@@ -87,7 +87,7 @@
       display: none; /* 🔹 También ocultamos la info del empleado al inicio */
     }
     /* ---------------------
-       LOGO DE LA EMPRESA
+      LOGO DE LA EMPRESA
        --------------------- */
     .logo-empresa {
       display: block;
@@ -97,7 +97,7 @@
     }
 
     /* ---------------------
-       SILUETA (según género)
+      SILUETA (según género)
        --------------------- */
     .silueta {
       position: absolute; 
@@ -109,7 +109,7 @@
     }
 
     /* ---------------------
-       FILTRO POR EMPRESA
+      FILTRO POR EMPRESA
        --------------------- */
     #filterContainer {
       text-align: center;
@@ -117,12 +117,12 @@
     }
 
     /* ---------------------
-       GRID DE EMPLEADOS
+      GRID DE EMPLEADOS
        --------------------- */
     #employeesGrid {
       display: none;
       grid-template-columns: repeat(4, 1fr);
-      grid-template.rows: repeat(2,auto);
+      grid-template-rows: repeat(2,auto);
       gap: 20px;
       margin-top: 20px;
     }
@@ -151,7 +151,7 @@
     }
 
     /* ---------------------
-       PAGINACIÓN
+      PAGINACIÓN
        --------------------- */
     #pagination {
       display: flex;
@@ -549,5 +549,77 @@
     document.getElementById('employeesGrid').style.display = "none"; // ✅ Oculta el grid al inicio
     loadEmployees(); // ✅ Carga los empleados al abrir la página
   </script>
+
+  <!-- Contenedor donde se mostrarán las ventas -->
+<div id="ventasEmpleados"></div>
+
+<script>
+async function obtenerVentasEmpleados() {
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXYMNwT5Bvor4bokRLX9Y7ukHdxGvbnuf88glLuIG2olmZiMbsItCiA0-idO-q1c3dsyF85MVvL-K1/pub?output=csv";
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.text();
+        
+        // Convertimos el CSV en un array de filas
+        const filas = data.split(/\r?\n/).map(row => row.split(","));
+
+        // Verificamos si hay suficientes filas
+        if (!filas[46]) {
+            console.error("No se encontró la fila de encabezados. Revisa el CSV.");
+            return;
+        }
+
+        // Extraer los encabezados (fila 47) y datos (desde la fila 48 en adelante)
+        const encabezados = filas[46].map(header => header.trim());
+        const datos = filas.slice(47); // Datos desde A48
+
+        console.log("Encabezados:", encabezados);
+        console.log("Primeras filas de datos:", datos.slice(0, 5));
+
+        // Ubicamos la columna "Closer"
+        const indiceCloser = encabezados.findIndex(header => header === "Closer");
+        
+        if (indiceCloser === -1) {
+            console.error("No se encontró la columna 'Closer'. Revisa los encabezados en el CSV.");
+            return;
+        }
+
+        // Contamos ventas por empleado
+        const conteoVentas = {};
+        datos.forEach(fila => {
+            const empleado = fila[indiceCloser] ? fila[indiceCloser].trim() : "";
+            if (empleado) {
+                conteoVentas[empleado] = (conteoVentas[empleado] || 0) + 1;
+            }
+        });
+
+        console.log("Ventas por empleado:", conteoVentas);
+        mostrarVentasEnWeb(conteoVentas);
+    } catch (error) {
+        console.error("Error al obtener los datos:", error);
+    }
+}
+
+// Función para mostrar los datos en la web
+function mostrarVentasEnWeb(conteoVentas) {
+    const contenedor = document.getElementById("ventasEmpleados");
+    if (!contenedor) {
+        console.error("No se encontró el contenedor 'ventasEmpleados'.");
+        return;
+    }
+
+    contenedor.innerHTML = "<h2>Ventas por Empleado</h2>";
+    
+    Object.entries(conteoVentas).forEach(([empleado, ventas]) => {
+        const p = document.createElement("p");
+        p.textContent = `${empleado}: ${ventas} ventas`;
+        contenedor.appendChild(p);
+    });
+}
+
+// Llamamos a la función cuando se cargue la página
+obtenerVentasEmpleados();
+</script>
 </body>
 </html>
