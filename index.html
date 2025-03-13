@@ -244,11 +244,16 @@
       try {
       // 🔹 Este "truco" evita que el navegador use versiones en caché del JSON
       const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
-      if (!response.ok) {
-        throw new Error('No se pudo cargar el JSON de empleados.');
-      }
-
       const jsonData = await response.json();
+      allEmployees = flattenEmployees(jsonData);
+      console.log("Empleados locales:", allEmployees.map(e => e.Nombre));
+      
+      populateCompanyFilter(allEmployees);
+      console.log("✅ Empleados cargados");
+    } catch (error) {
+      console.error("❌ Error al cargar empleados:", error);
+    }
+  }  
 
       // 🔹 Aplanamos la estructura del JSON
       allEmployees = flattenEmployees(jsonData);
@@ -343,8 +348,10 @@
         const attributesHtml = generateEmployeeAttributes(emp);
         // Obtener ventas del empleado
       const llaveEmpleado = normalizarNombre(emp.Nombre);
+      console.log("Buscando llave:", llaveEmpleado, "para Nombre:", emp.Nombre);
+      console.log("Keys existentes en ventasPorEmpleado:", Object.keys(ventasPorEmpleado));
+         
       let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
-
       if (ventasPorEmpleado[llaveEmpleado]) {
         const ventas = ventasPorEmpleado[llaveEmpleado];
         ventasTexto = `
@@ -355,8 +362,6 @@
         </p>
       `;
     }
-
-
         detailDiv.innerHTML = `
           <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
           <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
@@ -582,35 +587,24 @@ async function obtenerDatosVentas() {
     const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec';
     
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        console.log("📊 Datos obtenidos del JSON:", data);
+      const response = await fetch(url);
+      const data = await response.json();
 
-        ventasPorEmpleado = {};
-        
-        data.forEach(fila => {
-            const nombre = fila["NAME"] || "Desconocido";
-            const ventasEnero = parseFloat(fila["SALES"] || "0");
-            const ventasFebrero = parseFloat(fila["FEB SALES"] || "0");
-            const ventasMarzo = parseFloat(fila["MAR SALES"] || "0");
+      data.forEach(fila => {
+        const nombreLimpio = normalizarNombre(fila["NAME"] || "");
+        ventasPorEmpleado[nombreLimpio] = {
+          enero: parseFloat(fila["SALES"] || "0"),
+          febrero: parseFloat(fila["FEB SALES"] || "0"),
+          marzo: parseFloat(fila["MAR SALES"] || "0")
+        };
+      });
 
-            const nombreLimpio = normalizarNombre(fila["NAME"] || "Desconocido");
-            ventasPorEmpleado[nombreLimpio] = {
-              enero: ventasEnero,
-              febrero: ventasFebrero,
-              marzo: ventasMarzo
-            };
-
-        });
-
-        mostrarVentasEnPagina(ventasPorEmpleado); // Llamamos la función después de obtener los datos
-
+      console.log("Ventas cargadas. Llaves en ventasPorEmpleado:", Object.keys(ventasPorEmpleado));
     } catch (error) {
-        console.error("❌ Error al obtener los datos:", error);
+      console.error("❌ Error al obtener los datos:", error);
     }
-}
-
+  }
+  
 function mostrarVentasEnPagina(ventas) {
     console.log("📊 Ventas cargadas:", ventas);
 
