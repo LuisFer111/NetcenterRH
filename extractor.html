@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ventas por Empleado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Ventas por Empleado</h1>
+<table id="ventasTable">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Ventas Enero</th>
+      <th>Ventas Febrero</th>
+      <th>Ventas Marzo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Las filas de datos se insertarán aquí -->
+  </tbody>
+</table>
+
+<script>
+  async function obtenerDatosVentas() {
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQMxhyxkNqfVtE55jVXFSBdoBz6o9RiqE-V32tz1fVovquxV3pSk940Pw13Pfn6M3zSp4FugFEWoSpG/pub?gid=2077216066&single=true&output=csv';
+    try {
+      const response = await fetch(url);
+      const data = await response.text();
+      const filas = data.split('\n').map(fila => fila.split(','));
+
+      // Identificar índices de columnas
+      const encabezados = filas[0];
+      const indiceNombre = encabezados.indexOf('NAME');
+      const indiceSalesEnero = encabezados.indexOf('SALES', encabezados.indexOf('JANUARY'));
+      const indiceSalesFebrero = encabezados.indexOf('SALES', encabezados.indexOf('FEBRUARY'));
+      const indiceSalesMarzo = encabezados.indexOf('SALES', encabezados.indexOf('MARCH'));
+
+      if (indiceNombre === -1 || indiceSalesEnero === -1 || indiceSalesFebrero === -1 || indiceSalesMarzo === -1) {
+        console.error('No se encontraron las columnas necesarias.');
+        return;
+      }
+
+      // Procesar datos y actualizar la tabla
+      const tbody = document.getElementById('ventasTable').getElementsByTagName('tbody')[0];
+      filas.slice(1).forEach(fila => {
+        const nombre = fila[indiceNombre].trim();
+        const ventasEnero = fila[indiceSalesEnero].trim() || '0';
+        const ventasFebrero = fila[indiceSalesFebrero].trim() || '0';
+        const ventasMarzo = fila[indiceSalesMarzo].trim() || '0';
+
+        const row = tbody.insertRow();
+        row.insertCell(0).textContent = nombre;
+        row.insertCell(1).textContent = ventasEnero;
+        row.insertCell(2).textContent = ventasFebrero;
+        row.insertCell(3).textContent = ventasMarzo;
+      });
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+    }
+  }
+
+  // Llamar a la función para obtener y procesar los datos
+  obtenerDatosVentas();
+</script>
+
+</body>
+</html>
