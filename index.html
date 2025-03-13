@@ -26,7 +26,6 @@
       flex-direction: column;
       align-items: center;
       margin-bottom: 1rem;
-      position: relative; /* Para que #suggestions se posicione en relación al buscador */
     }
     #searchInput {
       width: 100%;
@@ -46,16 +45,13 @@
       color: #555;
     }
     #suggestions {
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin: -2px;
       padding: 0;
       list-style: none;
       border: 1px solid #ccc;
       border-radius: 0 0 5px 5px;
       max-width: 400px;
-      width: 400%;
+      width: 100%;
       background: #fff;
       overflow: hidden;
     }
@@ -247,7 +243,7 @@
     async function loadEmployees() {
       try {
       // 🔹 Este "truco" evita que el navegador use versiones en caché del JSON
-      const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
+      const response = await fetch(./Data/empleados_final.json?t=${new Date().getTime()});
       if (!response.ok) {
         throw new Error('No se pudo cargar el JSON de empleados.');
       }
@@ -351,17 +347,17 @@
 
       if (ventasPorEmpleado[llaveEmpleado]) {
         const ventas = ventasPorEmpleado[llaveEmpleado];
-        ventasTexto = `
+        ventasTexto = 
         <p><strong>Ventas:</strong> 
         Enero: ${ventas.enero} | 
         Febrero: ${ventas.febrero} | 
         Marzo: ${ventas.marzo}
         </p>
-      `;
+      ;
     }
 
 
-        detailDiv.innerHTML = `
+        detailDiv.innerHTML = 
           <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
           <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
           <div class="employeeText">
@@ -369,7 +365,7 @@
             ${attributesHtml}
             ${ventasTexto} <!-- Aquí agregas la sección de ventas -->
           </div>
-        `;
+        ;
 
         // Ocultar el grid y mostrar la info del empleado
         employeesGrid.style.display = "none";
@@ -394,11 +390,11 @@
       for (const key in emp) {
         if (!ignoreKeys.includes(key)) {
           const value = emp[key] || "N/A";
-          html += `<p><span class="label">${key}:</span> ${value}</p>`;
+          html += <p><span class="label">${key}:</span> ${value}</p>;
         }
       }
       // Añadir Subordinados
-      html += `<p><span class="label">Subordinados:</span> ${subordinatesStr}</p>`;
+      html += <p><span class="label">Subordinados:</span> ${subordinatesStr}</p>;
 
       return html;
     }
@@ -438,7 +434,7 @@
     puesto.textContent = emp.Puesto || "Puesto no especificado";
 
     const extension = document.createElement('p');
-    extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
+    extension.textContent = Ext: ${emp["Extension Telefonica"] || 'N/A'};
 
     card.addEventListener('click', () => {
       showEmployeeDetail(emp);
@@ -463,7 +459,7 @@
       const totalPages = Math.ceil(totalEmployees / pageSize);
 
       const pageInfo = document.getElementById('pageInfo');
-      pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+      pageInfo.textContent = Página ${currentPage} de ${totalPages};
 
       const prevButton = document.getElementById('prevPage');
       const nextButton = document.getElementById('nextPage');
@@ -554,7 +550,7 @@
 
       results.forEach(emp => {
         const li = document.createElement('li');
-        li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
+        li.textContent = ${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'});
         
         li.addEventListener('click', () => {
           showEmployeeDetail(emp);
@@ -608,16 +604,48 @@ async function obtenerDatosVentas() {
 
         });
 
+        mostrarVentasEnPagina(ventasPorEmpleado); // Llamamos la función después de obtener los datos
+
     } catch (error) {
         console.error("❌ Error al obtener los datos:", error);
     }
 }
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", async () => {
-    await loadEmployees();      // Carga primero el JSON de empleados
-    await obtenerDatosVentas(); // Luego el JSON de ventas
-  });
+
+function mostrarVentasEnPagina(ventas) {
+    console.log("📊 Ventas cargadas:", ventas);
+
+    document.querySelectorAll(".employeeCard").forEach(card => {
+        const nombreEmpleado = card.querySelector("h3").textContent.trim().toLowerCase();
+
+        Object.keys(ventas).forEach(nombreJSON => {
+            if (nombreEmpleado === nombreJSON.trim().toLowerCase()) {
+                console.log("✅ Coincidencia encontrada para:", nombreEmpleado);
+
+                // Crear el elemento de ventas si aún no existe
+                let ventasElemento = card.querySelector(".ventas-info");
+                if (!ventasElemento) {
+                    ventasElemento = document.createElement("p");
+                    ventasElemento.classList.add("ventas-info");
+                    card.appendChild(ventasElemento);
+                }
+
+                // Actualizar el contenido con los datos de ventas
+                ventasElemento.innerHTML = 
+                    <strong>Ventas:</strong> 
+                    Enero: ${ventas[nombreJSON].enero} | 
+                    Febrero: ${ventas[nombreJSON].febrero} | 
+                    Marzo: ${ventas[nombreJSON].marzo}
+                ;
+
+                ventasElemento.style.fontWeight = "bold";
+                ventasElemento.style.color = "#007bff"; // Azul como resalte
+            }
+        });
+    });
+}
+
+// Ejecutar cuando cargue la página
+document.addEventListener("DOMContentLoaded", obtenerDatosVentas);
 </script>
 </body>
 </html>
