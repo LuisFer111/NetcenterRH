@@ -341,6 +341,17 @@
         const employeesGrid = document.getElementById('employeesGrid');
 
         const attributesHtml = generateEmployeeAttributes(emp);
+        // Obtener ventas del empleado
+        let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
+        if (ventasPorEmpleado[emp.Nombre.toLowerCase()]) {
+          const ventas = ventasPorEmpleado[emp.Nombre.toLowerCase()];
+          ventasTexto = `
+              <p><strong>Ventas:</strong> 
+              Enero: ${ventas.enero} | 
+              Febrero: ${ventas.febrero} | 
+              Marzo: ${ventas.marzo}
+              </p>`;
+        }
 
         detailDiv.innerHTML = `
           <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
@@ -552,6 +563,8 @@
 
   <!-- Contenedor donde se mostrarán las ventas -->
 <script>
+let ventasPorEmpleado = {}; // 🔹 Hacer la variable global 
+  
 async function obtenerDatosVentas() {
     const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec';
     
