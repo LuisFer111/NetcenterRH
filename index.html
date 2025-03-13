@@ -643,9 +643,12 @@ function mostrarVentasEnPagina(ventas) {
         });
     });
 }
-
-// Ejecutar cuando cargue la página
-document.addEventListener("DOMContentLoaded", obtenerDatosVentas);
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    await loadEmployees();      // Carga primero el JSON de empleados
+    await obtenerDatosVentas(); // Luego el JSON de ventas
+  });
 </script>
 </body>
 </html>
