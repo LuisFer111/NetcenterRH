@@ -604,44 +604,9 @@ async function obtenerDatosVentas() {
 
         });
 
-        mostrarVentasEnPagina(ventasPorEmpleado); // Llamamos la función después de obtener los datos
-
     } catch (error) {
         console.error("❌ Error al obtener los datos:", error);
     }
-}
-
-function mostrarVentasEnPagina(ventas) {
-    console.log("📊 Ventas cargadas:", ventas);
-
-    document.querySelectorAll(".employeeCard").forEach(card => {
-        const nombreEmpleado = card.querySelector("h3").textContent.trim().toLowerCase();
-
-        Object.keys(ventas).forEach(nombreJSON => {
-            if (nombreEmpleado === nombreJSON.trim().toLowerCase()) {
-                console.log("✅ Coincidencia encontrada para:", nombreEmpleado);
-
-                // Crear el elemento de ventas si aún no existe
-                let ventasElemento = card.querySelector(".ventas-info");
-                if (!ventasElemento) {
-                    ventasElemento = document.createElement("p");
-                    ventasElemento.classList.add("ventas-info");
-                    card.appendChild(ventasElemento);
-                }
-
-                // Actualizar el contenido con los datos de ventas
-                ventasElemento.innerHTML = `
-                    <strong>Ventas:</strong> 
-                    Enero: ${ventas[nombreJSON].enero} | 
-                    Febrero: ${ventas[nombreJSON].febrero} | 
-                    Marzo: ${ventas[nombreJSON].marzo}
-                `;
-
-                ventasElemento.style.fontWeight = "bold";
-                ventasElemento.style.color = "#007bff"; // Azul como resalte
-            }
-        });
-    });
 }
 </script>
 <script>
