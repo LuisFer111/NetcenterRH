@@ -554,72 +554,54 @@
 <div id="ventasEmpleados"></div>
 
 <script>
-async function obtenerVentasEmpleados() {
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXYMNwT5Bvor4bokRLX9Y7ukHdxGvbnuf88glLuIG2olmZiMbsItCiA0-idO-q1c3dsyF85MVvL-K1/pub?output=csv";
+async function obtenerDatosVentas() {
+    const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec'; // Reemplaza con la URL real
     
     try {
         const response = await fetch(url);
-        const data = await response.text();
+        const data = await response.json();
         
-        // Convertimos el CSV en un array de filas
-        const filas = data.split(/\r?\n/).map(row => row.split(","));
+        console.log("📊 Datos obtenidos del JSON:", data);
 
-        // Verificamos si hay suficientes filas
-        if (!filas[46]) {
-            console.error("No se encontró la fila de encabezados. Revisa el CSV.");
-            return;
-        }
+        const ventasPorEmpleado = {};
+        data.forEach(fila => {
+            const nombre = fila["NAME"] || "Desconocido"; // Columna de nombres
+            const ventasEnero = parseFloat(fila["SALES"] || "0"); // Columna de enero
+            const ventasFebrero = parseFloat(fila["FEB SALES"] || "0"); // Columna de febrero
+            const ventasMarzo = parseFloat(fila["MAR SALES"] || "0"); // Columna de marzo
 
-        // Extraer los encabezados (fila 47) y datos (desde la fila 48 en adelante)
-        const encabezados = filas[46].map(header => header.trim());
-        const datos = filas.slice(47); // Datos desde A48
-
-        console.log("Encabezados:", encabezados);
-        console.log("Primeras filas de datos:", datos.slice(0, 5));
-
-        // Ubicamos la columna "Closer"
-        const indiceCloser = encabezados.findIndex(header => header === "Closer");
-        
-        if (indiceCloser === -1) {
-            console.error("No se encontró la columna 'Closer'. Revisa los encabezados en el CSV.");
-            return;
-        }
-
-        // Contamos ventas por empleado
-        const conteoVentas = {};
-        datos.forEach(fila => {
-            const empleado = fila[indiceCloser] ? fila[indiceCloser].trim() : "";
-            if (empleado) {
-                conteoVentas[empleado] = (conteoVentas[empleado] || 0) + 1;
-            }
+            ventasPorEmpleado[nombre] = {
+                enero: ventasEnero,
+                febrero: ventasFebrero,
+                marzo: ventasMarzo
+            };
         });
 
-        console.log("Ventas por empleado:", conteoVentas);
-        mostrarVentasEnWeb(conteoVentas);
+        mostrarVentasEnPagina(ventasPorEmpleado);
     } catch (error) {
-        console.error("Error al obtener los datos:", error);
+        console.error("❌ Error al obtener los datos:", error);
     }
 }
 
-// Función para mostrar los datos en la web
-function mostrarVentasEnWeb(conteoVentas) {
-    const contenedor = document.getElementById("ventasEmpleados");
-    if (!contenedor) {
-        console.error("No se encontró el contenedor 'ventasEmpleados'.");
-        return;
-    }
+function mostrarVentasEnPagina(ventas) {
+    document.querySelectorAll(".employeeCard").forEach(card => {
+        const nombreEmpleado = card.querySelector("h3").textContent.trim(); // Nombre en la web
 
-    contenedor.innerHTML = "<h2>Ventas por Empleado</h2>";
-    
-    Object.entries(conteoVentas).forEach(([empleado, ventas]) => {
-        const p = document.createElement("p");
-        p.textContent = `${empleado}: ${ventas} ventas`;
-        contenedor.appendChild(p);
+        if (ventas[nombreEmpleado]) {
+            const ventasInfo = document.createElement("p");
+            ventasInfo.textContent = `Ventas: 
+                Enero: ${ventas[nombreEmpleado].enero}, 
+                Febrero: ${ventas[nombreEmpleado].febrero}, 
+                Marzo: ${ventas[nombreEmpleado].marzo}`;
+            ventasInfo.style.fontWeight = "bold";
+            ventasInfo.style.color = "green";
+            card.appendChild(ventasInfo);
+        }
     });
 }
 
-// Llamamos a la función cuando se cargue la página
-obtenerVentasEmpleados();
+// Ejecutar cuando cargue la página
+document.addEventListener("DOMContentLoaded", obtenerDatosVentas);
 </script>
 </body>
 </html>
