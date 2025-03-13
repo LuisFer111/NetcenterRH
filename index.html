@@ -342,16 +342,20 @@
 
         const attributesHtml = generateEmployeeAttributes(emp);
         // Obtener ventas del empleado
-        let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
-        if (ventasPorEmpleado[emp.Nombre.toLowerCase()]) {
-          const ventas = ventasPorEmpleado[emp.Nombre.toLowerCase()];
-          ventasTexto = `
-              <p><strong>Ventas:</strong> 
-              Enero: ${ventas.enero} | 
-              Febrero: ${ventas.febrero} | 
-              Marzo: ${ventas.marzo}
-              </p>`;
-        }
+      const llaveEmpleado = normalizarNombre(emp.Nombre);
+      let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
+
+      if (ventasPorEmpleado[llaveEmpleado]) {
+        const ventas = ventasPorEmpleado[llaveEmpleado];
+        ventasTexto = `
+        <p><strong>Ventas:</strong> 
+        Enero: ${ventas.enero} | 
+        Febrero: ${ventas.febrero} | 
+        Marzo: ${ventas.marzo}
+        </p>
+      `;
+    }
+
 
         detailDiv.innerHTML = `
           <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
@@ -564,6 +568,14 @@
 
   <!-- Contenedor donde se mostrarán las ventas -->
 <script>
+function normalizarNombre(str) {
+  return str
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 let ventasPorEmpleado = {}; // 🔹 Hacer la variable global 
   
 async function obtenerDatosVentas() {
@@ -583,11 +595,13 @@ async function obtenerDatosVentas() {
             const ventasFebrero = parseFloat(fila["FEB SALES"] || "0");
             const ventasMarzo = parseFloat(fila["MAR SALES"] || "0");
 
-            ventasPorEmpleado[nombre] = {
-                enero: ventasEnero,
-                febrero: ventasFebrero,
-                marzo: ventasMarzo
+            const nombreLimpio = normalizarNombre(fila["NAME"] || "Desconocido");
+            ventasPorEmpleado[nombreLimpio] = {
+              enero: ventasEnero,
+              febrero: ventasFebrero,
+              marzo: ventasMarzo
             };
+
         });
 
         mostrarVentasEnPagina(ventasPorEmpleado); // Llamamos la función después de obtener los datos
