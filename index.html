@@ -551,11 +551,9 @@
   </script>
 
   <!-- Contenedor donde se mostrarán las ventas -->
-<div id="ventasEmpleados"></div>
-
 <script>
 async function obtenerDatosVentas() {
-    const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec'; // Reemplaza con la URL real
+    const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec';
     
     try {
         const response = await fetch(url);
@@ -565,10 +563,10 @@ async function obtenerDatosVentas() {
 
         const ventasPorEmpleado = {};
         data.forEach(fila => {
-            const nombre = fila["NAME"] || "Desconocido"; // Columna de nombres
-            const ventasEnero = parseFloat(fila["SALES"] || "0"); // Columna de enero
-            const ventasFebrero = parseFloat(fila["FEB SALES"] || "0"); // Columna de febrero
-            const ventasMarzo = parseFloat(fila["MAR SALES"] || "0"); // Columna de marzo
+            const nombre = fila["NAME"] || "Desconocido";
+            const ventasEnero = parseFloat(fila["SALES"] || "0");
+            const ventasFebrero = parseFloat(fila["FEB SALES"] || "0");
+            const ventasMarzo = parseFloat(fila["MAR SALES"] || "0");
 
             ventasPorEmpleado[nombre] = {
                 enero: ventasEnero,
@@ -577,26 +575,43 @@ async function obtenerDatosVentas() {
             };
         });
 
-        mostrarVentasEnPagina(ventasPorEmpleado);
+        mostrarVentasEnPagina(ventasPorEmpleado); // Llamamos la función después de obtener los datos
+
     } catch (error) {
         console.error("❌ Error al obtener los datos:", error);
     }
 }
 
 function mostrarVentasEnPagina(ventas) {
-    document.querySelectorAll(".employeeCard").forEach(card => {
-        const nombreEmpleado = card.querySelector("h3").textContent.trim(); // Nombre en la web
+    console.log("📊 Ventas cargadas:", ventas);
 
-        if (ventas[nombreEmpleado]) {
-            const ventasInfo = document.createElement("p");
-            ventasInfo.textContent = `Ventas: 
-                Enero: ${ventas[nombreEmpleado].enero}, 
-                Febrero: ${ventas[nombreEmpleado].febrero}, 
-                Marzo: ${ventas[nombreEmpleado].marzo}`;
-            ventasInfo.style.fontWeight = "bold";
-            ventasInfo.style.color = "green";
-            card.appendChild(ventasInfo);
-        }
+    document.querySelectorAll(".employeeCard").forEach(card => {
+        const nombreEmpleado = card.querySelector("h3").textContent.trim().toLowerCase();
+
+        Object.keys(ventas).forEach(nombreJSON => {
+            if (nombreEmpleado === nombreJSON.trim().toLowerCase()) {
+                console.log("✅ Coincidencia encontrada para:", nombreEmpleado);
+
+                // Crear el elemento de ventas si aún no existe
+                let ventasElemento = card.querySelector(".ventas-info");
+                if (!ventasElemento) {
+                    ventasElemento = document.createElement("p");
+                    ventasElemento.classList.add("ventas-info");
+                    card.appendChild(ventasElemento);
+                }
+
+                // Actualizar el contenido con los datos de ventas
+                ventasElemento.innerHTML = `
+                    <strong>Ventas:</strong> 
+                    Enero: ${ventas[nombreJSON].enero} | 
+                    Febrero: ${ventas[nombreJSON].febrero} | 
+                    Marzo: ${ventas[nombreJSON].marzo}
+                `;
+
+                ventasElemento.style.fontWeight = "bold";
+                ventasElemento.style.color = "#007bff"; // Azul como resalte
+            }
+        });
     });
 }
 
