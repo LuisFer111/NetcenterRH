@@ -243,7 +243,7 @@
     async function loadEmployees() {
       try {
       // 🔹 Este "truco" evita que el navegador use versiones en caché del JSON
-      const response = await fetch(./Data/empleados_final.json?t=${new Date().getTime()});
+      const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
       if (!response.ok) {
         throw new Error('No se pudo cargar el JSON de empleados.');
       }
@@ -347,17 +347,17 @@
 
       if (ventasPorEmpleado[llaveEmpleado]) {
         const ventas = ventasPorEmpleado[llaveEmpleado];
-        ventasTexto = 
+        ventasTexto = `
         <p><strong>Ventas:</strong> 
         Enero: ${ventas.enero} | 
         Febrero: ${ventas.febrero} | 
         Marzo: ${ventas.marzo}
         </p>
-      ;
+      `;
     }
 
 
-        detailDiv.innerHTML = 
+        detailDiv.innerHTML = `
           <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
           <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
           <div class="employeeText">
@@ -365,7 +365,7 @@
             ${attributesHtml}
             ${ventasTexto} <!-- Aquí agregas la sección de ventas -->
           </div>
-        ;
+        `;
 
         // Ocultar el grid y mostrar la info del empleado
         employeesGrid.style.display = "none";
@@ -390,11 +390,11 @@
       for (const key in emp) {
         if (!ignoreKeys.includes(key)) {
           const value = emp[key] || "N/A";
-          html += <p><span class="label">${key}:</span> ${value}</p>;
+          html += `<p><span class="label">${key}:</span> ${value}</p>`;
         }
       }
       // Añadir Subordinados
-      html += <p><span class="label">Subordinados:</span> ${subordinatesStr}</p>;
+      html += `<p><span class="label">Subordinados:</span> ${subordinatesStr}</p>`;
 
       return html;
     }
@@ -434,7 +434,7 @@
     puesto.textContent = emp.Puesto || "Puesto no especificado";
 
     const extension = document.createElement('p');
-    extension.textContent = Ext: ${emp["Extension Telefonica"] || 'N/A'};
+    extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
 
     card.addEventListener('click', () => {
       showEmployeeDetail(emp);
@@ -459,7 +459,7 @@
       const totalPages = Math.ceil(totalEmployees / pageSize);
 
       const pageInfo = document.getElementById('pageInfo');
-      pageInfo.textContent = Página ${currentPage} de ${totalPages};
+      pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
 
       const prevButton = document.getElementById('prevPage');
       const nextButton = document.getElementById('nextPage');
@@ -550,7 +550,7 @@
 
       results.forEach(emp => {
         const li = document.createElement('li');
-        li.textContent = ${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'});
+        li.textContent = `${emp.Nombre} (Ext: ${emp["Extension Telefonica"] || 'N/A'})`;
         
         li.addEventListener('click', () => {
           showEmployeeDetail(emp);
@@ -630,12 +630,12 @@ function mostrarVentasEnPagina(ventas) {
                 }
 
                 // Actualizar el contenido con los datos de ventas
-                ventasElemento.innerHTML = 
+                ventasElemento.innerHTML = `
                     <strong>Ventas:</strong> 
                     Enero: ${ventas[nombreJSON].enero} | 
                     Febrero: ${ventas[nombreJSON].febrero} | 
                     Marzo: ${ventas[nombreJSON].marzo}
-                ;
+                `;
 
                 ventasElemento.style.fontWeight = "bold";
                 ventasElemento.style.color = "#007bff"; // Azul como resalte
