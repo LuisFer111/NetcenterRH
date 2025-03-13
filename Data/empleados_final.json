@@ -17,11 +17,11 @@
         "Fecha de Ingreso": "27/06/2022",
         "Status": "Activo",
         "E-mail": "N/A",
-        "Celular": "N/A",
+        "Celular": "3325817199",
         "FotoUrl": "N/A",
         "Subordinados": [
           {
-            "Nombre": "MARIA MACIAS OROZCO ",
+            "Nombre": "MONICA SUZETTE MACIAS OROZCO",
             "Genero": "Mujer",
             "Extension Telefonica": "2011",
             "Jefe Inmediato": "KYARA TREJO",
@@ -36,11 +36,11 @@
             "Fecha de Ingreso": "N/A",
             "Status": "Activo",
             "E-mail": "N/A",
-            "Celular": "N/A",
+            "Celular": "3310747920",
             "FotoUrl": "N/A",
             "Subordinados": [
               {
-                "Nombre": "ANGEL MENDOZA CASTELAN ",
+                "Nombre": "ANGEL MENDOZA CASTELAN",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2015",
                 "Jefe Inmediato": "MARIA MACIAS OROZCO ",
@@ -59,7 +59,7 @@
                 "FotoUrl": "N/A",
                 "Subordinados": [
                   {
-                    "Nombre": "VALERIA CORREA FIGUEROA ",
+                    "Nombre": "VALERIA CORREA FIGUEROA",
                     "Genero": "Mujer",
                     "Extension Telefonica": "2016",
                     "Jefe Inmediato": "ANGEL MENDOZA CASTELAN ",
@@ -79,7 +79,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "EMILIO MARTINEZ CATALAN ",
+                    "Nombre": "EMILIO MARTINEZ CATALAN",
                     "Genero": "Hombre",
                     "Extension Telefonica": "2010",
                     "Jefe Inmediato": "ANGEL MENDOZA CASTELAN ",
@@ -101,7 +101,7 @@
                 ]
               },
               {
-                "Nombre": "BRAYAN ROMERO ",
+                "Nombre": "BRAYAN JONATHAN ROMERO VAZQUEZ",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2008",
                 "Jefe Inmediato": "MARIA MACIAS OROZCO ",
@@ -116,11 +116,11 @@
                 "Fecha de Ingreso": "17/04/2020",
                 "Status": "Activo",
                 "E-mail": "N/A",
-                "Celular": "N/A",
+                "Celular": "3327423896",
                 "FotoUrl": "N/A",
                 "Subordinados": [
                   {
-                    "Nombre": "DANIEL ASUNCION SANCHEZ ",
+                    "Nombre": "DANIEL ASUNCION SANCHEZ GOMEZ",
                     "Genero": "Hombre",
                     "Extension Telefonica": "2032",
                     "Jefe Inmediato": "BRAYAN ROMERO ",
@@ -139,7 +139,7 @@
                     "FotoUrl": "N/A",
                     "Subordinados": [
                       {
-                        "Nombre": "DIEGO RAMIREZ ",
+                        "Nombre": "DIEGO RAMIREZ RIOS",
                         "Genero": "Hombre",
                         "Extension Telefonica": "2023",
                         "Jefe Inmediato": "DANIEL ASUNCION SANCHEZ ",
@@ -159,7 +159,7 @@
                         "Subordinados": []
                       },
                       {
-                        "Nombre": "CRISTIAN GOMEZ ",
+                        "Nombre": "CRISTIAN ISAIAS GOMEZ TORRES",
                         "Genero": "Hombre",
                         "Extension Telefonica": "2029",
                         "Jefe Inmediato": "DANIEL ASUNCION SANCHEZ ",
@@ -179,8 +179,8 @@
                         "Subordinados": []
                       },
                       {
-                        "Nombre": "YAEL CASTAÑEDA ",
-                        "Genero": "Hombre",
+                        "Nombre": "ADRIANA YAEL CASTAÑEDA BARRIENTOS",
+                        "Genero": "Mujer",
                         "Extension Telefonica": "2033",
                         "Jefe Inmediato": "DANIEL ASUNCION SANCHEZ ",
                         "Empresa": "TAFER",
@@ -199,7 +199,7 @@
                         "Subordinados": []
                       },
                       {
-                        "Nombre": "NATASHA MARTINEZ ",
+                        "Nombre": "NATASHA ANAHI GUADALUPE MARTINEZ GARCIA",
                         "Genero": "Mujer",
                         "Extension Telefonica": "2024",
                         "Jefe Inmediato": "DANIEL ASUNCION SANCHEZ ",
@@ -219,7 +219,7 @@
                         "Subordinados": []
                       },
                       {
-                        "Nombre": "RICARDO GUEVARA ",
+                        "Nombre": "RICARDO GUEVARA SANCHEZ",
                         "Genero": "Hombre",
                         "Extension Telefonica": "2036",
                         "Jefe Inmediato": "DANIEL ASUNCION SANCHEZ ",
@@ -247,7 +247,7 @@
         ]
       },
       {
-        "Nombre": "LUIS SOTO ZANABRIA",
+        "Nombre": "LUIS ANGEL ZANABRIA SOTO",
         "Genero": "Hombre",
         "Extension Telefonica": "2009",
         "Jefe Inmediato": "N/A",
@@ -266,7 +266,7 @@
         "FotoUrl": "N/A",
         "Subordinados": [
           {
-            "Nombre": "CHRISTIAN FLORES",
+            "Nombre": "CRISTIAN IVAN FLORES NEVAREZ",
             "Genero": "Hombre",
             "Extension Telefonica": "2001",
             "Jefe Inmediato": "LUIS SOTO ZANABRIA",
@@ -281,11 +281,11 @@
             "Fecha de Ingreso": "12/09/2022",
             "Status": "Activo",
             "E-mail": "N/A",
-            "Celular": "N/A",
+            "Celular": "3313738959",
             "FotoUrl": "N/A",
             "Subordinados": [
               {
-                "Nombre": "VIVIANA GASTELUM",
+                "Nombre": "VIVIANA GASTELUM PARRA",
                 "Genero": "Mujer",
                 "Extension Telefonica": "2022",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -305,7 +305,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "ANA KAREN HERNANDEZ",
+                "Nombre": "ANA KAREN HERNANDEZ ESPINOZA",
                 "Genero": "Mujer",
                 "Extension Telefonica": "2004",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -325,7 +325,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "ADAD IBARRA RANGEL",
+                "Nombre": "ADAD ARIOSTON IBARRA RANGEL",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2005",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -365,7 +365,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "LUZ ARELI GARCIA",
+                "Nombre": "LUZ ARELI GARCIA LOPEZ",
                 "Genero": "Mujer",
                 "Extension Telefonica": "2007",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -385,7 +385,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "JOSE OCTAVIO PEREZ",
+                "Nombre": "JOSE OCTAVIO PEREZ VERDUGO",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2013",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -405,7 +405,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "EVERT RUTGER",
+                "Nombre": "EVERT HENDRIK VERWAYEN RUTGER",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2014",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -425,7 +425,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "MARCO ANTONIO SANCHEZ",
+                "Nombre": "MARCO ANTONIO SANCHEZ OROZCO",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2021",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -445,7 +445,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "PERLA JOCELINE CHAVEZ",
+                "Nombre": "PERLA JOCELINE CHAVEZ GERVACIO",
                 "Genero": "Mujer",
                 "Extension Telefonica": "2019",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -465,7 +465,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "ITZEL SAMANTHA GONZALEZ",
+                "Nombre": "ITZEL SAMANTHA GONZALEZ VELAZCO",
                 "Genero": "Mujer",
                 "Extension Telefonica": "2017",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -485,7 +485,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "JORGE YAN HERNANDEZ",
+                "Nombre": "JORGE YAN HERNANDEZ NUÑO",
                 "Genero": "Hombre",
                 "Extension Telefonica": "2018",
                 "Jefe Inmediato": "CHRISTIAN FLORES",
@@ -529,11 +529,11 @@
         "Fecha de Ingreso": "03/05/2019",
         "Status": "Activo",
         "E-mail": "N/A",
-        "Celular": "N/A",
+        "Celular": "3310198883",
         "FotoUrl": "N/A",
         "Subordinados": [
           {
-            "Nombre": "EYMAR SANCHEZ",
+            "Nombre": "EYMAR JOSE SANCHEZ MARTINEZ",
             "Genero": "Hombre",
             "Extension Telefonica": "1034",
             "Jefe Inmediato": "PABLO FERNANDEZ",
@@ -552,7 +552,7 @@
             "FotoUrl": "N/A",
             "Subordinados": [
               {
-                "Nombre": "NAOMI SANCHEZ",
+                "Nombre": "NAOMI SAYONARA SANCHEZ VENEGAS",
                 "Genero": "Mujer",
                 "Extension Telefonica": "1035",
                 "Jefe Inmediato": "EYMAR SANCHEZ",
@@ -572,7 +572,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "ANA ALVAREZ",
+                "Nombre": "ANA LAURA ALVAREZ SAAVEDRA",
                 "Genero": "Mujer",
                 "Extension Telefonica": "1016",
                 "Jefe Inmediato": "EYMAR SANCHEZ",
@@ -612,7 +612,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "CITLALI SANCHEZ",
+                "Nombre": "CITLALI LUCERO SANCHEZ TORRES",
                 "Genero": "Mujer",
                 "Extension Telefonica": "1021",
                 "Jefe Inmediato": "EYMAR SANCHEZ",
@@ -654,7 +654,7 @@
             ]
           },
           {
-            "Nombre": "REYNALDO AVILA",
+            "Nombre": "REYNALDO AVILA BONILLA",
             "Genero": "Hombre",
             "Extension Telefonica": "3000",
             "Jefe Inmediato": "PABLO FERNANDEZ",
@@ -669,11 +669,11 @@
             "Fecha de Ingreso": "03/02/2018",
             "Status": "Activo",
             "E-mail": "N/A",
-            "Celular": "N/A",
+            "Celular": "3318942265",
             "FotoUrl": "N/A",
             "Subordinados": [
               {
-                "Nombre": "GUSTAVO MACIEL",
+                "Nombre": "GUSTAVO ALFONSO MACIEL MADRIGAL",
                 "Genero": "Hombre",
                 "Extension Telefonica": "1033",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -693,7 +693,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "ORLANDO DELGADO",
+                "Nombre": "ERIK ORLANDO DELGADO SOTO",
                 "Genero": "Hombre",
                 "Extension Telefonica": "1015",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -713,7 +713,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "GLORIA MEDINA",
+                "Nombre": "GLORIA ELIZABETH MEDINA HERNANDEZ",
                 "Genero": "Mujer",
                 "Extension Telefonica": "1013",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -733,7 +733,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "MELISSA ESPINOZA",
+                "Nombre": "MELISSA ESPINOZA CASTRO",
                 "Genero": "Mujer",
                 "Extension Telefonica": "1018",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -753,7 +753,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "NOE GOMEZ",
+                "Nombre": "NOE GOMEZ BERNAL",
                 "Genero": "Hombre",
                 "Extension Telefonica": "1019",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -773,7 +773,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "EDUARDO CRUZ",
+                "Nombre": "JUAN EDUARDO CRUZ SOTO",
                 "Genero": "Hombre",
                 "Extension Telefonica": "1024",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -793,7 +793,7 @@
                 "Subordinados": []
               },
               {
-                "Nombre": "DIEGO VILLA",
+                "Nombre": "DIEGO VILLA MAGAÑA",
                 "Genero": "Hombre",
                 "Extension Telefonica": "1025",
                 "Jefe Inmediato": "REYNALDO AVILA",
@@ -842,7 +842,7 @@
   "BALFER": {
     "empleados": [
       {
-        "Nombre": "ENRIQUE ROBLES",
+        "Nombre": "JOSE ENRIQUE ROBLES ORTEGA",
         "Genero": "Hombre",
         "Extension Telefonica": "3008",
         "Jefe Inmediato": "N/A",
@@ -857,11 +857,11 @@
         "Fecha de Ingreso": "08/11/2021",
         "Status": "Activo",
         "E-mail": "N/A",
-        "Celular": "N/A",
+        "Celular": "3316001495",
         "FotoUrl": "N/A",
         "Subordinados": [
           {
-            "Nombre": "PASCUAL REYNOSO",
+            "Nombre": "PASCUAL REYNOSO ECHEVERRIA",
             "Genero": "Hombre",
             "Extension Telefonica": "3003",
             "Jefe Inmediato": "ENRIQUE ROBLES",
@@ -881,7 +881,7 @@
             "Subordinados": []
           },
           {
-            "Nombre": "KEVIN GARCIA",
+            "Nombre": "KEVIN ALEXIS GARCIA CHAVEZ",
             "Genero": "Hombre",
             "Extension Telefonica": "3015",
             "Jefe Inmediato": "ENRIQUE ROBLES",
@@ -900,7 +900,7 @@
             "FotoUrl": "N/A",
             "Subordinados": [
               {
-                "Nombre": "MIGUEL GUTIERREZ",
+                "Nombre": "MIGUEL GUTIERREZ RUVALCABA",
                 "Genero": "Hombre",
                 "Extension Telefonica": "3005",
                 "Jefe Inmediato": "KEVIN GARCIA",
@@ -919,7 +919,7 @@
                 "FotoUrl": "N/A",
                 "Subordinados": [
                   {
-                    "Nombre": "MARTHA GAMEZ",
+                    "Nombre": "MARTHA ELENA GAMEZ NAVARRO",
                     "Genero": "Mujer",
                     "Extension Telefonica": "3019",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -939,7 +939,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "CHRISTIAN VIRGEN",
+                    "Nombre": "CHRISTIAN ADALBERTO VIRGEN LOPEZ",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3022",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -959,7 +959,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "EMMANUEL CARRILLO",
+                    "Nombre": "EMMANUEL CARRILLO LOZA",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3010",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -979,7 +979,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "TIBNY GRASSO",
+                    "Nombre": "TIBNY NEREIDA GRASSO GUTIERREZ",
                     "Genero": "Mujer",
                     "Extension Telefonica": "3016",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -1019,7 +1019,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "JUAN ROGELIO MEDINA",
+                    "Nombre": "JUAN ROGELIO MEDINA RAMIREZ",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3034",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -1039,7 +1039,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "VERENICE SANCHEZ",
+                    "Nombre": "VERENICE SANCHEZ FIGUEROA",
                     "Genero": "Mujer",
                     "Extension Telefonica": "3013",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -1059,7 +1059,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "EDGAR LOPEZ",
+                    "Nombre": "EDGAR ROMAN LOPEZ RAMIREZ",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3011",
                     "Jefe Inmediato": "MIGUEL GUTIERREZ",
@@ -1083,7 +1083,7 @@
             ]
           },
           {
-            "Nombre": "ALAN SOLORSANO",
+            "Nombre": "ALAN FRANCISCO SOLORSANO SALCEDO",
             "Genero": "Hombre",
             "Extension Telefonica": "3021",
             "Jefe Inmediato": "ENRIQUE ROBLES",
@@ -1102,7 +1102,7 @@
             "FotoUrl": "N/A",
             "Subordinados": [
               {
-                "Nombre": "JOSE FRANCISCO MALDONADO",
+                "Nombre": "JOSE FRANCISCO MALDONADO GUTIERREZ",
                 "Genero": "Hombre",
                 "Extension Telefonica": "3024",
                 "Jefe Inmediato": "ALAN SOLORSANO",
@@ -1121,7 +1121,7 @@
                 "FotoUrl": "N/A",
                 "Subordinados": [
                   {
-                    "Nombre": "FERNANDO MELGAR",
+                    "Nombre": "FERNANDO MELGAR LOPEZ",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3012",
                     "Jefe Inmediato": "JOSE FRANCISCO MALDONADO",
@@ -1141,7 +1141,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "SANTIAGO GANEM",
+                    "Nombre": "SANTIAGO GANEM LIMA",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3025",
                     "Jefe Inmediato": "JOSE FRANCISCO MALDONADO",
@@ -1161,7 +1161,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "ADRIANA GONZALEZ",
+                    "Nombre": "ADRIANA BELEN GONZALEZ MUÑIZ",
                     "Genero": "Mujer",
                     "Extension Telefonica": "3033",
                     "Jefe Inmediato": "JOSE FRANCISCO MALDONADO",
@@ -1181,7 +1181,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "MARCO RODRIGUEZ",
+                    "Nombre": "MARCO GAEL RODRIGUEZ BENAVIDEZ",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3023",
                     "Jefe Inmediato": "JOSE FRANCISCO MALDONADO",
@@ -1201,7 +1201,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "JESUS EDUARDO DE LA TORRE",
+                    "Nombre": "JESUS EDUARDO DE LA TORRE BELTRAN",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3002",
                     "Jefe Inmediato": "JOSE FRANCISCO MALDONADO",
@@ -1221,7 +1221,7 @@
                     "Subordinados": []
                   },
                   {
-                    "Nombre": "JUAN CARLOS OCHOA",
+                    "Nombre": "JUAN CARLOS OCHOA GARCIA",
                     "Genero": "Hombre",
                     "Extension Telefonica": "3007",
                     "Jefe Inmediato": "JOSE FRANCISCO MALDONADO",
@@ -1265,7 +1265,7 @@
             ]
           },
           {
-            "Nombre": "FRANCISCO RODRIGUEZ",
+            "Nombre": "FRANCISCO RODRIGUEZ AGUIRRE",
             "Genero": "Hombre",
             "Extension Telefonica": "N/A",
             "Jefe Inmediato": "ENRIQUE ROBLES",
