@@ -26,6 +26,7 @@
       flex-direction: column;
       align-items: center;
       margin-bottom: 1rem;
+      position: relative; /* Para que #suggestions se posicione en relación al buscador */
     }
     #searchInput {
       width: 100%;
@@ -45,13 +46,16 @@
       color: #555;
     }
     #suggestions {
-      margin: -2px;
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 0;
       list-style: none;
       border: 1px solid #ccc;
       border-radius: 0 0 5px 5px;
       max-width: 400px;
-      width: 100%;
+      width: 400%;
       background: #fff;
       overflow: hidden;
     }
