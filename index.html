@@ -574,7 +574,8 @@ async function obtenerDatosVentas() {
         
         console.log("📊 Datos obtenidos del JSON:", data);
 
-        const ventasPorEmpleado = {};
+        ventasPorEmpleado = {};
+        
         data.forEach(fila => {
             const nombre = fila["NAME"] || "Desconocido";
             const ventasEnero = parseFloat(fila["SALES"] || "0");
