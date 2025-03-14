@@ -596,7 +596,8 @@ function normalizarNombre(str) {
     .toLowerCase()
     .trim()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z\s]/g, "");
 }
 
 let ventasPorEmpleado = {}; // 🔹 Hacer la variable global 
@@ -612,7 +613,6 @@ async function obtenerDatosVentas() {
 
     data.forEach(fila => {
       const nombreLimpio = normalizarNombre(fila["NAME"] || "");
-      const nombreMinusculas = nombreOriginal.toLowerCase().trim();
       
       ventasPorEmpleado[nombreLimpio] = {
         enero: parseFloat(fila["SALES"] || "0"),
@@ -622,7 +622,6 @@ async function obtenerDatosVentas() {
     });
 
     console.log("Ventas cargadas:", ventasPorEmpleado);
-    mostrarVentasEnPagina(ventasPorEmpleado); // ✅ Asegurar llamada después de carga
 
   } catch (error) {
     console.error("❌ Error al obtener los datos de ventas:", error);
