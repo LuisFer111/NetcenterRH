@@ -393,50 +393,71 @@
       function renderGrid(page) {
         const employeesGrid = document.getElementById('employeesGrid');
 
-        if (filteredEmployees.length === 0) {
-          employeesGrid.style.display = "none";
+          if (filteredEmployees.length === 0) {
+            employeesGrid.style.display = "none";
           return;
-        }
+          }
 
-        employeesGrid.style.display = "grid";
-        employeesGrid.innerHTML = '';
+          employeesGrid.style.display = "grid";
+          employeesGrid.innerHTML = '';
 
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
+          const startIndex = (page - 1) * pageSize;
+          const endIndex = startIndex + pageSize;
+          const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
 
-        pageEmployees.forEach(emp => {
-          const card = document.createElement('div');
-          card.classList.add('employeeCard');
+          pageEmployees.forEach(emp => {
+            const card = document.createElement('div');
+            card.classList.add('employeeCard');
 
-          const img = document.createElement('img');
-          img.src = getLogoUrl(emp.Empresa);
+            const img = document.createElement('img');
+            img.src = getLogoUrl(emp.Empresa);
 
-          const name = document.createElement('h3');
-          name.textContent = emp.Nombre || "Sin nombre";
+            const name = document.createElement('h3');
+            name.textContent = emp.Nombre || "Sin nombre";
 
-          const puesto = document.createElement('p');
-          puesto.textContent = emp.Puesto || "Puesto no especificado";
+            const puesto = document.createElement('p');
+            puesto.textContent = emp.Puesto || "Puesto no especificado";
 
-          const extension = document.createElement('p');
-          extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
+            const extension = document.createElement('p');
+            extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
 
-          card.addEventListener('click', () => {
-            showEmployeeDetail(emp);
+            card.addEventListener('click', () => {
+              showEmployeeDetail(emp);
+            });
+
+            card.appendChild(img);
+            card.appendChild(name);
+            card.appendChild(puesto);
+            card.appendChild(extension);
+
+            // 🔥🔥 AÑADIR VENTAS EN CADA TARJETA DIRECTAMENTE AQUÍ 🔥🔥
+            const nombreEmpleado = normalizarNombre(emp.Nombre);
+            const ventas = ventasPorEmpleado[nombreEmpleado];
+
+            const ventasElemento = document.createElement("p");
+            ventasElemento.classList.add("ventas-info");
+
+            if (ventas) {
+              ventasElemento.innerHTML = `
+                <strong>Ventas:</strong> 
+                Enero: ${ventas.enero} | 
+                Febrero: ${ventas.febrero} | 
+                Marzo: ${ventas.marzo}
+              `;
+            } else {
+              ventasElemento.innerHTML = "<strong>Ventas:</strong> No disponible";
+            }
+
+            ventasElemento.style.fontWeight = "bold";
+            ventasElemento.style.color = "#007bff";
+
+            card.appendChild(ventasElemento);
+
+            employeesGrid.appendChild(card);
           });
 
-          card.appendChild(img);
-          card.appendChild(name);
-          card.appendChild(puesto);
-          card.appendChild(extension);
-
-          employeesGrid.appendChild(card);
-        });
-
-        updatePaginationControls();
-  
-        mostrarVentasEnPagina(ventasPorEmpleado);  // 🔥 Aquí siempre actualiza ventas al renderizar tarjetas
-      }
+          updatePaginationControls();
+        }
     /* -------------------------------------------------------
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
        ------------------------------------------------------- */
