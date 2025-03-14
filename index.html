@@ -613,24 +613,37 @@ async function obtenerDatosVentas() {
 
     data.forEach(fila => {
       const nombreLimpio = normalizarNombre(fila["NAME"] || "");
-      
+
       ventasPorEmpleado[nombreLimpio] = {
-        enero: parseFloat(fila["SALES"] || "0"),
-        febrero: parseFloat(fila["FEB SALES"] || "0"),
-        marzo: parseFloat(fila["MAR SALES"] || "0")
+        ventas: {
+          enero: parseFloat(fila["enero"]["sales"] || 0),
+          febrero: parseFloat(fila["febrero"]["sales"] || 0),
+          marzo: parseFloat(fila["marzo"]["sales"] || 0)
+        },
+        volumen: {
+          enero: parseFloat(fila["enero"]["volumen"] || 0),
+          febrero: parseFloat(fila["febrero"]["volumen"] || 0),
+          marzo: parseFloat(fila["marzo"]["volumen"] || 0)
+        },
+        sales_with_dates: {
+          enero: parseFloat(fila["enero"]["sales_with_dates"] || 0),
+          febrero: parseFloat(fila["febrero"]["sales_with_dates"] || 0),
+          marzo: parseFloat(fila["marzo"]["sales_with_dates"] || 0)
+        },
+        ventas_totales: parseFloat(fila["ventas_totales"] || 0),
+        volumen_total: parseFloat(fila["volumen_total"] || 0),
+        average_package_price: parseFloat(fila["average_package_price"] || 0),
+        tiempo_en_empresa: fila["tiempo_en_empresa"] || "N/A"
       };
     });
 
-    console.log("Ventas cargadas:", ventasPorEmpleado);
-    data.forEach(fila => {
-      console.log("🔸 Nombre crudo desde Google:", fila["NAME"]);
-    });
-
+    console.log("Ventas cargadas (estructura actualizada):", ventasPorEmpleado);
 
   } catch (error) {
     console.error("❌ Error al obtener los datos de ventas:", error);
   }
 }
+
 function mostrarVentasEnPagina(ventas) {
   console.log("📊 Mostrando ventas:", ventas);
 
