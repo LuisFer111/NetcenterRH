@@ -246,23 +246,12 @@
         const jsonData = await response.json();
         allEmployees = flattenEmployees(jsonData);
         populateCompanyFilter(allEmployees);
+        obtenerDatosVentas();
         console.log("✅ Empleados cargados correctamente.");
       } catch (error) {
         console.error("❌ Error al cargar empleados:", error);
       }
     }
-      // 🔹 Aplanamos la estructura del JSON
-      allEmployees = flattenEmployees(jsonData);
-
-      // 🔹 Llenamos el filtro de empresas
-      populateCompanyFilter(allEmployees);
-    
-      console.log("✅ Empleados actualizados correctamente desde GitHub.");
-
-    } catch (error) {
-    console.error('❌ Error al cargar empleados:', error);
-    }
-  }
     /* -------------------------------------------------------
        4. FUNCIÓN PARA LLENAR EL SELECT CON EMPRESAS ÚNICAS
        ------------------------------------------------------- */
@@ -446,6 +435,8 @@
 
   // Actualizar paginación
   updatePaginationControls();
+         
+  mostrarVentasEnPagina(ventasPorEmpleado); // ✅ llamar aquí
 }
     /* -------------------------------------------------------
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
@@ -631,7 +622,10 @@ function mostrarVentasEnPagina(ventas) {
 }
 
 // Ejecutar cuando cargue la página
-document.addEventListener("DOMContentLoaded", obtenerDatosVentas);
+document.addEventListener("DOMContentLoaded", () => {
+  loadEmployees();
+  obtenerDatosVentas();
+});
 </script>
 </body>
 </html>
