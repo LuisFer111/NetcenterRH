@@ -649,43 +649,50 @@ function mostrarVentasEnPagina(ventas) {
 
   document.querySelectorAll(".employeeCard").forEach(card => {
     const nombreEmpleado = normalizarNombre(card.querySelector("h3").textContent);
+    const ventasEmpleado = ventas[nombreEmpleado];
 
-    if (ventas[nombreEmpleado]) {
-      console.log("✅ Coincidencia:", nombreEmpleado);
+    // Evitar duplicados limpiando antes de añadir información
+    const existente = card.querySelector(".ventas-info");
+    if (ventasEmpleado) {
+      card.innerHTML += `
+      <p class="ventas-info" style="font-weight:bold;color:#007bff;">
+        <strong>Ventas:</strong><br>
+        Enero: ${ventasEmpleado.ventas.enero} | 
+        Febrero: ${ventasEmpleado.ventas.febrero} | 
+        Marzo: ${ventasEmpleado.ventas.marzo}<br>
 
-      let ventasElemento = card.querySelector(".ventas-info");
-      if (!ventasElemento) {
-        ventasElemento = document.createElement("p");
-        ventasElemento.classList.add("ventas-info");
-        card.appendChild(ventasElemento);
-      }
+        <strong>Volumen:</strong> 
+        Enero: ${ventasEmpleado.volumen.enero} | 
+        Febrero: ${ventasEmpleado.volumen.febrero} | 
+        Marzo: ${ventasEmpleado.volumen.marzo}<br>
 
-      ventasElemento.innerHTML = `
-        <strong>Ventas:</strong> 
-        Enero: ${ventas[nombreEmpleado].ventas.enero} | 
-        Febrero: ${ventas[nombreEmpleado].ventas.febrero} | 
-        Marzo: ${ventas[nombreEmpleado].ventas.marzo} <br>
-        <strong>Volumen:</strong>
-        Enero: ${ventas[nombreEmpleado].volumen.enero} | 
-        Febrero: ${ventas[nombreEmpleado].volumen.febrero} | 
-        Marzo: ${ventas[nombreEmpleado].volumen.marzo} <br>
-        <strong>Sales with dates:</strong>
-        Enero: ${ventas[nombreEmpleado].sales_with_dates.enero} | 
-        Febrero: ${ventas[nombreEmpleado].sales_with_dates.febrero} | 
-        Marzo: ${ventas[nombreEmpleado].sales_with_dates.marzo} <br>
-        <strong>Ventas totales:</strong> ${ventas[nombreEmpleado].ventas_totales} <br>
-        <strong>Volumen total:</strong> ${ventas[nombreEmpleado].volumen_total} <br>
-        <strong>Avg. Package Price:</strong> ${ventas[nombreEmpleado].average_package_price} <br>
-        <strong>Tiempo en empresa:</strong> ${ventas[nombreEmpleado].tiempo_en_empresa}
+        <strong>Sales with Dates:</strong> 
+        Enero: ${ventasEmpleado.sales_with_dates.enero} | 
+        Febrero: ${ventasEmpleado.sales_with_dates.febrero} | 
+        Marzo: ${ventasEmpleado.sales_with_dates.marzo}<br>
+
+        <strong>Ventas totales:</strong> ${ventasEmpleado.ventas_totales}<br>
+        <strong>Volumen total:</strong> ${ventasEmpleado.volumen_total}<br>
+        <strong>Avg. Package Price:</strong> ${ventasEmpleado.average_package_price}<br>
+        <strong>Tiempo en empresa:</strong> ${ventasEmpleado.tiempo_en_empresa}
       `;
     } else {
-      card.innerHTML += `<p class="ventas-info"><strong>Datos de ventas:</strong> No disponible</p>`;
+      // Si no hay ventas, revisa si ya existe el elemento para no repetir el mensaje
+      if (!card.querySelector(".ventas-info")) {
+        const ventasElemento = document.createElement("p");
+        ventasElemento.classList.add("ventas-info");
+        ventasElemento.innerHTML = "<strong>Datos de ventas:</strong> No disponible";
+        ventasElemento.style.fontWeight = "bold";
+        ventasElemento.style.color = "#007bff";
+        card.appendChild(ventasElemento);
+      }
     }
   });
 }
 // Ejecutar cuando cargue la página
 document.addEventListener("DOMContentLoaded", async () => {
   await loadEmployees();         // 1️⃣ Primero empleados
+  mostrarVentasEnPagina(ventasPorEmpleado);
 });
 </script>
 </body>
