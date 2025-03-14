@@ -594,9 +594,11 @@
 function normalizarNombre(str) {
   return str
     .toUpperCase()
-    .trim()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, ' ') 
+    .replace(/^\s+|\s+$/g, '')
+    .trim()
 }
 
 let ventasPorEmpleado = {}; // 🔹 Hacer la variable global 
