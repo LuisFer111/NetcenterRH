@@ -386,53 +386,53 @@
     /* -------------------------------------------------------
        9. RENDERIZAR EL GRID DE EMPLEADOS (Con paginación)
        ------------------------------------------------------- */
-       function renderGrid(page) {
-  const employeesGrid = document.getElementById('employeesGrid');
+      function renderGrid(page) {
+        const employeesGrid = document.getElementById('employeesGrid');
 
-  // Si no hay empleados filtrados, ocultamos el grid
-  if (filteredEmployees.length === 0) {
-    employeesGrid.style.display = "none";
-    return;
-  }
+        if (filteredEmployees.length === 0) {
+          employeesGrid.style.display = "none";
+          return;
+        }
 
-  // Si hay empleados filtrados, mostramos el grid
-  employeesGrid.style.display = "grid";
-  employeesGrid.innerHTML = '';
+        employeesGrid.style.display = "grid";
+        employeesGrid.innerHTML = '';
 
-  // Calcular índices de paginación
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
 
-  // Generar tarjetas
-  pageEmployees.forEach(emp => {
-    const card = document.createElement('div');
-    card.classList.add('employeeCard');
+        pageEmployees.forEach(emp => {
+          const card = document.createElement('div');
+          card.classList.add('employeeCard');
 
-    const img = document.createElement('img');
-    img.src = getLogoUrl(emp.Empresa);
+          const img = document.createElement('img');
+          img.src = getLogoUrl(emp.Empresa);
 
-    const name = document.createElement('h3');
-    name.textContent = emp.Nombre || "Sin nombre";
+          const name = document.createElement('h3');
+          name.textContent = emp.Nombre || "Sin nombre";
 
-    const puesto = document.createElement('p');
-    puesto.textContent = emp.Puesto || "Puesto no especificado";
+          const puesto = document.createElement('p');
+          puesto.textContent = emp.Puesto || "Puesto no especificado";
 
-    const extension = document.createElement('p');
-    extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
+          const extension = document.createElement('p');
+          extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
 
-    card.addEventListener('click', () => {
-      showEmployeeDetail(emp);
-    });
+          card.addEventListener('click', () => {
+            showEmployeeDetail(emp);
+          });
 
-    card.appendChild(img);
-    card.appendChild(name);
-    card.appendChild(puesto);
-    card.appendChild(extension);
+          card.appendChild(img);
+          card.appendChild(name);
+          card.appendChild(puesto);
+          card.appendChild(extension);
 
-    employeesGrid.appendChild(card);
-  });
+          employeesGrid.appendChild(card);
+        });
 
+        updatePaginationControls();
+  
+        mostrarVentasEnPagina(ventasPorEmpleado);  // 🔥 Aquí siempre actualiza ventas al renderizar tarjetas
+      }
   // Actualizar paginación
   updatePaginationControls();
          
@@ -589,36 +589,31 @@ async function obtenerDatosVentas() {
   }
 }
 function mostrarVentasEnPagina(ventas) {
-    console.log("📊 Ventas cargadas:", ventas);
+  console.log("📊 Mostrando ventas:", ventas);
 
-    document.querySelectorAll(".employeeCard").forEach(card => {
-        const nombreEmpleado = card.querySelector("h3").textContent.trim().toLowerCase();
+  document.querySelectorAll(".employeeCard").forEach(card => {
+    const nombreEmpleado = normalizarNombre(card.querySelector("h3").textContent);
+    
+    if (ventas[nombreEmpleado]) {
+      console.log("✅ Coincidencia:", nombreEmpleado);
 
-        Object.keys(ventas).forEach(nombreJSON => {
-            if (nombreEmpleado === nombreJSON.trim().toLowerCase()) {
-                console.log("✅ Coincidencia encontrada para:", nombreEmpleado);
+      let ventasElemento = card.querySelector(".ventas-info");
+      if (!ventasElemento) {
+        ventasElemento = document.createElement("p");
+        ventasElemento.classList.add("ventas-info");
+        card.appendChild(ventasElemento);
+      }
 
-                // Crear el elemento de ventas si aún no existe
-                let ventasElemento = card.querySelector(".ventas-info");
-                if (!ventasElemento) {
-                    ventasElemento = document.createElement("p");
-                    ventasElemento.classList.add("ventas-info");
-                    card.appendChild(ventasElemento);
-                }
+      ventasElemento.innerHTML = `
+        <strong>Ventas:</strong> 
+        Enero: ${ventas[nombreEmpleado].enero} | 
+        Febrero: ${ventas[nombreEmpleado].febrero} | 
+        Marzo: ${ventas[nombreEmpleado].marzo}
+      `;
 
-                // Actualizar el contenido con los datos de ventas
-                ventasElemento.innerHTML = `
-                    <strong>Ventas:</strong> 
-                    Enero: ${ventas[nombreJSON].enero} | 
-                    Febrero: ${ventas[nombreJSON].febrero} | 
-                    Marzo: ${ventas[nombreJSON].marzo}
-                `;
-
-                ventasElemento.style.fontWeight = "bold";
-                ventasElemento.style.color = "#007bff"; // Azul como resalte
-            }
-        });
-    });
+      ventasElemento.style.fontWeight = "bold";
+      ventasElemento.style.color = "#007bff";
+  });
 }
 // Ejecutar cuando cargue la página
 document.addEventListener("DOMContentLoaded", async () => {
