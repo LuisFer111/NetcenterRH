@@ -242,19 +242,15 @@
     
     async function loadEmployees() {
       try {
-      // 🔹 Este "truco" evita que el navegador use versiones en caché del JSON
-      const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
-      const jsonData = await response.json();
-      allEmployees = flattenEmployees(jsonData);
-      console.log("Empleados locales:", allEmployees.map(e => e.Nombre));
-      
-      populateCompanyFilter(allEmployees);
-      console.log("✅ Empleados cargados");
-    } catch (error) {
-      console.error("❌ Error al cargar empleados:", error);
+        const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
+        const jsonData = await response.json();
+        allEmployees = flattenEmployees(jsonData);
+        populateCompanyFilter(allEmployees);
+        console.log("✅ Empleados cargados correctamente.");
+      } catch (error) {
+        console.error("❌ Error al cargar empleados:", error);
+      }
     }
-  }  
-
       // 🔹 Aplanamos la estructura del JSON
       allEmployees = flattenEmployees(jsonData);
 
@@ -340,44 +336,39 @@
        7. MOSTRAR DETALLE DEL EMPLEADO (AL LADO)
        ------------------------------------------------------- */
        function showEmployeeDetail(emp) {
-        const logoUrl = getLogoUrl(emp.Empresa);
-        const siluetaUrl = getSilhouetteUrl(emp.Genero);
-        const detailDiv = document.getElementById('employeeDetail');
-        const employeesGrid = document.getElementById('employeesGrid');
+  const logoUrl = getLogoUrl(emp.Empresa);
+  const siluetaUrl = getSilhouetteUrl(emp.Genero);
+  const detailDiv = document.getElementById('employeeDetail');
+  const employeesGrid = document.getElementById('employeesGrid');
 
-        const attributesHtml = generateEmployeeAttributes(emp);
-        // Obtener ventas del empleado
-      const llaveEmpleado = normalizarNombre(emp.Nombre);
-      console.log("Buscando llave:", llaveEmpleado, "para Nombre:", emp.Nombre);
-      console.log("Keys existentes en ventasPorEmpleado:", Object.keys(ventasPorEmpleado));
-         
-      let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
-      if (ventasPorEmpleado[llaveEmpleado]) {
-        const ventas = ventasPorEmpleado[llaveEmpleado];
-        ventasTexto = `
-        <p><strong>Ventas:</strong> 
-        Enero: ${ventas.enero} | 
-        Febrero: ${ventas.febrero} | 
-        Marzo: ${ventas.marzo}
-        </p>
-      `;
-    }
-        detailDiv.innerHTML = `
-          <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
-          <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
-          <div class="employeeText">
-            <h2>${emp.Nombre}</h2>
-            ${attributesHtml}
-            ${ventasTexto} <!-- Aquí agregas la sección de ventas -->
-          </div>
-        `;
+  const llaveEmpleado = normalizarNombre(emp.Nombre);
+  const ventas = ventasPorEmpleado[llaveEmpleado];
 
-        // Ocultar el grid y mostrar la info del empleado
-        employeesGrid.style.display = "none";
-        detailDiv.style.display = "block"; // ✅ Ahora se mostrará correctamente
-      }
+  let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
 
+  if (ventas) {
+    ventasTexto = `
+      <p><strong>Ventas:</strong> 
+      Enero: ${ventas.enero} | 
+      Febrero: ${ventas.febrero} | 
+      Marzo: ${ventas.marzo}
+      </p>
+    `;
+  }
 
+  detailDiv.innerHTML = `
+    <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
+    <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
+    <div class="employeeText">
+      <h2>${emp.Nombre}</h2>
+      ${generateEmployeeAttributes(emp)}
+      ${ventasTexto}
+    </div>
+  `;
+
+  employeesGrid.style.display = "none";
+  detailDiv.style.display = "block";
+}
     /* -------------------------------------------------------
        8. GENERAR EL HTML DE ATRIBUTOS (excepto FotoUrl)
        ------------------------------------------------------- */
@@ -584,27 +575,28 @@ function normalizarNombre(str) {
 let ventasPorEmpleado = {}; // 🔹 Hacer la variable global 
   
 async function obtenerDatosVentas() {
-    const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec';
-    
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      data.forEach(fila => {
-        const nombreLimpio = normalizarNombre(fila["NAME"] || "");
-        ventasPorEmpleado[nombreLimpio] = {
-          enero: parseFloat(fila["SALES"] || "0"),
-          febrero: parseFloat(fila["FEB SALES"] || "0"),
-          marzo: parseFloat(fila["MAR SALES"] || "0")
-        };
-      });
-
-      console.log("Ventas cargadas. Llaves en ventasPorEmpleado:", Object.keys(ventasPorEmpleado));
-    } catch (error) {
-      console.error("❌ Error al obtener los datos:", error);
-    }
-  }
+  const url = 'https://script.google.com/macros/s/AKfycbzgawxdIguUIR2bku94vQJKma4sdWebciwxvceORLqa3NLON7PYVnv6HZe7RpBcKKnL_Q/exec';
   
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    data.forEach(fila => {
+      const nombreLimpio = normalizarNombre(fila["NAME"] || "");
+      ventasPorEmpleado[nombreLimpio] = {
+        enero: parseFloat(fila["SALES"] || "0"),
+        febrero: parseFloat(fila["FEB SALES"] || "0"),
+        marzo: parseFloat(fila["MAR SALES"] || "0")
+      };
+    });
+
+    console.log("Ventas cargadas:", ventasPorEmpleado);
+    mostrarVentasEnPagina(ventasPorEmpleado); // ✅ Asegurar llamada después de carga
+
+  } catch (error) {
+    console.error("❌ Error al obtener los datos de ventas:", error);
+  }
+}
 function mostrarVentasEnPagina(ventas) {
     console.log("📊 Ventas cargadas:", ventas);
 
