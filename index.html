@@ -256,21 +256,25 @@
        4. FUNCIÓN PARA LLENAR EL SELECT CON EMPRESAS ÚNICAS
        ------------------------------------------------------- */
     function populateCompanyFilter(employees) {
+      const companyFilter = document.getElementById('companyFilter'); // ✅ Primero declara esto
+
       const companySet = new Set();
       employees.forEach(emp => {
         if (emp.Empresa) {
           companySet.add(emp.Empresa);
         }
       });
-        companyFilter.innerHTML = '<option value="">-- Selecciona una empresa --</option>';
-          // Agregar opciones únicas al <select>
-          companySet.forEach(empresa => {
-            const option = document.createElement('option');
-            option.value = empresa;
-            option.textContent = empresa;
-            companyFilter.appendChild(option);
-          });
-        }
+
+      companyFilter.innerHTML = '<option value="">-- Selecciona una empresa --</option>';
+  
+      companySet.forEach(empresa => {
+        const option = document.createElement('option');
+        option.value = empresa;
+        option.textContent = empresa;
+        companyFilter.appendChild(option);
+      });
+    }
+
       // Insertamos las empresas en el <select>
         const companyFilter = document.getElementById('companyFilter');
 
