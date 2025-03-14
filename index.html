@@ -348,11 +348,10 @@
   const detailDiv = document.getElementById('employeeDetail');
   const employeesGrid = document.getElementById('employeesGrid');
 
-  const llaveEmpleado = emp.Nombre.toLowerCase().trim();    
+  const llaveEmpleado = normalizarNombre(emp.Nombre);    
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
   let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
-
   if (ventas) {
     ventasTexto = `
       <p><strong>Ventas:</strong> 
