@@ -246,7 +246,11 @@
         const jsonData = await response.json();
         allEmployees = flattenEmployees(jsonData);
         populateCompanyFilter(allEmployees);
-        obtenerDatosVentas();
+        
+        await obtenerDatosVentas();
+
+        filteredEmployees = allEmployees;
+        renderGrid(currentPage);
         console.log("✅ Empleados cargados correctamente.");
       } catch (error) {
         console.error("❌ Error al cargar empleados:", error);
@@ -457,6 +461,8 @@
           });
 
           updatePaginationControls();
+
+          mostrarVentasEnPagina(ventasPorEmpleado);
         }
     /* -------------------------------------------------------
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
