@@ -348,9 +348,7 @@
   const detailDiv = document.getElementById('employeeDetail');
   const employeesGrid = document.getElementById('employeesGrid');
 
-  const llaveEmpleado = normalizarNombre(emp.Nombre);
-  console.log("🔑 Llave buscada:", llaveEmpleado);
-      
+  const llaveEmpleado = emp.Nombre.toLowerCase().trim();    
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
   let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
@@ -614,6 +612,8 @@ async function obtenerDatosVentas() {
 
     data.forEach(fila => {
       const nombreLimpio = normalizarNombre(fila["NAME"] || "");
+      const nombreMinusculas = nombreOriginal.toLowerCase().trim();
+      
       ventasPorEmpleado[nombreLimpio] = {
         enero: parseFloat(fila["SALES"] || "0"),
         febrero: parseFloat(fila["FEB SALES"] || "0"),
