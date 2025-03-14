@@ -332,7 +332,7 @@
     /* -------------------------------------------------------
        7. MOSTRAR DETALLE DEL EMPLEADO (AL LADO)
        ------------------------------------------------------- */
-       function showEmployeeDetail(emp) {
+    function showEmployeeDetail(emp) {
   const logoUrl = getLogoUrl(emp.Empresa);
   const siluetaUrl = getSilhouetteUrl(emp.Genero);
   const detailDiv = document.getElementById('employeeDetail');
@@ -340,6 +340,9 @@
 
   const llaveEmpleado = normalizarNombre(emp.Nombre);
   const ventas = ventasPorEmpleado[llaveEmpleado];
+
+  console.log("🔑 Llave empleado buscada:", llaveEmpleado);
+  console.log("🔎 Ventas encontradas:", ventas);
 
   let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
 
@@ -365,7 +368,7 @@
 
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
-}
+}  
     /* -------------------------------------------------------
        8. GENERAR EL HTML DE ATRIBUTOS (excepto FotoUrl)
        ------------------------------------------------------- */
