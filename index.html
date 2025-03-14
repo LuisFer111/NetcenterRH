@@ -620,11 +620,13 @@ function mostrarVentasEnPagina(ventas) {
         });
     });
 }
-
 // Ejecutar cuando cargue la página
-document.addEventListener("DOMContentLoaded", () => {
-  loadEmployees();
-  obtenerDatosVentas();
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadEmployees();         // 1️⃣ Primero empleados
+  await obtenerDatosVentas();    // 2️⃣ Luego ventas
+
+  filteredEmployees = allEmployees; // Mostrar todos inicialmente o filtra por defecto
+  renderGrid(currentPage);          // Renderizar grid inicial
 });
 </script>
 </body>
