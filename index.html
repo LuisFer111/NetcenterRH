@@ -623,6 +623,10 @@ async function obtenerDatosVentas() {
     });
 
     console.log("Ventas cargadas:", ventasPorEmpleado);
+    data.forEach(fila => {
+      console.log("🔸 Nombre crudo desde Google:", fila["NAME"]);
+    });
+
 
   } catch (error) {
     console.error("❌ Error al obtener los datos de ventas:", error);
