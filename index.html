@@ -249,6 +249,16 @@
         
         await obtenerDatosVentas();
 
+        console.log("🚩 Comprobación de nombres de empleados contra ventas:");
+        allEmployees.forEach(emp => {
+          const llaveEmpleado = normalizarNombre(emp.Nombre);
+          if (ventasPorEmpleado[llaveEmpleado]) {
+            console.log("✅ Nombre coincide:", llaveEmpleado);
+          } else {
+            console.log("❌ Sin ventas para:", llaveEmpleado);
+          }
+        });
+
         filteredEmployees = allEmployees;
         renderGrid(currentPage);
         console.log("✅ Empleados cargados correctamente.");
@@ -339,10 +349,9 @@
   const employeesGrid = document.getElementById('employeesGrid');
 
   const llaveEmpleado = normalizarNombre(emp.Nombre);
+  console.log("🔑 Llave buscada:", llaveEmpleado);
+      
   const ventas = ventasPorEmpleado[llaveEmpleado];
-
-  console.log("🔑 Llave empleado buscada:", llaveEmpleado);
-  console.log("🔎 Ventas encontradas:", ventas);
 
   let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
 
@@ -601,6 +610,8 @@ async function obtenerDatosVentas() {
     const response = await fetch(url);
     const data = await response.json();
 
+    ventasPorEmpleado = {};
+
     data.forEach(fila => {
       const nombreLimpio = normalizarNombre(fila["NAME"] || "");
       ventasPorEmpleado[nombreLimpio] = {
@@ -648,10 +659,6 @@ function mostrarVentasEnPagina(ventas) {
 // Ejecutar cuando cargue la página
 document.addEventListener("DOMContentLoaded", async () => {
   await loadEmployees();         // 1️⃣ Primero empleados
-  await obtenerDatosVentas();    // 2️⃣ Luego ventas
-
-  filteredEmployees = allEmployees; // Mostrar todos inicialmente o filtra por defecto
-  renderGrid(currentPage);          // Renderizar grid inicial
 });
 </script>
 </body>
