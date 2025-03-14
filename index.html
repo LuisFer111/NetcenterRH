@@ -342,7 +342,7 @@
     /* -------------------------------------------------------
        7. MOSTRAR DETALLE DEL EMPLEADO (AL LADO)
        ------------------------------------------------------- */
-    function showEmployeeDetail(emp) {
+      function showEmployeeDetail(emp) {
   const logoUrl = getLogoUrl(emp.Empresa);
   const siluetaUrl = getSilhouetteUrl(emp.Genero);
   const detailDiv = document.getElementById('employeeDetail');
@@ -351,15 +351,22 @@
   const llaveEmpleado = normalizarNombre(emp.Nombre);    
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
-  let ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
+  let ventasTexto = "<p><strong>Datos de Ventas:</strong> No disponible</p>";
+
   if (ventas) {
     ventasTexto = `
-      <p><strong>Ventas:</strong> 
-      Enero: ${ventas.enero} | 
-      Febrero: ${ventas.febrero} | 
-      Marzo: ${ventas.marzo}
-      </p>
-    `;
+      <p><strong>Ventas Totales:</strong> ${ventas.ventas_totales}</p>
+      <p><strong>Volumen Total:</strong> ${ventas.volumen_total}</p>
+      <p><strong>Avg. Package Price:</strong> ${ventas.average_package_price.toFixed(2)}</p>
+      <p><strong>Tiempo en empresa:</strong> ${ventas.tiempo_en_empresa}</p>
+      <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
+      <ul>
+        <li><strong>Enero:</strong> Sales: ${ventas.ventas.enero}, Volumen: ${ventas.volumen.enero}, Sales with Dates: ${ventas.sales_with_dates.enero}</li>
+        <li><strong>Febrero:</strong> Ventas: ${ventas.ventas.febrero}, Volumen: ${ventas.volumen.febrero}, Con Fecha: ${ventas.sales_with_dates.febrero}</li>
+        <li><strong>Marzo:</strong> Ventas: ${ventas.ventas.marzo}, Volumen: ${ventas.volumen.marzo}, Con Fecha: ${ventas.sales_with_dates.marzo}</li>
+  `;
+  if (!ventas) {
+    ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
   }
 
   detailDiv.innerHTML = `
@@ -374,7 +381,7 @@
 
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
-}  
+} 
     /* -------------------------------------------------------
        8. GENERAR EL HTML DE ATRIBUTOS (excepto FotoUrl)
        ------------------------------------------------------- */
@@ -404,75 +411,70 @@
        9. RENDERIZAR EL GRID DE EMPLEADOS (Con paginación)
        ------------------------------------------------------- */
       function renderGrid(page) {
-        const employeesGrid = document.getElementById('employeesGrid');
+  const employeesGrid = document.getElementById('employeesGrid');
 
-          if (filteredEmployees.length === 0) {
-            employeesGrid.style.display = "none";
-          return;
-          }
+  if (filteredEmployees.length === 0) {
+    employeesGrid.style.display = "none";
+    return;
+  }
 
-          employeesGrid.style.display = "grid";
-          employeesGrid.innerHTML = '';
+  employeesGrid.style.display = "grid";
+  employeesGrid.innerHTML = '';
 
-          const startIndex = (page - 1) * pageSize;
-          const endIndex = startIndex + pageSize;
-          const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
 
-          pageEmployees.forEach(emp => {
-            const card = document.createElement('div');
-            card.classList.add('employeeCard');
+  pageEmployees.forEach(emp => {
+    const card = document.createElement('div');
+    card.classList.add('employeeCard');
 
-            const img = document.createElement('img');
-            img.src = getLogoUrl(emp.Empresa);
+    const img = document.createElement('img');
+    img.src = getLogoUrl(emp.Empresa);
 
-            const name = document.createElement('h3');
-            name.textContent = emp.Nombre || "Sin nombre";
+    const name = document.createElement('h3');
+    name.textContent = emp.Nombre || "Sin nombre";
 
-            const puesto = document.createElement('p');
-            puesto.textContent = emp.Puesto || "Puesto no especificado";
+    const puesto = document.createElement('p');
+    puesto.textContent = emp.Puesto || "Puesto no especificado";
 
-            const extension = document.createElement('p');
-            extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
+    const extension = document.createElement('p');
+    extension.textContent = `Ext: ${emp["Extension Telefonica"] || 'N/A'}`;
 
-            card.addEventListener('click', () => {
-              showEmployeeDetail(emp);
-            });
+    card.addEventListener('click', () => {
+      showEmployeeDetail(emp);
+    });
 
-            card.appendChild(img);
-            card.appendChild(name);
-            card.appendChild(puesto);
-            card.appendChild(extension);
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(puesto);
+    card.appendChild(extension);
 
-            // 🔥🔥 AÑADIR VENTAS EN CADA TARJETA DIRECTAMENTE AQUÍ 🔥🔥
-            const nombreEmpleado = normalizarNombre(emp.Nombre);
-            const ventas = ventasPorEmpleado[nombreEmpleado];
+    const nombreEmpleado = normalizarNombre(emp.Nombre);
+    const ventasEmpleado = ventasPorEmpleado[nombreEmpleado];
 
-            const ventasElemento = document.createElement("p");
-            ventasElemento.classList.add("ventas-info");
+    let ventasElemento = document.createElement("p");
+    ventasElemento.classList.add("ventas-info");
 
-            if (ventas) {
-              ventasElemento.innerHTML = `
-                <strong>Ventas:</strong> 
-                Enero: ${ventas.enero} | 
-                Febrero: ${ventas.febrero} | 
-                Marzo: ${ventas.marzo}
-              `;
-            } else {
-              ventasElemento.innerHTML = "<strong>Ventas:</strong> No disponible";
-            }
+    if (ventasEmpleado) {
+      // 🔹 Aquí mostramos únicamente marzo en el Grid.
+      ventasElemento.innerHTML = `
+        <strong>Ventas (Marzo):</strong> ${ventasEmpleado.ventas.marzo}
+      `;
+    } else {
+      ventasElemento.innerHTML = "<strong>Ventas Marzo:</strong> No disponible";
+    }
 
-            ventasElemento.style.fontWeight = "bold";
-            ventasElemento.style.color = "#007bff";
+    ventasElemento.style.fontWeight = "bold";
+    ventasElemento.style.color = "#007bff";
 
-            card.appendChild(ventasElemento);
+    card.appendChild(ventasElemento);
 
-            employeesGrid.appendChild(card);
-          });
+    employeesGrid.appendChild(card);
+  });
 
-          updatePaginationControls();
-
-          mostrarVentasEnPagina(ventasPorEmpleado);
-        }
+  updatePaginationControls();
+}
     /* -------------------------------------------------------
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
        ------------------------------------------------------- */
