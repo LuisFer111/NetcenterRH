@@ -612,7 +612,7 @@ async function obtenerDatosVentas() {
     ventasPorEmpleado = {};
 
     data.forEach(fila => {
-      const nombreLimpio = normalizarNombre(fila["NAME"] || "");
+      const nombreLimpio = normalizarNombre(fila["nombre"] || "");
 
       ventasPorEmpleado[nombreLimpio] = {
         ventas: {
@@ -633,11 +633,11 @@ async function obtenerDatosVentas() {
         ventas_totales: parseFloat(fila["ventas_totales"] || 0),
         volumen_total: parseFloat(fila["volumen_total"] || 0),
         average_package_price: parseFloat(fila["average_package_price"] || 0),
-        tiempo_en_empresa: fila["tiempo_en_empresa"] || "N/A"
+        tiempo_en_empresa: fila["tiempo_empresa"] || "N/A"
       };
     });
 
-    console.log("Ventas cargadas (estructura actualizada):", ventasPorEmpleado);
+    console.log("✅ Ventas cargadas correctamente:", ventasPorEmpleado);
 
   } catch (error) {
     console.error("❌ Error al obtener los datos de ventas:", error);
