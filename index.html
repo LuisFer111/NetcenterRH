@@ -649,7 +649,7 @@ function mostrarVentasEnPagina(ventas) {
 
   document.querySelectorAll(".employeeCard").forEach(card => {
     const nombreEmpleado = normalizarNombre(card.querySelector("h3").textContent);
-    
+
     if (ventas[nombreEmpleado]) {
       console.log("✅ Coincidencia:", nombreEmpleado);
 
@@ -662,13 +662,24 @@ function mostrarVentasEnPagina(ventas) {
 
       ventasElemento.innerHTML = `
         <strong>Ventas:</strong> 
-        Enero: ${ventas[nombreEmpleado].enero} | 
-        Febrero: ${ventas[nombreEmpleado].febrero} | 
-        Marzo: ${ventas[nombreEmpleado].marzo}
+        Enero: ${ventas[nombreEmpleado].ventas.enero} | 
+        Febrero: ${ventas[nombreEmpleado].ventas.febrero} | 
+        Marzo: ${ventas[nombreEmpleado].ventas.marzo} <br>
+        <strong>Volumen:</strong>
+        Enero: ${ventas[nombreEmpleado].volumen.enero} | 
+        Febrero: ${ventas[nombreEmpleado].volumen.febrero} | 
+        Marzo: ${ventas[nombreEmpleado].volumen.marzo} <br>
+        <strong>Sales with dates:</strong>
+        Enero: ${ventas[nombreEmpleado].sales_with_dates.enero} | 
+        Febrero: ${ventas[nombreEmpleado].sales_with_dates.febrero} | 
+        Marzo: ${ventas[nombreEmpleado].sales_with_dates.marzo} <br>
+        <strong>Ventas totales:</strong> ${ventas[nombreEmpleado].ventas_totales} <br>
+        <strong>Volumen total:</strong> ${ventas[nombreEmpleado].volumen_total} <br>
+        <strong>Avg. Package Price:</strong> ${ventas[nombreEmpleado].average_package_price} <br>
+        <strong>Tiempo en empresa:</strong> ${ventas[nombreEmpleado].tiempo_en_empresa}
       `;
-
-      ventasElemento.style.fontWeight = "bold";
-      ventasElemento.style.color = "#007bff";
+    } else {
+      card.innerHTML += `<p class="ventas-info"><strong>Datos de ventas:</strong> No disponible</p>`;
     }
   });
 }
