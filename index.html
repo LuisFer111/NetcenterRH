@@ -401,12 +401,6 @@
       ${ventasTexto}
     </div>
   `;
-  setTimeout(() => {
-  const nameElement = document.getElementById('employeeName');
-  if (nameElement.scrollWidth > nameElement.clientWidth) {
-    nameElement.style.fontSize = "18px";  // 🔹 Reducir tamaño si el nombre se desborda
-  }
-}, 100);
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
 
