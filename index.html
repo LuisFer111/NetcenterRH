@@ -277,8 +277,8 @@
   const employeesGrid = document.getElementById('employeesGrid');
 
   // 🔹 Ocultar el grid al inicio
-  employeesGrid.style.display = "none"; 
-
+  employeesGrid.style.display = "none";
+  document.getElementById('companyFilter').value = "";
   // 🔹 Crear un Set de empresas únicas
   const companySet = new Set();
   employees.forEach(emp => {
@@ -314,8 +314,10 @@
           } else {
             // Si hay empresa seleccionada, mostramos SOLO el grid
             filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-            employeesGrid.style.display = "grid";
-            employeeDetail.style.display = "none"; // Ocultamos la info del empleado
+            employeesGrid.style.display = "grid"; 
+            employeeDetail.style.display = "none"; 
+            currentPage = 1; // Reinicia la paginación al cambiar de empresa
+            updatePaginationControls(); // Asegura que la paginación se actualice
           }
 
           // Renderizar la lista filtrada en el grid
@@ -544,7 +546,7 @@ if (emp.Nombre.length > 25) {
        ------------------------------------------------------- */
     function updatePaginationControls() {
   const totalEmployees = filteredEmployees.length;
-  const totalPages = Math.ceil(totalEmployees / pageSize);
+  const totalPages = filteredEmployees.length > 0 ? Math.ceil(filteredEmployees.length / pageSize) : 1;
 
   const pageInfo = document.getElementById('pageInfo');
   pageInfo.textContent = totalPages > 0 ? `Página ${currentPage} de ${totalPages}` : "";
