@@ -356,15 +356,16 @@
   if (ventas) {
     ventasTexto = `
       <p><strong>Ventas Totales:</strong> ${ventas.ventas_totales}</p>
-      <p><strong>Volumen Total:</strong> ${ventas.volumen_total}</p>
-      <p><strong>Avg. Package Price:</strong> ${ventas.average_package_price.toFixed(2)}</p>
+      <p><strong>Volumen Total:</strong> $${ventas.volumen_total.toLocaleString()}</p>
+      <p><strong>Avg. Package Price:</strong> $${ventas.average_package_price.toFixed(2)}</p>
       <p><strong>Tiempo en empresa:</strong> ${ventas.tiempo_en_empresa}</p>
       <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
       <ul>
-        <li><strong>Enero:</strong> Sales: ${ventas.ventas.enero}, Volumen: ${ventas.volumen.enero}, Sales with Dates: ${ventas.sales_with_dates.enero}</li>
-        <li><strong>Febrero:</strong> Ventas: ${ventas.ventas.febrero}, Volumen: ${ventas.volumen.febrero}, Con Fecha: ${ventas.sales_with_dates.febrero}</li>
-        <li><strong>Marzo:</strong> Ventas: ${ventas.ventas.marzo}, Volumen: ${ventas.volumen.marzo}, Con Fecha: ${ventas.sales_with_dates.marzo}</li>
+        <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | $${ventas.volumen.enero.toLocaleString()}</li>
+        <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | $${ventas.volumen.febrero.toLocaleString()}</li>
+        <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | $${ventas.volumen.marzo.toLocaleString()}</li>
       </ul>
+      <canvas id="ventasChart" width="400" height="200"></canvas>
     `;
   }
 
@@ -380,6 +381,11 @@
 
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
+
+  // 📊 Generar gráfica si hay datos de ventas
+  if (ventas) {
+    generarGraficaVentas(ventas);
+  }
 }
     /* -------------------------------------------------------
        8. GENERAR EL HTML DE ATRIBUTOS (excepto FotoUrl)
@@ -689,6 +695,45 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadEmployees();         // 1️⃣ Primero empleados
   mostrarVentasEnPagina(ventasPorEmpleado);
 });
+  function generarGraficaVentas(ventas) {
+  const ctx = document.getElementById("ventasChart").getContext("2d");
+
+  // 📌 Si ya existe una gráfica previa, la destruimos antes de crear una nueva
+  if (window.miGrafica) {
+    window.miGrafica.destroy();
+  }
+
+  window.miGrafica = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Enero", "Febrero", "Marzo"],
+      datasets: [
+        {
+          label: "Ventas",
+          data: [ventas.ventas.enero, ventas.ventas.febrero, ventas.ventas.marzo],
+          backgroundColor: ["#007bff", "#28a745", "#ff9900"],
+          borderRadius: 5,
+        },
+        {
+          label: "Volumen ($USD)",
+          data: [ventas.volumen.enero, ventas.volumen.febrero, ventas.volumen.marzo],
+          backgroundColor: ["rgba(0, 123, 255, 0.3)", "rgba(40, 167, 69, 0.3)", "rgba(255, 153, 0, 0.3)"],
+          borderRadius: 5,
+        }
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "top" },
+      },
+      scales: {
+        y: { beginAtZero: true }
+      },
+    }
+  });
+}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
