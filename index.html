@@ -543,21 +543,36 @@ if (emp.Nombre.length > 25) {
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
        ------------------------------------------------------- */
     function updatePaginationControls() {
-      const totalEmployees = filteredEmployees.length;
-      const totalPages = Math.ceil(totalEmployees / pageSize);
+  const totalEmployees = filteredEmployees.length;
+  const totalPages = Math.ceil(totalEmployees / pageSize);
 
-      const pageInfo = document.getElementById('pageInfo');
-      pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+  const pageInfo = document.getElementById('pageInfo');
+  pageInfo.textContent = totalPages > 0 ? `Página ${currentPage} de ${totalPages}` : "";
 
-      const prevButton = document.getElementById('prevPage');
-      const nextButton = document.getElementById('nextPage');
+  const prevButton = document.getElementById('prevPage');
+  const nextButton = document.getElementById('nextPage');
 
-      // Deshabilitar si estamos en la primera página
-      prevButton.disabled = (currentPage === 1);
-      // Deshabilitar si estamos en la última página
-      nextButton.disabled = (currentPage === totalPages || totalPages === 0);
-    }
+  // Deshabilitar si estamos en la primera página o si no hay datos
+  prevButton.disabled = (currentPage === 1 || totalPages === 0);
+  // Deshabilitar si estamos en la última página
+  nextButton.disabled = (currentPage >= totalPages || totalPages === 0);
+}
 
+// 🔹 Ajustar eventos de paginación para actualizar correctamente
+document.getElementById('prevPage').addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderGrid(currentPage);
+  }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+  const totalPages = Math.ceil(filteredEmployees.length / pageSize);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderGrid(currentPage);
+  }
+});
     /* -------------------------------------------------------
        11. EVENTOS DE LOS BOTONES DE PAGINACIÓN
        ------------------------------------------------------- */
@@ -579,7 +594,7 @@ if (emp.Nombre.length > 25) {
     /* -------------------------------------------------------
        12. EVENTO PARA CAMBIO DE FILTRO (EMPRESA)
        ------------------------------------------------------- */
-       document.getElementById('companyFilter').addEventListener('change', (e) => {
+    document.getElementById('companyFilter').addEventListener('change', (e) => {
   const selectedCompany = e.target.value;
   const employeesGrid = document.getElementById('employeesGrid');
   const employeeDetail = document.getElementById('employeeDetail');
@@ -592,13 +607,13 @@ if (emp.Nombre.length > 25) {
   } else {
     // ✅ Si hay empresa seleccionada, mostramos el grid y ocultamos el detalle del empleado
     filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-    employeesGrid.style.display = "grid";
-    employeeDetail.style.display = "none"; // 🔹 Ocultamos el detalle cuando se selecciona otra empresa
+    employeesGrid.style.display = "grid";  // 🔹 Se asegura de que el grid reaparezca
+    employeeDetail.style.display = "none"; // 🔹 Ocultamos el detalle del empleado si estaba visible
   }
 
   // 🔹 Renderizar la lista filtrada en el grid
   renderGrid(currentPage);
-});
+}); 
     /* -------------------------------------------------------
        13. BÚSQUEDA EN TIEMPO REAL (SUGERENCIAS)
        ------------------------------------------------------- */
@@ -769,8 +784,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       labels: ["Enero", "Febrero", "Marzo"],
       datasets: [
         {
-          label: "Ventas",
-          data: [ventas.ventas.enero, ventas.ventas.febrero, ventas.ventas.marzo],
+          label: "Volumen de Ventas ($)",
+          data: [
+            ventas.volumen.enero, 
+            ventas.volumen.febrero, 
+            ventas.volumen.marzo
+          ],
           backgroundColor: ["#1E88E5", "#43A047", "#FB8C00"], // Azul, Verde y Naranja más profesionales
           borderRadius: 5,
         }
