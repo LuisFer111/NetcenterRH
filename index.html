@@ -356,8 +356,8 @@
     ventasTexto = `
       <div style="border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
         <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
-        <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
-        <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
+        <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
+        <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
         <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
         <ul>
           <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | <span style="color:#007bff;">$${ventas.volumen.enero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
