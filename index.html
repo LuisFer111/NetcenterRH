@@ -373,14 +373,14 @@
 
   // 🔹 NUEVO FORMATO: SECCIÓN MÁS PROFESIONAL
   detailDiv.innerHTML = `
-    <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px;">
-      <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
-      <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
-      <div>
-        <h2 style="margin:0; color:#333;">${emp.Nombre}</h2>
-        <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
-      </div>
-    </div>
+    <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px; position:relative;">
+  <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" style="max-width: 120px;"/>
+  <div style="flex-grow:1;">
+    <h2 style="margin:0; color:#333;">${emp.Nombre}</h2>
+    <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
+  </div>
+  <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
+  </div>
 
     <table style="width:100%; border-collapse: collapse;">
       <tr>
@@ -394,12 +394,6 @@
         <td>${emp["Extension Telefonica"] || "N/A"}</td>
         <td style="font-weight:bold; color:#555;">Correo:</td>
         <td>${emp.Correo || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="font-weight:bold; color:#555;">Empresa:</td>
-        <td>${emp.Empresa}</td>
-        <td style="font-weight:bold; color:#555;">Ubicación:</td>
-        <td>${emp.Ubicacion || "N/A"}</td>
       </tr>
     </table>
 
