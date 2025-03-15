@@ -115,7 +115,10 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-
+     /* 🔹 Nueva clase para ocultar el Grid */
+    .hidden {
+      display: none !important;  /* 🔹 Forzamos que el grid se oculte incluso si hay otros estilos */
+    }
     /* ---------------------
       GRID DE EMPLEADOS
        --------------------- */
@@ -421,6 +424,7 @@
   `;
 
   employeesGrid.style.display = "none";
+  employeesGrid.classList.add("hidden");
   detailDiv.style.display = "block";
 
     // 🔹 Reducir el tamaño del nombre si es muy largo para evitar que se encime con la silueta
