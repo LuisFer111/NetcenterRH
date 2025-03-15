@@ -382,20 +382,38 @@
   <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
   </div>
 
-    <table style="width:100%; border-collapse: collapse; margin-top: 15px;">
-      <tr>
-        <td style="font-weight:bold; width:30%; color:#555;">ID:</td>
-        <td style="color:#007bff;">${emp.ID}</td>
-        <td style="font-weight:bold; width:30%; color:#555;">Celular:</td>
-        <td style="color:#007bff;">${emp.Celular || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="font-weight:bold; color:#555;">Extensión:</td>
-        <td>${emp["Extension Telefonica"] || "N/A"}</td>
-        <td style="font-weight:bold; color:#555;">Correo:</td>
-        <td>${emp.Correo || "N/A"}</td>
-      </tr>
-    </table>
+    <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
+  <tr>
+    <td style="font-weight:bold; width:30%; color:#555;">ID:</td>
+    <td style="color:#007bff;">${emp.ID}</td>
+    <td style="font-weight:bold; width:30%; color:#555;">Celular:</td>
+    <td style="color:#007bff;">${emp.Celular || "N/A"}</td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold; color:#555;">Extensión:</td>
+    <td>${emp["Extension Telefonica"] || "N/A"}</td>
+    <td style="font-weight:bold; color:#555;">Correo:</td>
+    <td>${emp.Correo || "N/A"}</td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold; color:#555;">Empresa:</td>
+    <td>${emp.Empresa || "N/A"}</td>
+    <td style="font-weight:bold; color:#555;">Departamento:</td>
+    <td>${emp.Departamento || "N/A"}</td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold; color:#555;">Ubicación:</td>
+    <td>${emp.Ubicacion || "N/A"}</td>
+    <td style="font-weight:bold; color:#555;">Jefe Directo:</td>
+    <td>${emp.Jefe || "N/A"}</td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold; color:#555;">Fecha de Ingreso:</td>
+    <td>${emp.FechaIngreso || "N/A"}</td>
+    <td style="font-weight:bold; color:#555;">Antigüedad:</td>
+    <td style="color:#007bff;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
+  </tr>
+</table>
 
     <div style="margin-top: 10px;">
       ${ventasTexto}
