@@ -299,31 +299,33 @@
   });
 }
       // Insertamos las empresas en el <select>
-        const companyFilter = document.getElementById('companyFilter');
+  const companyFilter = document.getElementById('companyFilter');
 
-        companyFilter.addEventListener('change', (e) => {
-          const selectedCompany = e.target.value;
-          const employeesGrid = document.getElementById('employeesGrid');
-          const employeeDetail = document.getElementById('employeeDetail');
+companyFilter.addEventListener('change', (e) => {
+  const selectedCompany = e.target.value;
+  const employeesGrid = document.getElementById('employeesGrid');
+  const employeeDetail = document.getElementById('employeeDetail');
 
-          if (selectedCompany === "") {
-            // Si no hay empresa seleccionada, ocultamos todo
-            filteredEmployees = [];
-            employeesGrid.style.display = "none";
-            employeeDetail.style.display = "none";
-          } else {
-            // Si hay empresa seleccionada, mostramos SOLO el grid
-            filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-            employeesGrid.style.display = "grid"; 
-            employeeDetail.style.display = "none"; 
-            currentPage = 1; // Reinicia la paginación al cambiar de empresa
-            updatePaginationControls(); // Asegura que la paginación se actualice
-          }
+  if (selectedCompany === "") {
+    // ❌ Si no hay empresa seleccionada, ocultamos todo
+    filteredEmployees = [];
+    employeesGrid.style.display = "none";
+    employeeDetail.style.display = "none";
+  } else {
+    // ✅ Si hay empresa seleccionada, mostramos el grid y ocultamos el detalle del empleado
+    filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
 
-          // Renderizar la lista filtrada en el grid
-          renderGrid(currentPage);
-        });
-
+    if (filteredEmployees.length > 0) {
+      employeesGrid.style.display = "grid";
+      employeeDetail.style.display = "none"; 
+      currentPage = 1; // Reinicia la paginación al cambiar de empresa
+      renderGrid(currentPage);
+      updatePaginationControls(); // Asegura que la paginación se actualice
+    } else {
+      employeesGrid.style.display = "none"; // Si no hay empleados en la empresa seleccionada
+    }
+  }
+});
     /* -------------------------------------------------------
        5. FUNCIÓN PARA OBTENER URL DEL LOGO DE EMPRESA
        ------------------------------------------------------- */
