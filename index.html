@@ -115,10 +115,7 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-     /* 🔹 Nueva clase para ocultar el Grid */
-    .hidden {
-      display: none !important;  /* 🔹 Forzamos que el grid se oculte incluso si hay otros estilos */
-    }
+
     /* ---------------------
       GRID DE EMPLEADOS
        --------------------- */
@@ -273,59 +270,49 @@
        4. FUNCIÓN PARA LLENAR EL SELECT CON EMPRESAS ÚNICAS
        ------------------------------------------------------- */
     function populateCompanyFilter(employees) {
-  const companyFilter = document.getElementById('companyFilter');
-  const employeesGrid = document.getElementById('employeesGrid');
+      const companyFilter = document.getElementById('companyFilter'); // ✅ Primero declara esto
 
-  // 🔹 Ocultar el grid al inicio
-  employeesGrid.style.display = "none";
-  document.getElementById('companyFilter').value = "";
-  // 🔹 Crear un Set de empresas únicas
-  const companySet = new Set();
-  employees.forEach(emp => {
-    if (emp.Empresa) {
-      companySet.add(emp.Empresa);
+      const companySet = new Set();
+      employees.forEach(emp => {
+        if (emp.Empresa) {
+          companySet.add(emp.Empresa);
+        }
+      });
+
+      companyFilter.innerHTML = '<option value="">-- Selecciona una empresa --</option>';
+  
+      companySet.forEach(empresa => {
+        const option = document.createElement('option');
+        option.value = empresa;
+        option.textContent = empresa;
+        companyFilter.appendChild(option);
+      });
     }
-  });
 
-  // 🔹 Reiniciar el select con la opción por defecto
-  companyFilter.innerHTML = '<option value="">-- Selecciona una empresa --</option>';
-
-  // 🔹 Agregar empresas ordenadas
-  Array.from(companySet).sort().forEach(empresa => {
-    const option = document.createElement('option');
-    option.value = empresa;
-    option.textContent = empresa;
-    companyFilter.appendChild(option);
-  });
-}
       // Insertamos las empresas en el <select>
-  const companyFilter = document.getElementById('companyFilter');
+        const companyFilter = document.getElementById('companyFilter');
 
-companyFilter.addEventListener('change', (e) => {
-  const selectedCompany = e.target.value;
-  const employeesGrid = document.getElementById('employeesGrid');
-  const employeeDetail = document.getElementById('employeeDetail');
+        companyFilter.addEventListener('change', (e) => {
+          const selectedCompany = e.target.value;
+          const employeesGrid = document.getElementById('employeesGrid');
+          const employeeDetail = document.getElementById('employeeDetail');
 
-  if (selectedCompany === "") {
-    // ❌ Si no hay empresa seleccionada, ocultamos todo
-    filteredEmployees = [];
-    employeesGrid.style.display = "none";
-    employeeDetail.style.display = "none";
-  } else {
-    // ✅ Si hay empresa seleccionada, mostramos el grid y ocultamos el detalle del empleado
-    filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
+          if (selectedCompany === "") {
+            // Si no hay empresa seleccionada, ocultamos todo
+            filteredEmployees = [];
+            employeesGrid.style.display = "none";
+            employeeDetail.style.display = "none";
+          } else {
+            // Si hay empresa seleccionada, mostramos SOLO el grid
+            filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
+            employeesGrid.style.display = "grid";
+            employeeDetail.style.display = "none"; // Ocultamos la info del empleado
+          }
 
-    if (filteredEmployees.length > 0) {
-      employeesGrid.style.display = "grid";
-      employeeDetail.style.display = "none"; 
-      currentPage = 1; // Reinicia la paginación al cambiar de empresa
-      renderGrid(currentPage);
-      updatePaginationControls(); // Asegura que la paginación se actualice
-    } else {
-      employeesGrid.style.display = "none"; // Si no hay empleados en la empresa seleccionada
-    }
-  }
-});
+          // Renderizar la lista filtrada en el grid
+          renderGrid(currentPage);
+        });
+
     /* -------------------------------------------------------
        5. FUNCIÓN PARA OBTENER URL DEL LOGO DE EMPRESA
        ------------------------------------------------------- */
@@ -360,7 +347,7 @@ companyFilter.addEventListener('change', (e) => {
   const siluetaUrl = getSilhouetteUrl(emp.Genero);
   const detailDiv = document.getElementById('employeeDetail');
   const employeesGrid = document.getElementById('employeesGrid');
-  
+
   const llaveEmpleado = normalizarNombre(emp.Nombre);
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
@@ -369,8 +356,8 @@ companyFilter.addEventListener('change', (e) => {
     ventasTexto = `
       <div style="border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
         <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
-        <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
-        <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
+        <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
+        <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
         <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
         <ul>
           <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | <span style="color:#007bff;">$${ventas.volumen.enero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
@@ -434,7 +421,6 @@ companyFilter.addEventListener('change', (e) => {
   `;
 
   employeesGrid.style.display = "none";
-  employeesGrid.classList.add("hidden");
   detailDiv.style.display = "block";
 
     // 🔹 Reducir el tamaño del nombre si es muy largo para evitar que se encime con la silueta
@@ -547,36 +533,21 @@ if (emp.Nombre.length > 25) {
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
        ------------------------------------------------------- */
     function updatePaginationControls() {
-  const totalEmployees = filteredEmployees.length;
-  const totalPages = filteredEmployees.length > 0 ? Math.ceil(filteredEmployees.length / pageSize) : 1;
+      const totalEmployees = filteredEmployees.length;
+      const totalPages = Math.ceil(totalEmployees / pageSize);
 
-  const pageInfo = document.getElementById('pageInfo');
-  pageInfo.textContent = totalPages > 0 ? `Página ${currentPage} de ${totalPages}` : "";
+      const pageInfo = document.getElementById('pageInfo');
+      pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
 
-  const prevButton = document.getElementById('prevPage');
-  const nextButton = document.getElementById('nextPage');
+      const prevButton = document.getElementById('prevPage');
+      const nextButton = document.getElementById('nextPage');
 
-  // Deshabilitar si estamos en la primera página o si no hay datos
-  prevButton.disabled = (currentPage === 1 || totalPages === 0);
-  // Deshabilitar si estamos en la última página
-  nextButton.disabled = (currentPage >= totalPages || totalPages === 0);
-}
+      // Deshabilitar si estamos en la primera página
+      prevButton.disabled = (currentPage === 1);
+      // Deshabilitar si estamos en la última página
+      nextButton.disabled = (currentPage === totalPages || totalPages === 0);
+    }
 
-// 🔹 Ajustar eventos de paginación para actualizar correctamente
-document.getElementById('prevPage').addEventListener('click', () => {
-  if (currentPage > 1) {
-    currentPage--;
-    renderGrid(currentPage);
-  }
-});
-
-document.getElementById('nextPage').addEventListener('click', () => {
-  const totalPages = Math.ceil(filteredEmployees.length / pageSize);
-  if (currentPage < totalPages) {
-    currentPage++;
-    renderGrid(currentPage);
-  }
-});
     /* -------------------------------------------------------
        11. EVENTOS DE LOS BOTONES DE PAGINACIÓN
        ------------------------------------------------------- */
@@ -598,26 +569,24 @@ document.getElementById('nextPage').addEventListener('click', () => {
     /* -------------------------------------------------------
        12. EVENTO PARA CAMBIO DE FILTRO (EMPRESA)
        ------------------------------------------------------- */
-    document.getElementById('companyFilter').addEventListener('change', (e) => {
-  const selectedCompany = e.target.value;
-  const employeesGrid = document.getElementById('employeesGrid');
-  const employeeDetail = document.getElementById('employeeDetail');
+       document.getElementById('companyFilter').addEventListener('change', (e) => {
+        const selectedCompany = e.target.value; // Obtiene la empresa seleccionada
+        const employeesGrid = document.getElementById('employeesGrid'); // Referencia al grid
 
-  if (selectedCompany === "") {
-    // ❌ Si no hay empresa seleccionada, ocultamos todo
-    filteredEmployees = [];
-    employeesGrid.style.display = "none"; 
-    employeeDetail.style.display = "none";
-  } else {
-    // ✅ Si hay empresa seleccionada, mostramos el grid y ocultamos el detalle del empleado
-    filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-    employeesGrid.style.display = "grid";  // 🔹 Se asegura de que el grid reaparezca
-    employeeDetail.style.display = "none"; // 🔹 Ocultamos el detalle del empleado si estaba visible
-  }
+        if (selectedCompany === "") {
+        // ❌ Si no hay empresa seleccionada, vaciamos los empleados y ocultamos el grid
+        filteredEmployees = [];
+        employeesGrid.style.display = "none";
+      } else {
+        // ✅ Si hay empresa seleccionada, filtramos los empleados y mostramos el grid
+        filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
+        employeesGrid.style.display = "grid";
+      }
 
-  // 🔹 Renderizar la lista filtrada en el grid
-  renderGrid(currentPage);
-}); 
+        // Renderizamos la lista filtrada en el grid
+        renderGrid(currentPage);
+      });
+
     /* -------------------------------------------------------
        13. BÚSQUEDA EN TIEMPO REAL (SUGERENCIAS)
        ------------------------------------------------------- */
@@ -788,12 +757,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       labels: ["Enero", "Febrero", "Marzo"],
       datasets: [
         {
-          label: "Volumen de Ventas ($)",
-          data: [
-            ventas.volumen.enero, 
-            ventas.volumen.febrero, 
-            ventas.volumen.marzo
-          ],
+          label: "Ventas",
+          data: [ventas.ventas.enero, ventas.ventas.febrero, ventas.ventas.marzo],
           backgroundColor: ["#1E88E5", "#43A047", "#FB8C00"], // Azul, Verde y Naranja más profesionales
           borderRadius: 5,
         }
