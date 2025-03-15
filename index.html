@@ -651,24 +651,34 @@ function mostrarVentasEnPagina(ventas) {
     const nombreEmpleado = normalizarNombre(card.querySelector("h3").textContent);
     const ventasEmpleado = ventas[nombreEmpleado];
 
-    // Primero eliminamos cualquier venta existente para evitar duplicados
-    const ventasExistentes = card.querySelector(".ventas-info");
-    if (ventasExistentes) {
-      ventasExistentes.remove();
-    }
+    // Evitar duplicados eliminando elemento existente
+    const existente = card.querySelector(".ventas-info");
+    if (existente) existente.remove();
 
-    // Creamos el nuevo elemento sin modificar innerHTML directamente
-    const ventasElemento = document.createElement("p");
+    const ventasElemento = document.createElement("div");
     ventasElemento.classList.add("ventas-info");
-    ventasElemento.style.fontWeight = "bold";
-    ventasElemento.style.color = "#007bff";
+    ventasElemento.style.fontSize = "12px";
+    ventasElemento.style.marginTop = "8px";
+    ventasElemento.style.padding = "5px";
+    ventasElemento.style.borderTop = "1px solid #eee";
 
     if (ventasEmpleado) {
       ventasElemento.innerHTML = `
-        <strong>Ventas (Marzo):</strong> ${ventasEmpleado.ventas.marzo}
+        <strong style="color:#007bff;">Ventas Marzo: ${ventasEmpleado.ventas.marzo}</strong>
+        <br><strong style="color:#28a745;">Volumen Marzo: $${ventasEmpleado.volumen.marzo.toLocaleString()}</strong>
+        <div style="background:#e9ecef; width:100%; height:8px; border-radius:4px; margin-top:5px;">
+          <div style="
+            width:${Math.min(ventasEmpleado.ventas.marzo * 5, 100)}%; 
+            height:100%; 
+            background:#007bff; 
+            border-radius:4px;">
+          </div>
+        </div>
       `;
     } else {
-      ventasElemento.innerHTML = "<strong>Ventas (Marzo):</strong> No disponible";
+      ventasElemento.innerHTML = `
+        <strong style="color:#ccc;">Ventas Marzo: No disponible</strong>
+      `;
     }
 
     card.appendChild(ventasElemento);
