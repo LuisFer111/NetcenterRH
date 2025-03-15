@@ -580,23 +580,25 @@ if (emp.Nombre.length > 25) {
        12. EVENTO PARA CAMBIO DE FILTRO (EMPRESA)
        ------------------------------------------------------- */
        document.getElementById('companyFilter').addEventListener('change', (e) => {
-        const selectedCompany = e.target.value; // Obtiene la empresa seleccionada
-        const employeesGrid = document.getElementById('employeesGrid'); // Referencia al grid
+  const selectedCompany = e.target.value;
+  const employeesGrid = document.getElementById('employeesGrid');
+  const employeeDetail = document.getElementById('employeeDetail');
 
-        if (selectedCompany === "") {
-        // ❌ Si no hay empresa seleccionada, vaciamos los empleados y ocultamos el grid
-        filteredEmployees = [];
-        employeesGrid.style.display = "none";
-      } else {
-        // ✅ Si hay empresa seleccionada, filtramos los empleados y mostramos el grid
-        filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
-        employeesGrid.style.display = "grid";
-      }
+  if (selectedCompany === "") {
+    // ❌ Si no hay empresa seleccionada, ocultamos todo
+    filteredEmployees = [];
+    employeesGrid.style.display = "none"; 
+    employeeDetail.style.display = "none";
+  } else {
+    // ✅ Si hay empresa seleccionada, mostramos el grid y ocultamos el detalle del empleado
+    filteredEmployees = allEmployees.filter(emp => emp.Empresa === selectedCompany);
+    employeesGrid.style.display = "grid";
+    employeeDetail.style.display = "none"; // 🔹 Ocultamos el detalle cuando se selecciona otra empresa
+  }
 
-        // Renderizamos la lista filtrada en el grid
-        renderGrid(currentPage);
-      });
-
+  // 🔹 Renderizar la lista filtrada en el grid
+  renderGrid(currentPage);
+});
     /* -------------------------------------------------------
        13. BÚSQUEDA EN TIEMPO REAL (SUGERENCIAS)
        ------------------------------------------------------- */
