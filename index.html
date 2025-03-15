@@ -365,7 +365,9 @@
         <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | $${ventas.volumen.febrero.toLocaleString()}</li>
         <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | $${ventas.volumen.marzo.toLocaleString()}</li>
       </ul>
+      <div style="width: 300px; height: 180px; margin: auto;">
       <canvas id="ventasChart" width="400" height="200"></canvas>
+      </div>
     `;
   }
 
@@ -716,7 +718,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         },
         {
           label: "Volumen ($USD)",
-          data: [ventas.volumen.enero, ventas.volumen.febrero, ventas.volumen.marzo],
+          data: [
+            ventas.volumen.enero.toFixed(2),
+            ventas.volumen.febrero.toFixed(2),
+            ventas.volumen.marzo.toFixed(2)
+          ],
           backgroundColor: ["rgba(0, 123, 255, 0.3)", "rgba(40, 167, 69, 0.3)", "rgba(255, 153, 0, 0.3)"],
           borderRadius: 5,
         }
@@ -729,7 +735,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         legend: { position: "top" },
       },
       scales: {
-        y: { beginAtZero: true }
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return `$${value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
+          }
+        }
       },
     }
   });
