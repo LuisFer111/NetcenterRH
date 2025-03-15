@@ -342,41 +342,68 @@
     /* -------------------------------------------------------
        7. MOSTRAR DETALLE DEL EMPLEADO (AL LADO)
        ------------------------------------------------------- */
-      function showEmployeeDetail(emp) {
+     function showEmployeeDetail(emp) {
   const logoUrl = getLogoUrl(emp.Empresa);
   const siluetaUrl = getSilhouetteUrl(emp.Genero);
   const detailDiv = document.getElementById('employeeDetail');
   const employeesGrid = document.getElementById('employeesGrid');
 
-  const llaveEmpleado = normalizarNombre(emp.Nombre);    
+  const llaveEmpleado = normalizarNombre(emp.Nombre);
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
   let ventasTexto = "<p><strong>Datos de Ventas:</strong> No disponible</p>";
-
   if (ventas) {
     ventasTexto = `
-      <p><strong>Ventas Totales:</strong> ${ventas.ventas_totales}</p>
-      <p><strong>Volumen Total:</strong> $${ventas.volumen_total.toLocaleString()}</p>
-      <p><strong>Avg. Package Price:</strong> $${ventas.average_package_price.toFixed(2)}</p>
-      <p><strong>Tiempo en empresa:</strong> ${ventas.tiempo_en_empresa}</p>
-      <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
-      <ul>
-        <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | $${ventas.volumen.enero.toLocaleString()}</li>
-        <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | $${ventas.volumen.febrero.toLocaleString()}</li>
-        <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | $${ventas.volumen.marzo.toLocaleString()}</li>
-      </ul>
-      <div style="width: 300px; height: 180px; margin: auto;">
-      <canvas id="ventasChart" width="400" height="200"></canvas>
+      <div style="border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
+        <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
+        <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
+        <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
+        <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
+        <ul>
+          <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | <span style="color:#007bff;">$${ventas.volumen.enero.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></li>
+          <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | <span style="color:#007bff;">$${ventas.volumen.febrero.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></li>
+          <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | <span style="color:#007bff;">$${ventas.volumen.marzo.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></li>
+        </ul>
+      </div>
+      <div style="width: 280px; height: 160px; margin: auto;">
+        <canvas id="ventasChart"></canvas>
       </div>
     `;
   }
 
+  // 🔹 NUEVO FORMATO: SECCIÓN MÁS PROFESIONAL
   detailDiv.innerHTML = `
-    <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
-    <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
-    <div class="employeeText">
-      <h2>${emp.Nombre}</h2>
-      ${generateEmployeeAttributes(emp)}
+    <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px;">
+      <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" />
+      <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" />
+      <div>
+        <h2 style="margin:0; color:#333;">${emp.Nombre}</h2>
+        <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
+      </div>
+    </div>
+
+    <table style="width:100%; border-collapse: collapse;">
+      <tr>
+        <td style="font-weight:bold; width:30%; color:#555;">ID:</td>
+        <td style="color:#007bff;">${emp.ID}</td>
+        <td style="font-weight:bold; width:30%; color:#555;">Celular:</td>
+        <td style="color:#007bff;">${emp.Celular || "N/A"}</td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold; color:#555;">Extensión:</td>
+        <td>${emp["Extension Telefonica"] || "N/A"}</td>
+        <td style="font-weight:bold; color:#555;">Correo:</td>
+        <td>${emp.Correo || "N/A"}</td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold; color:#555;">Empresa:</td>
+        <td>${emp.Empresa}</td>
+        <td style="font-weight:bold; color:#555;">Ubicación:</td>
+        <td>${emp.Ubicacion || "N/A"}</td>
+      </tr>
+    </table>
+
+    <div style="margin-top: 10px;">
       ${ventasTexto}
     </div>
   `;
@@ -384,11 +411,11 @@
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
 
-  // 📊 Generar gráfica si hay datos de ventas
+  // 🔥 Generar la gráfica de ventas
   if (ventas) {
-    generarGraficaVentas(ventas);
+    setTimeout(() => generarGraficaVentas(ventas), 300);
   }
-}
+} 
     /* -------------------------------------------------------
        8. GENERAR EL HTML DE ATRIBUTOS (excepto FotoUrl)
        ------------------------------------------------------- */
@@ -713,17 +740,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
           label: "Ventas",
           data: [ventas.ventas.enero, ventas.ventas.febrero, ventas.ventas.marzo],
-          backgroundColor: ["#007bff", "#28a745", "#ff9900"],
-          borderRadius: 5,
-        },
-        {
-          label: "Volumen ($USD)",
-          data: [
-            ventas.volumen.enero.toFixed(2),
-            ventas.volumen.febrero.toFixed(2),
-            ventas.volumen.marzo.toFixed(2)
-          ],
-          backgroundColor: ["rgba(0, 123, 255, 0.3)", "rgba(40, 167, 69, 0.3)", "rgba(255, 153, 0, 0.3)"],
+          backgroundColor: ["#1E88E5", "#43A047", "#FB8C00"], // Azul, Verde y Naranja más profesionales
           borderRadius: 5,
         }
       ],
@@ -732,7 +749,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: "top" },
+        legend: { display: false }, // 🔹 Se oculta la leyenda
       },
       scales: {
         y: {
