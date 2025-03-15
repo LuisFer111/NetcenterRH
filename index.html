@@ -364,10 +364,8 @@
         <li><strong>Enero:</strong> Sales: ${ventas.ventas.enero}, Volumen: ${ventas.volumen.enero}, Sales with Dates: ${ventas.sales_with_dates.enero}</li>
         <li><strong>Febrero:</strong> Ventas: ${ventas.ventas.febrero}, Volumen: ${ventas.volumen.febrero}, Con Fecha: ${ventas.sales_with_dates.febrero}</li>
         <li><strong>Marzo:</strong> Ventas: ${ventas.ventas.marzo}, Volumen: ${ventas.volumen.marzo}, Con Fecha: ${ventas.sales_with_dates.marzo}</li>
-        </ul>
-  `;
-  if (!ventas) {
-    ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
+      </ul>
+    `;
   }
 
   detailDiv.innerHTML = `
@@ -382,7 +380,7 @@
 
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
-} 
+}
     /* -------------------------------------------------------
        8. GENERAR EL HTML DE ATRIBUTOS (excepto FotoUrl)
        ------------------------------------------------------- */
