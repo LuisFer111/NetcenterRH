@@ -273,25 +273,31 @@
        4. FUNCIÓN PARA LLENAR EL SELECT CON EMPRESAS ÚNICAS
        ------------------------------------------------------- */
     function populateCompanyFilter(employees) {
-      const companyFilter = document.getElementById('companyFilter'); // ✅ Primero declara esto
+  const companyFilter = document.getElementById('companyFilter');
+  const employeesGrid = document.getElementById('employeesGrid');
 
-      const companySet = new Set();
-      employees.forEach(emp => {
-        if (emp.Empresa) {
-          companySet.add(emp.Empresa);
-        }
-      });
+  // 🔹 Ocultar el grid al inicio
+  employeesGrid.style.display = "none"; 
 
-      companyFilter.innerHTML = '<option value="">-- Selecciona una empresa --</option>';
-  
-      companySet.forEach(empresa => {
-        const option = document.createElement('option');
-        option.value = empresa;
-        option.textContent = empresa;
-        companyFilter.appendChild(option);
-      });
+  // 🔹 Crear un Set de empresas únicas
+  const companySet = new Set();
+  employees.forEach(emp => {
+    if (emp.Empresa) {
+      companySet.add(emp.Empresa);
     }
+  });
 
+  // 🔹 Reiniciar el select con la opción por defecto
+  companyFilter.innerHTML = '<option value="">-- Selecciona una empresa --</option>';
+
+  // 🔹 Agregar empresas ordenadas
+  Array.from(companySet).sort().forEach(empresa => {
+    const option = document.createElement('option');
+    option.value = empresa;
+    option.textContent = empresa;
+    companyFilter.appendChild(option);
+  });
+}
       // Insertamos las empresas en el <select>
         const companyFilter = document.getElementById('companyFilter');
 
@@ -350,7 +356,7 @@
   const siluetaUrl = getSilhouetteUrl(emp.Genero);
   const detailDiv = document.getElementById('employeeDetail');
   const employeesGrid = document.getElementById('employeesGrid');
-
+  
   const llaveEmpleado = normalizarNombre(emp.Nombre);
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
