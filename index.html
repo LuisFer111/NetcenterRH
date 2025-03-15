@@ -364,6 +364,7 @@
         <li><strong>Enero:</strong> Sales: ${ventas.ventas.enero}, Volumen: ${ventas.volumen.enero}, Sales with Dates: ${ventas.sales_with_dates.enero}</li>
         <li><strong>Febrero:</strong> Ventas: ${ventas.ventas.febrero}, Volumen: ${ventas.volumen.febrero}, Con Fecha: ${ventas.sales_with_dates.febrero}</li>
         <li><strong>Marzo:</strong> Ventas: ${ventas.ventas.marzo}, Volumen: ${ventas.volumen.marzo}, Con Fecha: ${ventas.sales_with_dates.marzo}</li>
+        </ul>
   `;
   if (!ventas) {
     ventasTexto = "<p><strong>Ventas:</strong> No disponible</p>";
@@ -474,6 +475,7 @@
   });
 
   updatePaginationControls();
+  mostrarVentasEnPagina(ventasPorEmpleado);
 }
     /* -------------------------------------------------------
        10. ACTUALIZAR BOTONES E INDICADOR DE PAGINACIÓN
@@ -647,48 +649,31 @@ async function obtenerDatosVentas() {
 }
 
 function mostrarVentasEnPagina(ventas) {
-  console.log("📊 Mostrando ventas:", ventas);
-
   document.querySelectorAll(".employeeCard").forEach(card => {
     const nombreEmpleado = normalizarNombre(card.querySelector("h3").textContent);
     const ventasEmpleado = ventas[nombreEmpleado];
 
-    // Evitar duplicados limpiando antes de añadir información
-    const existente = card.querySelector(".ventas-info");
+    // Primero eliminamos cualquier venta existente para evitar duplicados
+    const ventasExistentes = card.querySelector(".ventas-info");
+    if (ventasExistentes) {
+      ventasExistentes.remove();
+    }
+
+    // Creamos el nuevo elemento sin modificar innerHTML directamente
+    const ventasElemento = document.createElement("p");
+    ventasElemento.classList.add("ventas-info");
+    ventasElemento.style.fontWeight = "bold";
+    ventasElemento.style.color = "#007bff";
+
     if (ventasEmpleado) {
-      card.innerHTML += `
-      <p class="ventas-info" style="font-weight:bold;color:#007bff;">
-        <strong>Ventas:</strong><br>
-        Enero: ${ventasEmpleado.ventas.enero} | 
-        Febrero: ${ventasEmpleado.ventas.febrero} | 
-        Marzo: ${ventasEmpleado.ventas.marzo}<br>
-
-        <strong>Volumen:</strong> 
-        Enero: ${ventasEmpleado.volumen.enero} | 
-        Febrero: ${ventasEmpleado.volumen.febrero} | 
-        Marzo: ${ventasEmpleado.volumen.marzo}<br>
-
-        <strong>Sales with Dates:</strong> 
-        Enero: ${ventasEmpleado.sales_with_dates.enero} | 
-        Febrero: ${ventasEmpleado.sales_with_dates.febrero} | 
-        Marzo: ${ventasEmpleado.sales_with_dates.marzo}<br>
-
-        <strong>Ventas totales:</strong> ${ventasEmpleado.ventas_totales}<br>
-        <strong>Volumen total:</strong> ${ventasEmpleado.volumen_total}<br>
-        <strong>Avg. Package Price:</strong> ${ventasEmpleado.average_package_price}<br>
-        <strong>Tiempo en empresa:</strong> ${ventasEmpleado.tiempo_en_empresa}
+      ventasElemento.innerHTML = `
+        <strong>Ventas (Marzo):</strong> ${ventasEmpleado.ventas.marzo}
       `;
     } else {
-      // Si no hay ventas, revisa si ya existe el elemento para no repetir el mensaje
-      if (!card.querySelector(".ventas-info")) {
-        const ventasElemento = document.createElement("p");
-        ventasElemento.classList.add("ventas-info");
-        ventasElemento.innerHTML = "<strong>Datos de ventas:</strong> No disponible";
-        ventasElemento.style.fontWeight = "bold";
-        ventasElemento.style.color = "#007bff";
-        card.appendChild(ventasElemento);
-      }
+      ventasElemento.innerHTML = "<strong>Ventas (Marzo):</strong> No disponible";
     }
+
+    card.appendChild(ventasElemento);
   });
 }
 // Ejecutar cuando cargue la página
