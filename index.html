@@ -358,11 +358,10 @@
         <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
         <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
         <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p>
-        <h4 style="color:#007bff; margin-top:10px;">Ventas por mes:</h4>
-        <ul>
-          <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | <span style="color:#007bff;">$${ventas.volumen.enero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
-          <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | <span style="color:#007bff;">$${ventas.volumen.febrero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
-          <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | <span style="color:#007bff;">$${ventas.volumen.marzo.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
+           <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="text-align: left; padding: 5px 0;"><strong>Enero:</strong> ${ventas.ventas.enero} ventas | <span style="color:#007bff;">$${ventas.volumen.enero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
+          <li style="text-align: left; padding: 5px 0;"><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | <span style="color:#007bff;">$${ventas.volumen.febrero.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
+          <li style="text-align: left; padding: 5px 0;"><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | <span style="color:#007bff;">$${ventas.volumen.marzo.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>
         </ul>
       </div>
       <div style="width: 280px; height: 160px; margin: auto;">
