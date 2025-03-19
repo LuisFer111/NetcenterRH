@@ -757,7 +757,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       labels: ["Enero", "Febrero", "Marzo"],
       datasets: [
         {
-          label: "Volumen ($)",
+          label: "Volumen",
           data: [ventas.volumen.enero, ventas.volumen.febrero, ventas.volumen.marzo],
           backgroundColor: ["#1E88E5", "#43A047", "#FB8C00"], // Azul, Verde y Naranja más profesionales
           borderRadius: 5,
@@ -775,7 +775,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           beginAtZero: true,
           ticks: {
             callback: function(value) {
-              return `$${value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+              return `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             }
           }
         }
