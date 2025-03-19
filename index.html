@@ -384,54 +384,54 @@
    <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
   <tbody>
     <tr>
-      <td style="font-weight:bold; width:25%; color:#555;">ID:</td>
-      <td style="width:25%;">${emp.ID || "N/A"}</td>
-      <td style="font-weight:bold; width:25%; color:#555;">Celular:</td>
-      <td style="width:25%;">${emp.Celular || "N/A"}</td>
+      <td style="font-weight:bold; width:20%; color:#555; text-align:left; padding: 3px;">ID:</td>
+      <td style="width:30%; text-align:left; padding: 3px;">${emp.ID || "N/A"}</td>
+      <td style="font-weight:bold; width:20%; color:#555; text-align:left; padding: 3px;">Celular:</td>
+      <td style="width:30%; text-align:left; padding: 3px;">${emp.Celular || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Extensión:</td>
-      <td>${emp["Extension Telefonica"] || "N/A"}</td>
-      <td style="font-weight:bold; color:#555;">E-mail:</td>
-      <td>${emp["E-mail"] || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Extensión:</td>
+      <td style="text-align:left; padding: 3px;">${emp["Extension Telefonica"] || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">E-mail:</td>
+      <td style="text-align:left; padding: 3px;">${emp["E-mail"] || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Departamento:</td>
-      <td>${formatearTexto(emp.Departamento) || "No especificado"}</td>
-      <td style="font-weight:bold; color:#555;">Puesto:</td>
-      <td>${formatearTexto(emp.Puesto) || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Departamento:</td>
+      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Departamento) || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Puesto:</td>
+      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Puesto) || "No especificado"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Jefe Directo:</td>
-      <td colspan="3">${formatearTexto(emp["Jefe Inmediato"]) || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Jefe Directo:</td>
+      <td colspan="3" style="text-align:left; padding: 3px;">${formatearTexto(emp["Jefe Inmediato"]) || "No especificado"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Turno:</td>
-      <td>${formatearTexto(emp.Turno) || "No asignado"}</td>
-      <td style="font-weight:bold; color:#555;">Iniciales Certificado:</td>
-      <td>${emp["Inciales Certificado"] || "No registradas"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Turno:</td>
+      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Turno) || "No asignado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Iniciales Certificado:</td>
+      <td style="text-align:left; padding: 3px;">${emp["Inciales Certificado"] || "No registradas"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Nomenclatura:</td>
-      <td colspan="3">${formatearTexto(emp.Nomenclatura) || "No especificada"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Nomenclatura:</td>
+      <td colspan="3" style="text-align:left; padding: 3px;">${formatearTexto(emp.Nomenclatura) || "No especificada"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Campaña:</td>
-      <td colspan="3">${formatearTexto(emp.Campaña) || "No especificada"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Campaña:</td>
+      <td colspan="3" style="text-align:left; padding: 3px;">${formatearTexto(emp.Campaña) || "No especificada"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Fecha de Ingreso:</td>
-      <td>${emp["Fecha de Ingreso"] || "No disponible"}</td>
-      <td style="font-weight:bold; color:#555;">Status:</td>
-      <td>${formatearTexto(emp.Status) || "No disponible"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Fecha de Ingreso:</td>
+      <td style="text-align:left; padding: 3px;">${emp["Fecha de Ingreso"] || "No disponible"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Status:</td>
+      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Status) || "No disponible"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Antigüedad:</td>
-      <td colspan="3" style="color:#007bff;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Antigüedad:</td>
+      <td colspan="3" style="color:#007bff; text-align:left; padding: 3px;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Subordinados:</td>
-      <td colspan="3">
+      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Subordinados:</td>
+      <td colspan="3" style="text-align:left; padding: 3px;">
         ${
           emp.Subordinados && emp.Subordinados.length > 0
             ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
