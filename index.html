@@ -355,7 +355,7 @@
 
 if (ventas) {
   ventasTexto = `
-    <div style="display: flex; gap: 20px; align-items: flex-start; border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
+    <div style="display: flex; gap: 20px; align-items: flex-start; border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9; margin-top: 15px;">
       <!-- Sección de información de ventas -->
       <div style="flex: 1; padding-right: 20px;">
         <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
@@ -369,7 +369,7 @@ if (ventas) {
       </div>
 
       <!-- Sección de la gráfica (a la derecha) -->
-      <div style="width: 300px; height: 200px; flex-shrink: 0; margin-top: 20px;">
+      <div style="width: 300px; height: 200px; flex-shrink: 0; margin-top: 23px; margin-left: -15;">
         <canvas id="ventasChart"></canvas>
       </div>
     </div>
