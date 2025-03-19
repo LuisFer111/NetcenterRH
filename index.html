@@ -769,7 +769,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false }, // 🔹 Se oculta la leyenda
-      },
+          tooltip: { // 🔹 Agregar formato correcto a los valores al pasar el cursor
+            callbacks: {
+              label: function(tooltipItem) {
+                let value = tooltipItem.raw || 0;
+                return `Volumen: $${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+              }
+            }
+          }
+        },
       scales: {
         y: {
           beginAtZero: true,
