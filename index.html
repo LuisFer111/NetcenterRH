@@ -83,9 +83,6 @@
       font-weight: bold;
       color: #555;
     }
-    #employeeDetail {
-      display: none; /* 🔹 También ocultamos la info del empleado al inicio */
-    }
     /* ---------------------
       LOGO DE LA EMPRESA
        --------------------- */
@@ -364,7 +361,12 @@
         return "./imagenes/siluetahombre.png";
       }
     }
-
+    function formatearTexto(texto) {
+      if (!texto || texto === "N/A") return texto; // Mantener "N/A" intacto
+        return texto
+        .toLowerCase()
+        .replace(/\b\w/g, l => l.toUpperCase()); // Capitaliza cada palabra
+    }
     /* -------------------------------------------------------
        7. MOSTRAR DETALLE DEL EMPLEADO (AL LADO)
        ------------------------------------------------------- */
@@ -407,64 +409,61 @@
   </div>
   <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
   </div>
-
-    <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
-<tr>
-  <td class="label">ID:</td>
-  <td class="value">${emp.ID || "N/A"}</td>
-  <td class="label">Celular:</td>
-  <td class="value">${emp.Celular || "N/A"}</td>
-</tr>
-<tr>
-  <td class="label">Extensión:</td>
-  <td class="value">${emp["Extension Telefonica"] || "N/A"}</td>
-  <td class="label">E-mail:</td>
-  <td class="value">${emp["E-mail"] || "N/A"}</td>
-</tr>
-<tr>
-  <td class="label">Departamento:</td>
-  <td class="value">${formatearTexto(emp.Departamento) || "No especificado"}</td>
-  <td class="label">Puesto:</td>
-  <td class="value">${formatearTexto(emp.Puesto) || "No especificado"}</td>
-</tr>
-<tr>
-  <td class="label">Jefe Directo:</td>
-  <td class="value" colspan="3">${formatearTexto(emp["Jefe Inmediato"]) || "No especificado"}</td>
-</tr>
-<tr>
-  <td class="label">Turno:</td>
-  <td class="value">${formatearTexto(emp.Turno) || "No asignado"}</td>
-  <td class="label">Iniciales Certificado:</td>
-  <td class="value">${emp["Iniciales Certificado"] || "No registradas"}</td>
-</tr>
-<tr>
-  <td class="label">Nomenclatura:</td>
-  <td class="value" colspan="3">${formatearTexto(emp.Nomenclatura) || "No especificada"}</td>
-</tr>
-<tr>
-  <td class="label">Campaña:</td>
-  <td class="value" colspan="3">${formatearTexto(emp.Campaña) || "No especificada"}</td>
-</tr>
-<tr>
-  <td class="label">Fecha de Ingreso:</td>
-  <td class="value">${emp["Fecha de Ingreso"] || "No disponible"}</td>
-  <td class="label">Status:</td>
-  <td class="value">${formatearTexto(emp.Status) || "No disponible"}</td>
-</tr>
-<tr>
-  <td class="label">Antigüedad:</td>
-  <td class="value" colspan="3" style="color:#007bff;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
-</tr>
-<tr>
-  <td class="label">Subordinados:</td>
-  <td class="value" colspan="3">
-    ${
-      emp.Subordinados && emp.Subordinados.length > 0
-        ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
-        : "No tiene subordinados"
-    }
-  </td>
-</tr>   
+   <table class="employeeDetailTable">
+  <tr>
+    <td class="label">ID:</td>
+    <td class="value">${emp.ID || "N/A"}</td>
+    <td class="label">Celular:</td>
+    <td class="value">${emp.Celular || "N/A"}</td>
+  </tr>
+  <tr>
+    <td class="label">Extensión:</td>
+    <td class="value">${emp["Extension Telefonica"] || "N/A"}</td>
+    <td class="label">E-mail:</td>
+    <td class="value">${emp["E-mail"] || "N/A"}</td>
+  </tr>
+  <tr>
+    <td class="label">Departamento:</td>
+    <td class="value">${formatearTexto(emp.Departamento) || "No especificado"}</td>
+    <td class="label">Puesto:</td>
+    <td class="value">${formatearTexto(emp.Puesto) || "No especificado"}</td>
+  </tr>
+  <tr>
+    <td class="label">Jefe Directo:</td>
+    <td class="value">${formatearTexto(emp["Jefe Inmediato"]) || "No especificado"}</td>
+    <td class="label">Turno:</td>
+    <td class="value">${formatearTexto(emp.Turno) || "No asignado"}</td>
+  </tr>
+  <tr>
+    <td class="label">Iniciales Certificado:</td>
+    <td class="value">${emp["Iniciales Certificado"] || "No registradas"}</td>
+    <td class="label">Fecha de Ingreso:</td>
+    <td class="value">${emp["Fecha de Ingreso"] || "No disponible"}</td>
+  </tr>
+  <tr>
+    <td class="label">Nomenclatura:</td>
+    <td class="value" colspan="3">${formatearTexto(emp.Nomenclatura) || "No especificada"}</td>
+  </tr>
+  <tr>
+    <td class="label">Campaña:</td>
+    <td class="value" colspan="3">${formatearTexto(emp.Campaña) || "No especificada"}</td>
+  </tr>
+  <tr>
+    <td class="label">Status:</td>
+    <td class="value">${formatearTexto(emp.Status) || "No disponible"}</td>
+    <td class="label">Antigüedad:</td>
+    <td class="value" style="color:#007bff;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
+  </tr>
+  <tr>
+    <td class="label">Subordinados:</td>
+    <td class="value" colspan="3">
+      ${
+        emp.Subordinados && emp.Subordinados.length > 0
+          ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
+          : "No tiene subordinados"
+      }
+    </td>
+  </tr>
 </table>
 
     <div style="margin-top: 10px;">
