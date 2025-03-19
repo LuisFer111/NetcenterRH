@@ -384,37 +384,41 @@
 
     <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
   <tr>
-  <td style="font-weight:bold; width:30%; color:#555;">ID:</td>
-  <td style="color:#007bff;">${emp.ID}</td>
-  <td style="font-weight:bold; width:30%; color:#555;">Celular:</td>
-  <td style="color:#007bff;">${emp.Celular || "N/A"}</td>
+  <td style="font-weight:bold; width:25%; color:#555; text-align:right;">ID:</td>
+  <td style="width:25%;">${emp.ID || "N/A"}</td>
+  <td style="font-weight:bold; width:25%; color:#555; text-align:right;">Celular:</td>
+  <td style="width:25%;">${emp.Celular || "N/A"}</td>
 </tr>
 <tr>
-  <td style="font-weight:bold; color:#555;">Extensión:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Extensión:</td>
   <td>${emp["Extension Telefonica"] || "N/A"}</td>
-  <td style="font-weight:bold; color:#555;">Correo:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Correo:</td>
   <td>${emp.Correo || "N/A"}</td>
 </tr>
 <tr>
-  <td style="font-weight:bold; color:#555;">Departamento:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Departamento:</td>
   <td>${emp.Departamento || "No especificado"}</td>
-  <td style="font-weight:bold; color:#555;">Puesto:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Puesto:</td>
   <td>${emp.Puesto || "No especificado"}</td>
 </tr>
 <tr>
-  <td style="font-weight:bold; color:#555;">Jefe Directo:</td>
-  <td>${emp.Jefe || "No especificado"}</td>
-  <td style="font-weight:bold; color:#555;">Turno:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Jefe Directo:</td>
+  <td colspan="3">${emp["Jefe Inmediato"] || "No especificado"}</td>
+</tr>
+<tr>
+  <td style="font-weight:bold; color:#555; text-align:right;">Turno:</td>
   <td>${emp.Turno || "No asignado"}</td>
-</tr>
-<tr>
-  <td style="font-weight:bold; color:#555;">Iniciales Certificado:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Iniciales Certificado:</td>
   <td>${emp.InicialesCertificado || "No registradas"}</td>
-  <td style="font-weight:bold; color:#555;">Fecha de Ingreso:</td>
-  <td>${emp.FechaIngreso || "No disponible"}</td>
 </tr>
 <tr>
-  <td style="font-weight:bold; color:#555;">Subordinados:</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Fecha de Ingreso:</td>
+  <td>${emp.FechaIngreso || "No disponible"}</td>
+  <td style="font-weight:bold; color:#555; text-align:right;">Antigüedad:</td>
+  <td style="color:#007bff;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
+</tr>
+<tr>
+  <td style="font-weight:bold; color:#555; text-align:right;">Subordinados:</td>
   <td colspan="3">
     ${
       emp.Subordinados && emp.Subordinados.length > 0
