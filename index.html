@@ -355,7 +355,7 @@
 
 if (ventas) {
   ventasTexto = `
-    <div style="display: flex; gap: 20px; align-items: flex-start; border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9; margin-top: 15px;">
+    <div style="display: flex; gap: 20px; align-items: flex-start; border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
       <!-- Sección de información de ventas -->
       <div style="flex: 1; padding-right: 20px;">
         <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
@@ -385,6 +385,7 @@ if (ventas) {
   </div>
   <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
   </div>
+  <div style="margin-top: 25px;">
   <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
   <tbody>
     <tr>
@@ -443,7 +444,8 @@ if (ventas) {
         }
       </td>
     </tr>   
-  </tbody>  
+  </tbody>
+  </div>
 </table>
     <div style="margin-top: 10px;">
       ${ventasTexto}
