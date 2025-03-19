@@ -381,65 +381,65 @@
   </div>
   <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
   </div>
-   <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
+   <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
   <tbody>
     <tr>
-      <td style="font-weight:bold; width:20%; color:#555; text-align:left; padding: 3px;">ID:</td>
-      <td style="width:30%; text-align:left; padding: 3px;">${emp.ID || "N/A"}</td>
-      <td style="font-weight:bold; width:20%; color:#555; text-align:left; padding: 3px;">Celular:</td>
-      <td style="width:30%; text-align:left; padding: 3px;">${emp.Celular || "N/A"}</td>
+      <td style="font-weight:bold; width:25%; color:#555; text-align:left;">ID:</td>
+      <td style="width:25%; padding-right: 10px;">${emp.ID || "N/A"}</td>
+      <td style="font-weight:bold; width:25%; color:#555; text-align:left;">Celular:</td>
+      <td style="width:25%;">${emp.Celular || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Extensión:</td>
-      <td style="text-align:left; padding: 3px;">${emp["Extension Telefonica"] || "N/A"}</td>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">E-mail:</td>
-      <td style="text-align:left; padding: 3px;">${emp["E-mail"] || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Extensión:</td>
+      <td style="padding-right: 10px;">${emp["Extension Telefonica"] || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">E-mail:</td>
+      <td>${emp["E-mail"] || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Departamento:</td>
-      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Departamento) || "No especificado"}</td>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Puesto:</td>
-      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Puesto) || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Departamento:</td>
+      <td style="padding-right: 10px;">${emp.Departamento || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Puesto:</td>
+      <td>${emp.Puesto || "No especificado"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Jefe Directo:</td>
-      <td colspan="3" style="text-align:left; padding: 3px;">${formatearTexto(emp["Jefe Inmediato"]) || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Jefe Directo:</td>
+      <td colspan="3">${emp["Jefe Inmediato"] || "No especificado"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Turno:</td>
-      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Turno) || "No asignado"}</td>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Iniciales Certificado:</td>
-      <td style="text-align:left; padding: 3px;">${emp["Inciales Certificado"] || "No registradas"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Turno:</td>
+      <td style="padding-right: 10px;">${emp.Turno || "No asignado"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Iniciales Certificado:</td>
+      <td>${emp["Inciales Certificado"] || "No registradas"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Nomenclatura:</td>
-      <td colspan="3" style="text-align:left; padding: 3px;">${formatearTexto(emp.Nomenclatura) || "No especificada"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Nomenclatura:</td>
+      <td colspan="3">${emp.Nomenclatura || "No especificada"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Campaña:</td>
-      <td colspan="3" style="text-align:left; padding: 3px;">${formatearTexto(emp.Campaña) || "No especificada"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Campaña:</td>
+      <td colspan="3">${emp.Campaña || "No especificada"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Fecha de Ingreso:</td>
-      <td style="text-align:left; padding: 3px;">${emp["Fecha de Ingreso"] || "No disponible"}</td>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Status:</td>
-      <td style="text-align:left; padding: 3px;">${formatearTexto(emp.Status) || "No disponible"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Fecha de Ingreso:</td>
+      <td style="padding-right: 10px;">${emp["Fecha de Ingreso"] || "No disponible"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Status:</td>
+      <td>${emp.Status || "No disponible"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Antigüedad:</td>
-      <td colspan="3" style="color:#007bff; text-align:left; padding: 3px;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; text-align:left;">Antigüedad:</td>
+      <td colspan="3" style="color:#007bff;">${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555; text-align:left; padding: 3px;">Subordinados:</td>
-      <td colspan="3" style="text-align:left; padding: 3px;">
+      <td style="font-weight:bold; color:#555; text-align:left;">Subordinados:</td>
+      <td colspan="3">
         ${
           emp.Subordinados && emp.Subordinados.length > 0
             ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
             : "No tiene subordinados"
         }
       </td>
-    </tr>
-  </tbody>
+    </tr>   
+  </tbody>  
 </table>
     <div style="margin-top: 10px;">
       ${ventasTexto}
