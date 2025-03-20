@@ -19,19 +19,19 @@ function showEmployeeDetail(emp) {
       `;
     }
   
-    // Generar contenido HTML (lo extraigo de tu código)
     detailDiv.innerHTML = `
   <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px; position:relative;">
-    <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" style="max-width: 120px;"/>
+    <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" style="max-width:120px;"/>
     <div style="flex-grow:1;">
       <h2 id="nombreEmpleado" style="margin:0; color:#333;">${emp.Nombre}</h2>
       <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
     </div>
-    <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
+    <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado"
+      style="position:absolute; right:-10px; top:0; width:120px; height:120px;"/>
   </div>
 
-  <div style="margin-top: 25px;">
-    <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc;">
+  <div style="margin-top:25px;">
+    <table style="width:100%; border-collapse: collapse; margin-top:15px; border-top:1px solid #ccc;">
       <tbody>
         <tr>
           <td colspan="2">
@@ -49,14 +49,29 @@ function showEmployeeDetail(emp) {
             <strong>E-MAIL:</strong> <span>${emp["E-mail"] || "N/A"}</span>
           </td>
         </tr>
-        <!-- Y así sucesivamente con tu tabla de detalles… -->
+        <tr>
+          <td colspan="2">
+            <strong>DEPARTAMENTO:</strong> <span>${emp.Departamento || "No especificado"}</span>
+          </td>
+          <td colspan="2">
+            <strong>JEFE DIRECTO:</strong> <span>${emp["Jefe Inmediato"] || "No especificado"}</span>
+          </td>
+        </tr>
+        <!-- Agrega tus filas restantes (Turno, Fecha de Ingreso, etc.) -->
       </tbody>
     </table>
-    <div style="margin-top:10px;">
+
+    <!-- Sección donde va la info de ventas -->
+    <div style="margin-top: 10px;">
       ${ventasTexto}
     </div>
+
+    <!-- Aquí el canvas para la gráfica -->
+    <div style="width:300px; height:200px; margin-top:10px;">
+      <canvas id="ventasChart"></canvas>
+    </div>
   </div>
-`; 
+`;
     console.log("detailDiv:", detailDiv);
     console.log("employeesGrid:", employeesGrid);
 
