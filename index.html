@@ -389,26 +389,22 @@ if (ventas) {
   <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
   <tbody>
     <tr>
-      <td style="font-weight:bold; width:25%; color:#555;">ID:</td>
-      <td style="width:25%;"> ${emp.ID || "N/A"}</td>
-      <td style="font-weight:bold; width:25%; color:#555;">Celular:</td>
-      <td style="width:25%;"> ${emp.Celular || "N/A"}</td>
+      <td style="font-weight:bold; width:25%; color:#555; padding: 4px; white-space: nowrap;">ID:</td>
+      <td style="width:25%; padding: 4px;">${emp.ID || "N/A"}</td>
+      <td style="font-weight:bold; width:25%; color:#555; padding: 4px; white-space: nowrap;">Celular:</td>
+      <td style="width:25%; padding: 4px;">${emp.Celular || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Extensión:</td>
-      <td> ${emp["Extension Telefonica"] || "N/A"}</td>
-      <td style="font-weight:bold; color:#555;">E-mail:</td>
-      <td> ${emp["E-mail"] || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">Extensión:</td>
+      <td style="padding: 4px;">${emp["Extension Telefonica"] || "N/A"}</td>
+      <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">E-mail:</td>
+      <td style="padding: 4px;">${emp["E-mail"] || "N/A"}</td>
     </tr>
     <tr>
-      <td style="font-weight:bold; color:#555;">Departamento:</td>
-      <td> ${emp.Departamento || "No especificado"}</td>
-      <td style="font-weight:bold; color:#555;">Puesto:</td>
-      <td> ${emp.Puesto || "No especificado"}</td>
-    </tr>
-    <tr>
-      <td style="font-weight:bold; color:#555;">Jefe Directo:</td>
-      <td colspan="3"> ${emp["Jefe Inmediato"] || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">Departamento:</td>
+      <td style="padding: 4px;">${emp.Departamento || "No especificado"}</td>
+      <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">Puesto:</td>
+      <td style="padding: 4px;">${emp.Puesto || "No especificado"}</td>
     </tr>
     <tr>
       <td style="font-weight:bold; color:#555;">Turno:</td>
