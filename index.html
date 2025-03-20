@@ -181,11 +181,17 @@
       text-align: left;
       vertical-align: middle; /* Alinea todo al centro verticalmente */
       white-space: nowrap; /* Evita saltos de línea */
+      font-size: 14px; /* 🔹 Marcadores en mayúsculas más grandes */
+      text-transform: uppercase; /* 🔹 Fuerza mayúsculas en los marcadores */
+      color: #333; /* 🔹 Un poco más oscuros para mayor contraste */
     }
 
     td span {
       display: inline-block; /* Mantiene el contenido en línea */
       min-width: 60px; /* Ajusta según lo que necesites */
+      font-size: 12px; /* 🔹 Atributos en letra más pequeña */
+      text-transform: capitalize; /* 🔹 Primera letra en mayúscula, lo demás en minúscula */
+      color: #666; /* 🔹 Color más claro para diferenciarlos */
     }
   </style>
 </head>
@@ -406,71 +412,71 @@ if (ventas) {
   <tbody>
     <tr>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">ID:</strong> ${emp.ID || "N/A"}
+        <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
       </td>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Celular:</strong> ${emp.Celular || "N/A"}
+        <strong>CELULAR:</strong> <span>${emp.Celular || "N/A"}</span>
       </td>
     </tr>
     <tr>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Extensión:</strong> ${emp["Extension Telefonica"] || "N/A"}
+        <strong>EXTENSIÓN:</strong> <span>${emp["Extension Telefonica"] || "N/A"}</span>
       </td>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">E-mail:</strong> ${emp["E-mail"] || "N/A"}
+        <strong>E-MAIL:</strong> <span>${emp["E-mail"] || "N/A"}</span>
       </td>
     </tr>
     <tr>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Departamento:</strong> ${emp.Departamento || "No especificado"}
+        <strong>DEPARTAMENTO:</strong> <span>${emp.Departamento || "No especificado"}</span>
       </td>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Puesto:</strong> ${emp.Puesto || "No especificado"}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4" style="padding: 2px 5px;">
-        <strong style="color:#555;">Jefe Directo:</strong> ${emp["Jefe Inmediato"] || "No especificado"}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Turno:</strong> ${emp.Turno || "No asignado"}
-      </td>
-      <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Iniciales Certificado:</strong> ${emp["Iniciales Certificado"] || "No registradas"}
+        <strong>PUESTO:</strong> <span>${emp.Puesto || "No especificado"}</span>
       </td>
     </tr>
     <tr>
       <td colspan="4" style="padding: 2px 5px;">
-        <strong style="color:#555;">Nomenclatura:</strong> ${emp.Nomenclatura || "No especificada"}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4" style="padding: 2px 5px;">
-        <strong style="color:#555;">Campaña:</strong> ${emp.Campaña || "No especificada"}
+        <strong>JEFE DIRECTO:</strong> <span>${emp["Jefe Inmediato"] || "No especificado"}</span>
       </td>
     </tr>
     <tr>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Fecha de Ingreso:</strong> ${emp["Fecha de Ingreso"] || "No disponible"}
+        <strong>TURNO:</strong> <span>${emp.Turno || "No asignado"}</span>
       </td>
       <td colspan="2" style="padding: 2px 5px;">
-        <strong style="color:#555;">Status:</strong> ${emp.Status || "No disponible"}
+        <strong>INICIALES CERTIFICADO:</strong> <span>${emp["Iniciales Certificado"] || "No registradas"}</span>
       </td>
     </tr>
     <tr>
       <td colspan="4" style="padding: 2px 5px;">
-        <strong style="color:#555;">Antigüedad:</strong> ${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}
+        <strong>NOMENCLATURA:</strong> <span>${emp.Nomenclatura || "No especificada"}</span>
       </td>
     </tr>
     <tr>
       <td colspan="4" style="padding: 2px 5px;">
-        <strong style="color:#555;">Subordinados:</strong> ${
+        <strong>CAMPAÑA:</strong> <span>${emp.Campaña || "No especificada"}</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="padding: 2px 5px;">
+        <strong>FECHA DE INGRESO:</strong> <span>${emp["Fecha de Ingreso"] || "No disponible"}</span>
+      </td>
+      <td colspan="2" style="padding: 2px 5px;">
+        <strong>STATUS:</strong> <span>${emp.Status || "No disponible"}</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding: 2px 5px;">
+        <strong>ANTIGÜEDAD:</strong> <span>${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding: 2px 5px;">
+        <strong>SUBORDINADOS:</strong> <span>${
           emp.Subordinados && emp.Subordinados.length > 0
             ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
             : "No tiene subordinados"
-        }
+        }</span>
       </td>
     </tr>
   </tbody>
