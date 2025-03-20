@@ -21,9 +21,42 @@ function showEmployeeDetail(emp) {
   
     // Generar contenido HTML (lo extraigo de tu código)
     detailDiv.innerHTML = `
-      <!-- TU CÓDIGO HTML COMPLETO PARA DETALLE -->
-    `;
-      
+  <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px; position:relative;">
+    <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" style="max-width: 120px;"/>
+    <div style="flex-grow:1;">
+      <h2 id="nombreEmpleado" style="margin:0; color:#333;">${emp.Nombre}</h2>
+      <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
+    </div>
+    <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado" style="position:absolute; right:-10px; top:0; width: 120px; height: 120px;"/>
+  </div>
+
+  <div style="margin-top: 25px;">
+    <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc;">
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
+          </td>
+          <td colspan="2">
+            <strong>CELULAR:</strong> <span>${emp.Celular || "N/A"}</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <strong>EXTENSIÓN:</strong> <span>${emp["Extension Telefonica"] || "N/A"}</span>
+          </td>
+          <td colspan="2">
+            <strong>E-MAIL:</strong> <span>${emp["E-mail"] || "N/A"}</span>
+          </td>
+        </tr>
+        <!-- Y así sucesivamente con tu tabla de detalles… -->
+      </tbody>
+    </table>
+    <div style="margin-top:10px;">
+      ${ventasTexto}
+    </div>
+  </div>
+`; 
     console.log("detailDiv:", detailDiv);
     console.log("employeesGrid:", employeesGrid);
 
