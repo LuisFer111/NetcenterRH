@@ -219,12 +219,6 @@
     const pageSize = 8;         // Cantidad de empleados por página en el grid
 
     /* -------------------------------------------------------
-   1.1 FUNCIÓN PARA LIMPIAR TEXTO (Evitar espacios extra)
-   ------------------------------------------------------- */
-    function limpiarTexto(texto) {
-      return texto ? texto.replace(/\s+/g, ' ').trim() : "No especificado";
-    }
-    /* -------------------------------------------------------
        2. FUNCIÓN PARA 'APLANAR' LA ESTRUCTURA
        ------------------------------------------------------- */
     function flattenEmployees(data) {
@@ -396,9 +390,9 @@ if (ventas) {
   <tbody>
     <tr>
       <td style="font-weight:bold; width:25%; color:#555;">ID:</td>
-      <td style="width:25%;"> ${limpiarTexto(emp.ID)}</td>
+      <td style="width:25%;"> ${emp.ID || "N/A"}</td>
       <td style="font-weight:bold; width:25%; color:#555;">Celular:</td>
-      <td style="width:25%;"> ${limpiarTexto(emp.Celular)}</td>
+      <td style="width:25%;"> ${emp.Celular || "N/A"}</td>
     </tr>
     <tr>
       <td style="font-weight:bold; color:#555;">Extensión:</td>
