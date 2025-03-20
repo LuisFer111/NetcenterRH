@@ -443,6 +443,14 @@ if (ventas) {
       </td>
     </tr>
     <tr>
+      <td colspan="2" style="padding: 2px 5px;">
+        <strong>FECHA DE INGRESO:</strong> <span>${emp["Fecha de Ingreso"] || "No disponible"}</span>
+      </td>
+      <td colspan="2" style="padding: 2px 5px;">
+        <strong>STATUS:</strong> <span>${emp.Status || "No disponible"}</span>
+      </td>
+    </tr>
+    <tr>
       <td colspan="4" style="padding: 2px 5px;">
         <strong>NOMENCLATURA:</strong> <span>${emp.Nomenclatura || "No especificada"}</span>
       </td>
@@ -450,14 +458,6 @@ if (ventas) {
     <tr>
       <td colspan="4" style="padding: 2px 5px;">
         <strong>CAMPAÑA:</strong> <span>${emp.Campaña || "No especificada"}</span>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" style="padding: 2px 5px;">
-        <strong>FECHA DE INGRESO:</strong> <span>${emp["Fecha de Ingreso"] || "No disponible"}</span>
-      </td>
-      <td colspan="2" style="padding: 2px 5px;">
-        <strong>STATUS:</strong> <span>${emp.Status || "No disponible"}</span>
       </td>
     </tr>
     <tr>
