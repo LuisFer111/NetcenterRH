@@ -1,4 +1,9 @@
+// main.js
+
 document.addEventListener("DOMContentLoaded", async () => {
-    await loadEmployees(); // Cargar empleados
-    mostrarVentasEnPagina(ventasPorEmpleado); // Mostrar ventas en el grid
+  await loadEmployees(); // Carga empleados desde JSON
+  document.getElementById('employeesGrid').style.display = "none"; // Ocultamos el grid al inicio
+
+  // Una vez cargados, también mostramos ventas
+  mostrarVentasEnPagina(ventasPorEmpleado);
 });
