@@ -177,7 +177,7 @@
     }
 
     td {
-      padding: 4px 8px; /* Espaciado mínimo */
+      padding: 2px 6px; /* Espaciado mínimo */
       text-align: left;
       vertical-align: middle; /* Alinea todo al centro verticalmente */
       white-space: nowrap; /* Evita saltos de línea */
@@ -185,7 +185,7 @@
 
     td span {
       display: inline-block; /* Mantiene el contenido en línea */
-      min-width: 80px; /* Ajusta según lo que necesites */
+      min-width: 60px; /* Ajusta según lo que necesites */
     }
   </style>
 </head>
@@ -405,11 +405,11 @@ if (ventas) {
   <table style="width:100%; border-collapse: collapse; margin-top: 15px; border-top:1px solid #ccc; padding-top:10px;">
   <tbody>
     <tr>
-      <td colspan="2">
-        <span style="font-weight:bold; color:#555;">ID:</span> ${emp.ID || "N/A"}
+      <td colspan="2" style="padding: 2px 5px;">
+        <strong style="color:#555;">ID:</strong> ${emp.ID || "N/A"}
       </td>
-      <td colspan="2">
-        <span style="font-weight:bold; color:#555;">Celular:</span> ${emp.Celular || "N/A"}
+      <td colspan="2" style="padding: 2px 5px;">
+        <strong style="color:#555;">Celular:</strong> ${emp.Celular || "N/A"}
       </td>
     </tr>
     <tr>
