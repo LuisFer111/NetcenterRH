@@ -23,7 +23,10 @@ function showEmployeeDetail(emp) {
     detailDiv.innerHTML = `
       <!-- TU CÓDIGO HTML COMPLETO PARA DETALLE -->
     `;
-  
+      
+    console.log("detailDiv:", detailDiv);
+    console.log("employeesGrid:", employeesGrid);
+
     employeesGrid.style.display = "none";
     detailDiv.style.display = "block";
   
