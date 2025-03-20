@@ -21,7 +21,7 @@ function flattenEmployees(data) {
 // Cargar JSON con Fetch
 async function loadEmployees() {
     try {
-        const response = await fetch(`./data/empleados_final.json?t=${new Date().getTime()}`);
+        const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
         const jsonData = await response.json();
         allEmployees = flattenEmployees(jsonData);
         populateCompanyFilter(allEmployees);
