@@ -4,189 +4,190 @@
    ESTILOS GENERALES
 --------------------- */
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px auto;
-  max-width: 700px;
-  line-height: 1.4;
-}
-h1 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* ---------------------
-   BUSCADOR PRINCIPAL
---------------------- */
-#searchContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-#searchInput {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-}
-#searchInput:focus {
-  border-color: #007bff;
-}
-#resultsInfo {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #555;
-}
-#suggestions {
-  margin: -2px;
-  padding: 0;
-  list-style: none;
-  border: 1px solid #ccc;
-  border-radius: 0 0 5px 5px;
-  max-width: 400px;
-  width: 100%;
-  background: #fff;
-  overflow: hidden;
-}
-#suggestions li {
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-#suggestions li:hover {
-  background-color: #f2f2f2;
-}
-
-/* ---------------------
-   CAJA DE DETALLE
---------------------- */
-#employeeDetail {
-  margin-top: 1rem;
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 5px;
-  background-color: #fafafa;
-  position: relative; 
-  min-height: 220px;
-  display: none; /* 🔹 Oculto al inicio */
-}
-#employeeDetail h2 {
-  margin-top: 0;
-}
-.label {
-  font-weight: bold;
-  color: #555;
-}
-
-/* ---------------------
-   LOGO DE LA EMPRESA
---------------------- */
-.logo-empresa {
-  display: block;
-  max-width: 150px; 
-  max-height: 150px;
-  margin: 0 auto 1rem; 
-}
-
-/* ---------------------
-   SILUETA (según género)
---------------------- */
-.silueta {
-  position: absolute; 
-  top: 15px; 
-  right: 15px; 
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-}
-
-/* ---------------------
-   FILTRO POR EMPRESA
---------------------- */
-#filterContainer {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* ---------------------
-   GRID DE EMPLEADOS
---------------------- */
-#employeesGrid {
-  display: none;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2,auto);
-  gap: 20px;
-  margin-top: 20px;
-}
-.employeeCard {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
-  background: #f9f9f9;
-  cursor: pointer;
-}
-.employeeCard img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: contain;
-  margin-bottom: 0.5rem;
-}
-.employeeCard h3 {
-  font-size: 16px;
-  margin: 10px 0 5px;
-}
-.employeeCard p {
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-/* ---------------------
-   PAGINACIÓN
---------------------- */
-#pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-.pageButton {
-  padding: 10px;
-  margin: 5px;
-  border: none;
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-}
-.pageButton:disabled {
-  background: #ccc;
-  cursor: default;
-}
-
-/* ---------------------
-   TABLA DE DETALLE
---------------------- */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-td {
-  padding: 2px 6px;
-  text-align: left;
-  vertical-align: middle;
-  white-space: nowrap;
-  font-size: 14px;
-  text-transform: uppercase;
-  color: #333;
-}
-td span {
-  display: inline-block;
-  min-width: 60px;
-  font-size: 12px;
-  text-transform: capitalize;
-  color: #666;
-}
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 700px;
+    line-height: 1.4;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  /* ---------------------
+     BUSCADOR PRINCIPAL
+  --------------------- */
+  #searchContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  #searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  #searchInput:focus {
+    border-color: #007bff;
+  }
+  #resultsInfo {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  #suggestions {
+    margin: -2px;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+    max-width: 400px;
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+  }
+  #suggestions li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+  }
+  #suggestions li:hover {
+    background-color: #f2f2f2;
+  }
+  
+  /* ---------------------
+     CAJA DE DETALLE
+  --------------------- */
+  #employeeDetail {
+    margin-top: 1rem;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    position: relative; 
+    min-height: 220px;
+    display: none; /* 🔹 Oculto al inicio */
+  }
+  #employeeDetail h2 {
+    margin-top: 0;
+  }
+  .label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* ---------------------
+     LOGO DE LA EMPRESA
+  --------------------- */
+  .logo-empresa {
+    display: block;
+    max-width: 150px; 
+    max-height: 150px;
+    margin: 0 auto 1rem; 
+  }
+  
+  /* ---------------------
+     SILUETA (según género)
+  --------------------- */
+  .silueta {
+    position: absolute; 
+    top: 15px; 
+    right: 15px; 
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+  }
+  
+  /* ---------------------
+     FILTRO POR EMPRESA
+  --------------------- */
+  #filterContainer {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  /* ---------------------
+     GRID DE EMPLEADOS
+  --------------------- */
+  #employeesGrid {
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2,auto);
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .employeeCard {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    background: #f9f9f9;
+    cursor: pointer;
+  }
+  .employeeCard img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
+  .employeeCard h3 {
+    font-size: 16px;
+    margin: 10px 0 5px;
+  }
+  .employeeCard p {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  /* ---------------------
+     PAGINACIÓN
+  --------------------- */
+  #pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .pageButton {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .pageButton:disabled {
+    background: #ccc;
+    cursor: default;
+  }
+  
+  /* ---------------------
+     TABLA DE DETALLE
+  --------------------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  td {
+    padding: 2px 6px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #333;
+  }
+  td span {
+    display: inline-block;
+    min-width: 60px;
+    font-size: 12px;
+    text-transform: capitalize;
+    color: #666;
+  }
+  
