@@ -390,25 +390,25 @@ if (ventas) {
   <tbody>
     <tr>
       <td style="font-weight:bold; width:25%; color:#555; padding: 4px; white-space: nowrap;">ID:</td>
-      <td style="width:25%; padding: 4px;">${emp.ID || "N/A"}</td>
+      <td style="width:25%; padding: 4px;">${emp.ID || "N/A").trim()}</td>
       <td style="font-weight:bold; width:25%; color:#555; padding: 4px; white-space: nowrap;">Celular:</td>
-      <td style="width:25%; padding: 4px;">${emp.Celular || "N/A"}</td>
+      <td style="width:25%; padding: 4px;">${emp.Celular || "N/A").trim()}</td>
     </tr>
     <tr>
       <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">Extensión:</td>
-      <td style="padding: 4px;">${emp["Extension Telefonica"] || "N/A"}</td>
+      <td style="padding: 4px;">${emp["Extension Telefonica"] || "N/A").trim()}</td>
       <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">E-mail:</td>
-      <td style="padding: 4px;">${emp["E-mail"] || "N/A"}</td>
+      <td style="padding: 4px;">${emp["E-mail"] || "N/A").trim()}</td>
     </tr>
     <tr>
       <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">Departamento:</td>
-      <td style="padding: 4px;">${emp.Departamento || "No especificado"}</td>
+      <td style="padding: 4px;">${emp.Departamento || "No especificado").trim()}</td>
       <td style="font-weight:bold; color:#555; padding: 4px; white-space: nowrap;">Puesto:</td>
-      <td style="padding: 4px;">${emp.Puesto || "No especificado"}</td>
+      <td style="padding: 4px;">${emp.Puesto || "No especificado").trim()}</td>
     </tr>
     <tr>
       <td style="font-weight:bold; color:#555;">Turno:</td>
-      <td> ${emp.Turno || "No asignado"}</td>
+      <td> ${emp.Turno || "No asignado").trim()}</td>
       <td style="font-weight:bold; color:#555;">Iniciales Certificado:</td>
       <td> ${emp["Iniciales Certificado"] || "No registradas"}</td>
     </tr>
