@@ -62,71 +62,84 @@ function showEmployeeDetail(emp) {
     </div>
 
     <div style="margin-top:25px;">
-      <table style="width:100%; border-collapse:collapse; margin-top:15px; border-top:1px solid #ccc;">
-        <tbody>
-          <tr>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
-            </td>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>CELULAR:</strong>
-              <span id="celularEmpleado">${emp.Celular || "N/A"}</span>
-
-              <!-- Input oculto para editar -->
-              <input
-                type="text"
-                id="inputCelular"
-                value="${emp.Celular || ''}"
-                style="display:none; margin-left:5px; padding:2px 4px;"
-              />
-
-              <!-- Botones de Editar y Guardar -->
-              <button id="editarCelularBtn" style="margin-left:10px;">Editar</button>
-              <button id="guardarCelularBtn" style="display:none; margin-left:5px;">Guardar</button>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>EXTENSIÓN:</strong> <span>${emp["Extension Telefonica"] || "N/A"}</span>
-            </td>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>E-MAIL:</strong> <span>${emp["E-mail"] || "N/A"}</span>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>DEPARTAMENTO:</strong> <span>${emp.Departamento || "No especificado"}</span>
-            </td>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>JEFE DIRECTO:</strong> <span>${emp["Jefe Inmediato"] || "No especificado"}</span>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>TURNO:</strong> <span>${emp.Turno || "No asignado"}</span>
-            </td>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>INICIALES CERTIFICADO:</strong> <span>${emp["Iniciales Certificado"] || "No registradas"}</span>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>FECHA DE INGRESO:</strong> <span>${emp["Fecha de Ingreso"] || "No disponible"}</span>
-            </td>
-            <td colspan="2" style="padding:2px 5px;">
-              <strong>STATUS:</strong> <span>${emp.Status || "No disponible"}</span>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4" style="padding:2px 5px;">
-              <strong>NOMENCLATURA:</strong> <span>${emp.Nomenclatura || "No especificada"}</span>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4" style="padding:2px 5px;">
-              <strong>CAMPAÑA:</strong> <span>${emp.Campana || "No especificada"}</span>
-            </td>
-          </tr>
+  <table style="width:100%; border-collapse:collapse; margin-top:15px; border-top:1px solid #ccc;">
+    <tbody>
+      <tr>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('ID')"></i>
+        </td>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>CELULAR:</strong>
+          <span id="celularValue">${emp.Celular || "N/A"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Celular')"></i>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>EXTENSIÓN:</strong>
+          <span id="extension telefonicaValue">${emp["Extension Telefonica"] || "N/A"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Extension Telefonica')"></i>
+        </td>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>E-MAIL:</strong>
+          <span id="e-mailValue">${emp["E-mail"] || "N/A"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('E-mail')"></i>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>DEPARTAMENTO:</strong>
+          <span id="departamentoValue">${emp.Departamento || "No especificado"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Departamento')"></i>
+        </td>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>JEFE DIRECTO:</strong>
+          <span id="jefe inmediatoValue">${emp["Jefe Inmediato"] || "No especificado"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Jefe Inmediato')"></i>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>TURNO:</strong>
+          <span id="turnoValue">${emp.Turno || "No asignado"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Turno')"></i>
+        </td>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>INICIALES CERTIFICADO:</strong>
+          <span id="iniciales certificadoValue">${emp["Iniciales Certificado"] || "No registradas"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Iniciales Certificado')"></i>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>FECHA DE INGRESO:</strong>
+          <span id="fecha de ingresoValue">${emp["Fecha de Ingreso"] || "No disponible"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Fecha de Ingreso')"></i>
+        </td>
+        <td colspan="2" style="padding:2px 5px;">
+          <strong>STATUS:</strong>
+          <span id="statusValue">${emp.Status || "No disponible"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Status')"></i>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" style="padding:2px 5px;">
+          <strong>NOMENCLATURA:</strong>
+          <span id="nomenclaturaValue">${emp.Nomenclatura || "No especificada"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Nomenclatura')"></i>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" style="padding:2px 5px;">
+          <strong>CAMPAÑA:</strong>
+          <span id="campanaValue">${emp.Campana || "No especificada"}</span>
+          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Campana')"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
           <tr>
             <td colspan="4" style="padding:2px 5px;">
               <strong>ANTIGÜEDAD:</strong> <span>${ventasPorEmpleado[llaveEmpleado]?.tiempo_en_empresa || "N/A"}</span>
@@ -337,3 +350,33 @@ function renderSuggestions(results) {
     suggestionsList.appendChild(li);
   });
 }
+
+ function habilitarEdicion(campo) {
+  const span = document.getElementById(campo.toLowerCase() + 'Value');
+  const valorActual = span.textContent;
+  span.innerHTML = `
+    <input type="text" id="${campo}Input" value="${valorActual}" style="width:70%;padding:3px;">
+    <button onclick="guardarCampo('${campo}')" style="margin-left:5px;padding:3px 8px;">Guardar</button>
+  `;
+}
+
+async function guardarCampo(campo) {
+  const input = document.getElementById(campo + 'Input');
+  const nuevoValor = input.value;
+
+  // Aquí llamas al Google Apps Script
+  const url = `https://script.google.com/macros/s/AKfycbxBK98nsUeiYgxCBOFckJ70fsqEUGj9vHZQ4ClksvT6mdQhPCjgtR905s3KgBgpRpwk/exec?campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
+
+  try {
+    const respuesta = await fetch(url);
+    if (respuesta.ok) {
+      alert('Dato actualizado correctamente.');
+      document.getElementById(campo.toLowerCase() + 'Value').textContent = nuevoValor;
+    } else {
+      alert('Error al actualizar.');
+    }
+  } catch (error) {
+    alert('Error al actualizar: ' + error);
+  }
+}
+ 
