@@ -350,32 +350,31 @@ function renderSuggestions(results) {
     suggestionsList.appendChild(li);
   });
 }
-
- function habilitarEdicion(campo) {
-  const span = document.getElementById(campo.toLowerCase() + 'Value');
+    // Habilita la edición del campo específico
+function habilitarEdicion(campo) {
+  const span = document.getElementById(campo.replace(/\s+/g, '').toLowerCase() + 'Value');
   const valorActual = span.textContent;
   span.innerHTML = `
-    <input type="text" id="${campo}Input" value="${valorActual}" style="width:70%;padding:3px;">
+    <input type="text" id="${campo.replace(/\s+/g, '')}Input" value="${valorActual}" style="width:70%;padding:3px;">
     <button onclick="guardarCampo('${campo}')" style="margin-left:5px;padding:3px 8px;">Guardar</button>
   `;
 }
 
-document.getElementById('guardarCelularBtn').addEventListener('click', () => {
-  const input = document.getElementById('inputCelular');
+// Guarda el campo editado en Google Sheets usando GET
+function guardarCampo(campo) {
+  const input = document.getElementById(campo.replace(/\s+/g, '') + 'Input');
   const nuevoValor = input.value.trim();
   const nombreEmpleado = document.getElementById('nombreEmpleado').textContent.trim();
 
-  const url = `https://script.google.com/macros/s/AKfycbxBK98nsUeiYgxCBOFckJ70fsqEUGj9vHZQ4ClksvT6mdQhPCjgtR905s3KgBgpRpwk/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=Celular&valor=${encodeURIComponent(nuevoValor)}`;
+  const url = `https://script.google.com/macros/s/AKfycbxBK98nsUeiYgxCBOFckJ70fsqEUGj9vHZQ4ClksvT6mdQhPCjgtR905s3KgBgpRpwk/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
       if (data.status === 'success') {
         alert('✅ Actualizado correctamente');
-        document.getElementById('celularEmpleado').textContent = nuevoValor;
-        input.style.display = "none";
-        document.getElementById('guardarCelularBtn').style.display = "none";
-        document.getElementById('editarCelularBtn').style.display = "inline-block";
+        const span = document.getElementById(campo.replace(/\s+/g, '').toLowerCase() + 'Value');
+        span.textContent = nuevoValor;
       } else {
         alert('⚠️ Error: ' + data.message);
       }
@@ -384,6 +383,5 @@ document.getElementById('guardarCelularBtn').addEventListener('click', () => {
       alert('❌ Error en la solicitud');
       console.error(err);
     });
-});
+}
 
- 
