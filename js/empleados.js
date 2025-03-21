@@ -19,35 +19,36 @@ function flattenEmployees(data) {
   return result;
 }
 
-// Cargar los empleados desde ./Data/empleados_final.json
 async function loadEmployees() {
   try {
-    const response = await fetch(`./Data/empleados_final.json?t=${new Date().getTime()}`);
-    const jsonData = await response.json();
+    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSkIP8g5l__DthD32Rh0GicEiRBvo17EXKptc_Ea8DIF6KICuJ_jINCjO-6mxz8eCv9CAXApzEIjyJ0/pub?gid=59987663&single=true&output=csv');
+    const csvData = await response.text();
 
-    allEmployees = flattenEmployees(jsonData);
+    // Convertir CSV a objetos JavaScript
+    const allEmployees = csvToObjects(csvData);
+
     populateCompanyFilter(allEmployees);
-
-    await obtenerDatosVentas(); // Cargar ventas
-
-    // Comprobación de nombres contra ventas
-    console.log("🚩 Comprobación de nombres de empleados contra ventas:");
-    allEmployees.forEach(emp => {
-      const llaveEmpleado = normalizarNombre(emp.Nombre);
-      if (ventasPorEmpleado[llaveEmpleado]) {
-        console.log("✅ Nombre coincide:", llaveEmpleado);
-      } else {
-        console.log("❌ Sin ventas para:", llaveEmpleado);
-      }
-    });
+    await obtenerDatosVentas();
 
     filteredEmployees = allEmployees;
     renderGrid(currentPage);
-    console.log("✅ Empleados cargados correctamente.");
+    console.log("✅ Empleados cargados correctamente desde CSV.");
   } catch (error) {
-    console.error("❌ Error al cargar empleados:", error);
+    console.error("❌ Error al cargar empleados desde CSV:", error);
   }
 }
+// Función auxiliar para convertir CSV a objetos JavaScript
+function csvToObjects(csv) {
+  const rows = csv.split('\n').map(row => row.split(','));
+  const headers = rows.shift();
+  return rows.map(row => {
+    return row.reduce((acc, cur, i) => {
+      acc[headers[i].trim()] = cur.trim();
+      return acc;
+    }, {});
+  });
+}
+
 
 // Llenar el select con empresas únicas
 function populateCompanyFilter(employees) {
