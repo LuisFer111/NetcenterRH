@@ -25,7 +25,7 @@ async function loadEmployees() {
     const csvData = await response.text();
 
     // Convertir CSV a objetos JavaScript
-    const allEmployees = csvToObjects(csvData);
+    allEmployees = csvToObjects(csvData);
     console.log(allEmployees);
 
     populateCompanyFilter(allEmployees);
