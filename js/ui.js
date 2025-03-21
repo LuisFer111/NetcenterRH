@@ -164,13 +164,12 @@ function showEmployeeDetail(emp) {
   if (ventas) {
     setTimeout(() => generarGraficaVentas(ventas), 300);
   }
-  // Referencias a los elementos
+  // Referencias a botones e inputs
 const editarBtn = document.getElementById('editarCelularBtn');
 const guardarBtn = document.getElementById('guardarCelularBtn');
 const celularSpan = document.getElementById('celularEmpleado');
 const inputCelular = document.getElementById('inputCelular');
 
-// Al hacer clic en Editar
 editarBtn.addEventListener('click', () => {
   inputCelular.style.display = 'inline-block';
   guardarBtn.style.display = 'inline-block';
@@ -179,43 +178,38 @@ editarBtn.addEventListener('click', () => {
   celularSpan.style.display = 'none';
 });
 
-// Al hacer clic en Guardar
 guardarBtn.addEventListener('click', async () => {
   const nuevoNumero = inputCelular.value.trim();
   if (!nuevoNumero) return alert("Ingresa un número válido.");
 
   try {
-    // Ajusta tu URL según la que te dio Apps Script
-    const response = await fetch("https://script.google.com/macros/s/AKfycbymJaMqmMpIMsylOlzOO65KIzTywim5HZ-CDEmKnnoZUUQtULpk_BLoYspgJp_AQXlA/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nombre: emp.Nombre,
-        celular: nuevoNumero
-      })
-    });
+    // 1) Tu URL base del Apps Script (terminada en /exec)
+    const baseUrl = "https://script.google.com/macros/s/AKfycbwuI0hvzcCOXGzm-t4S2cSCK1NMYOV21FuRmB8pkOL_pKaLKiHI5OzbXcQDq7g78maG/exec"; // Ajusta a tu URL final
 
-    // Suponemos que el script retorna { status: 'success' } en JSON
+    // 2) Armamos la query con ?accion=update & nombre= ... & celular= ...
+    const url = `${baseUrl}?accion=update&nombre=${encodeURIComponent(emp.Nombre)}&celular=${encodeURIComponent(nuevoNumero)}`;
+
+    // 3) Hacemos un fetch GET
+    const response = await fetch(url);
     const resultado = await response.json();
+
     if (resultado.status === 'success') {
-      // Actualiza en pantalla
       celularSpan.textContent = nuevoNumero;
       emp.Celular = nuevoNumero;
-      alert("✅ Celular actualizado correctamente.");
+      alert("✅ Celular actualizado correctamente (vía GET).");
     } else {
-      alert("❌ No se pudo actualizar el número en Google Sheets.");
+      alert("❌ No se pudo actualizar. " + (resultado.message || ''));
     }
   } catch (error) {
     alert("❌ Error al enviar los datos: " + error.message);
   }
 
-  // Oculta input y muestra el valor actualizado
+  // Ocultar input y volver al modo vista
   inputCelular.style.display = 'none';
   guardarBtn.style.display = 'none';
   editarBtn.style.display = 'inline-block';
   celularSpan.style.display = 'inline-block';
 });
-  
 }
 // 3) Renderizar GRID
 function renderGrid(page) {
