@@ -190,4 +190,16 @@ body {
     text-transform: capitalize;
     color: #666;
   }
-  
+  #topHeader {
+     background-color: #003366; /* Color corporativo (azul oscuro) */
+     color: white;
+     padding: 10px 20px; /* Espacio interior */
+     display: flex;
+     align-items: center; /* Centra verticalmente */
+     justify-content: space-between; /* Espacio entre el h1 y logo/menu si quieres */
+  }
+
+  #topHeader h1 {
+     margin: 0; /* Quitar márgenes default */
+     font-size: 24px; /* Ajustar tamaño */
+  }
