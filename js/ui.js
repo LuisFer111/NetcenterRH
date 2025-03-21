@@ -69,7 +69,20 @@ function showEmployeeDetail(emp) {
               <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
             </td>
             <td colspan="2" style="padding:2px 5px;">
-              <strong>CELULAR:</strong> <span>${emp.Celular || "N/A"}</span>
+              <strong>CELULAR:</strong>
+              <span id="celularEmpleado">${emp.Celular || "N/A"}</span>
+
+              <!-- Input oculto para editar -->
+              <input
+                type="text"
+                id="inputCelular"
+                value="${emp.Celular || ''}"
+                style="display:none; margin-left:5px; padding:2px 4px;"
+              />
+
+              <!-- Botones de Editar y Guardar -->
+              <button id="editarCelularBtn" style="margin-left:10px;">Editar</button>
+              <button id="guardarCelularBtn" style="display:none; margin-left:5px;">Guardar</button>
             </td>
           </tr>
           <tr>
@@ -151,6 +164,58 @@ function showEmployeeDetail(emp) {
   if (ventas) {
     setTimeout(() => generarGraficaVentas(ventas), 300);
   }
+  // Referencias a los elementos
+const editarBtn = document.getElementById('editarCelularBtn');
+const guardarBtn = document.getElementById('guardarCelularBtn');
+const celularSpan = document.getElementById('celularEmpleado');
+const inputCelular = document.getElementById('inputCelular');
+
+// Al hacer clic en Editar
+editarBtn.addEventListener('click', () => {
+  inputCelular.style.display = 'inline-block';
+  guardarBtn.style.display = 'inline-block';
+
+  editarBtn.style.display = 'none';
+  celularSpan.style.display = 'none';
+});
+
+// Al hacer clic en Guardar
+guardarBtn.addEventListener('click', async () => {
+  const nuevoNumero = inputCelular.value.trim();
+  if (!nuevoNumero) return alert("Ingresa un número válido.");
+
+  try {
+    // Ajusta tu URL según la que te dio Apps Script
+    const response = await fetch("TU_URL_DE_APPSCRIPT", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre: emp.Nombre,
+        celular: nuevoNumero
+      })
+    });
+
+    // Suponemos que el script retorna { status: 'success' } en JSON
+    const resultado = await response.json();
+    if (resultado.status === 'success') {
+      // Actualiza en pantalla
+      celularSpan.textContent = nuevoNumero;
+      emp.Celular = nuevoNumero;
+      alert("✅ Celular actualizado correctamente.");
+    } else {
+      alert("❌ No se pudo actualizar el número en Google Sheets.");
+    }
+  } catch (error) {
+    alert("❌ Error al enviar los datos: " + error.message);
+  }
+
+  // Oculta input y muestra el valor actualizado
+  inputCelular.style.display = 'none';
+  guardarBtn.style.display = 'none';
+  editarBtn.style.display = 'inline-block';
+  celularSpan.style.display = 'inline-block';
+});
+  
 }
 // 3) Renderizar GRID
 function renderGrid(page) {
