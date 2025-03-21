@@ -366,7 +366,7 @@ function guardarCampo(campo) {
   const nuevoValor = input.value.trim();
   const nombreEmpleado = document.getElementById('nombreEmpleado').textContent.trim();
 
-  const url = `https://script.google.com/macros/s/AKfycbxBK98nsUeiYgxCBOFckJ70fsqEUGj9vHZQ4ClksvT6mdQhPCjgtR905s3KgBgpRpwk/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
+  const url = `https://script.google.com/macros/s/AKfycbzRXljrEcGq-AOl9iUX5UbV470-jX8kvY_-LM3PBv8HrzoHtIrYrVsyzXA3VziiO5zk/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
 
   fetch(url)
     .then(response => response.json())
