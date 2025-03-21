@@ -361,32 +361,27 @@ function habilitarEdicion(campo) {
 }
 
 // Guarda el campo editado en Google Sheets usando GET
-function guardarCampo(campo) {
-  const input = document.getElementById(campo.replace(/\s+/g, '') + 'Input');
+async function guardarCampo(campo) {
+  const input = document.getElementById(`${campo}Input`);
   const nuevoValor = input.value.trim();
   const nombreEmpleado = document.getElementById('nombreEmpleado').textContent.trim();
 
   const url = `https://script.google.com/macros/s/AKfycbzwHiJ7gUX6bOn5NpRFvqpAiFQNJQPa3W_LpITyOpJRi8FAV1xb_QLxBFhiBtyoVvhO/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
 
-  fetch(url)
-  .then(response => response.text())
-  .then(text => {
-    try {
-      const data = JSON.parse(text);
-      if (data.status === 'success') {
-        alert('✅ Actualizado correctamente');
-        document.getElementById(campo.toLowerCase() + 'Value').textContent = nuevoValor;
-      } else {
-        alert('⚠️ Error: ' + data.message);
-      }
-    } catch (e) {
-      alert('❌ Error en la respuesta: ' + text);
-      console.error("Respuesta inesperada del servidor:", text);
+  try {
+    const response = await fetch(url);
+    const text = await response.text();
+    const data = JSON.parse(text);
+
+    if (data.status === 'success') {
+      alert('✅ Actualizado correctamente');
+      document.getElementById(`${campo.toLowerCase()}Value`).textContent = nuevoValor;
+    } else {
+      alert('⚠️ Error: ' + data.message);
     }
-  })
-  .catch(err => {
-    alert('❌ Error en la solicitud: ' + err);
+  } catch (err) {
+    alert('❌ Error en la solicitud: ' + err.message);
     console.error("Error detallado:", err);
-  });
   }
+}
 
