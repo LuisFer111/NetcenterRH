@@ -186,7 +186,7 @@ guardarBtn.addEventListener('click', async () => {
 
   try {
     // Ajusta tu URL según la que te dio Apps Script
-    const response = await fetch("https://script.google.com/macros/s/AKfycbxeiUkFzNKu7cFhULW-ha4UzRCQzQ5covN0UTexIG91SDjcW7m6_u8WZ2sJjWbP02w3/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbymJaMqmMpIMsylOlzOO65KIzTywim5HZ-CDEmKnnoZUUQtULpk_BLoYspgJp_AQXlA/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
