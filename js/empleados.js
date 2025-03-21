@@ -31,6 +31,11 @@ async function loadEmployees() {
     populateCompanyFilter(allEmployees);
     await obtenerDatosVentas();
 
+    // Reconstruir subordinados desde CSV
+    allEmployees.forEach(emp => {
+      emp.Subordinados = allEmployees.filter(e => e["Jefe Inmediato"] === emp.Nombre);
+    });
+    
     filteredEmployees = allEmployees;
     renderGrid(currentPage);
     console.log("✅ Empleados cargados correctamente desde CSV.");
