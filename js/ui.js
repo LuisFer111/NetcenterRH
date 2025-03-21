@@ -65,93 +65,95 @@ function showEmployeeDetail(emp) {
   <table style="width:100%; border-collapse:collapse; margin-top:15px; border-top:1px solid #ccc;">
     <tbody>
       <tr>
-        <td colspan="2" style="padding:2px 5px;">
-          <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('ID')"></i>
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
+          <strong>ID:</strong> <span id="idValue">${emp.ID || "N/A"}</span>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('ID')"></i>
         </td>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>CELULAR:</strong>
           <span id="celularValue">${emp.Celular || "N/A"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Celular')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Celular')"></i>
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>EXTENSIÓN:</strong>
-          <span id="extension telefonicaValue">${emp["Extension Telefonica"] || "N/A"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Extension Telefonica')"></i>
+          <span id="extensionValue">${emp["Extension Telefonica"] || "N/A"}</span>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Extension Telefonica')"></i>
         </td>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>E-MAIL:</strong>
           <span id="e-mailValue">${emp["E-mail"] || "N/A"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('E-mail')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('E-mail')"></i>
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>DEPARTAMENTO:</strong>
           <span id="departamentoValue">${emp.Departamento || "No especificado"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Departamento')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Departamento')"></i>
         </td>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>JEFE DIRECTO:</strong>
-          <span id="jefe inmediatoValue">${emp["Jefe Inmediato"] || "No especificado"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Jefe Inmediato')"></i>
+          <span id="jefeValue">${emp["Jefe Inmediato"] || "No especificado"}</span>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Jefe Inmediato')"></i>
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>TURNO:</strong>
           <span id="turnoValue">${emp.Turno || "No asignado"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Turno')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Turno')"></i>
         </td>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>INICIALES CERTIFICADO:</strong>
-          <span id="iniciales certificadoValue">${emp["Iniciales Certificado"] || "No registradas"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Iniciales Certificado')"></i>
+          <span id="inicialesValue">${emp["Iniciales Certificado"] || "No registradas"}</span>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Iniciales Certificado')"></i>
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>FECHA DE INGRESO:</strong>
-          <span id="fecha de ingresoValue">${emp["Fecha de Ingreso"] || "No disponible"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Fecha de Ingreso')"></i>
+          <span id="fechaValue">${emp["Fecha de Ingreso"] || "No disponible"}</span>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Fecha de Ingreso')"></i>
         </td>
-        <td colspan="2" style="padding:2px 5px;">
+        <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>STATUS:</strong>
           <span id="statusValue">${emp.Status || "No disponible"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Status')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Status')"></i>
         </td>
       </tr>
       <tr>
-        <td colspan="4" style="padding:2px 5px;">
+        <td colspan="4" class="editable-field" style="padding:2px 5px;">
           <strong>NOMENCLATURA:</strong>
           <span id="nomenclaturaValue">${emp.Nomenclatura || "No especificada"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Nomenclatura')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Nomenclatura')"></i>
         </td>
       </tr>
       <tr>
-        <td colspan="4" style="padding:2px 5px;">
+        <td colspan="4" class="editable-field" style="padding:2px 5px;">
           <strong>CAMPAÑA:</strong>
           <span id="campanaValue">${emp.Campana || "No especificada"}</span>
-          <i class="fa-solid fa-pencil" style="cursor:pointer; margin-left:5px;" onclick="habilitarEdicion('Campana')"></i>
+          <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Campana')"></i>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-          <tr>
-            <td colspan="4" style="padding:2px 5px;">
-              <strong>ANTIGÜEDAD:</strong> <span>${ventasPorEmpleado[llaveEmpleado]?.tiempo_en_empresa || "N/A"}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <tr>
+  <td colspan="4" style="padding:2px 5px;">
+    <strong>ANTIGÜEDAD:</strong>
+    <span id="antiguedadValue" style="color:#333;">
+      ${ventasPorEmpleado[llaveEmpleado]?.tiempo_en_empresa || "N/A"}
+    </span>
+  </td>
+</tr>
+</tbody>
+</table>
 
-      <div style="margin-top:10px;">
-        ${ventasTexto}
-      </div>
-    </div>
+<div style="margin-top:10px;">
+  ${ventasTexto}
+</div>
   `;
 
   employeesGrid.style.display = "none";
