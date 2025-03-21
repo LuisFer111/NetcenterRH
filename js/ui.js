@@ -66,79 +66,77 @@ function showEmployeeDetail(emp) {
     <tbody>
       <tr>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
-          <strong>ID:</strong> <span id="idValue display:inline-block;">${emp.ID || "N/A"}</span>
+          <strong>ID:</strong> <span id="idValue" style="display:inline-block;">${emp.ID || "N/A"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('ID')"></i>
         </td>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>CELULAR:</strong>
-          <span id="celularValue display:inline-block;">${emp.Celular || "N/A"}</span>
+          <span id="celularValue" style="display:inline-block;">${emp.Celular || "N/A"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Celular')"></i>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>EXTENSIÓN:</strong>
-          <span id="extensionValue display:inline-block;">${emp["Extension Telefonica"] || "N/A"}</span>
+          <span id="extensionValue" style="display:inline-block;">${emp["Extension Telefonica"] || "N/A"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Extension Telefonica')"></i>
         </td>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>E-MAIL:</strong>
-          <span id="e-mailValue display:inline-block;">${emp["E-mail"] || "N/A"}</span>
+          <span id="e-mailValue" style="display:inline-block;">${emp["E-mail"] || "N/A"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('E-mail')"></i>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>DEPARTAMENTO:</strong>
-          <span id="departamentoValue display:inline-block;">${emp.Departamento || "No especificado"}</span>
+          <span id="departamentoValue" style="display:inline-block;">${emp.Departamento || "No especificado"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Departamento')"></i>
         </td>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>JEFE DIRECTO:</strong>
-          <span id="jefeValue display:inline-block;">${emp["Jefe Inmediato"] || "No especificado"}</span>
+          <span id="jefeValue" style="display:inline-block;">${emp["Jefe Inmediato"] || "No especificado"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Jefe Inmediato')"></i>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>TURNO:</strong>
-          <span id="turnoValue display:inline-block;">${emp.Turno || "No asignado"}</span>
+          <span id="turnoValue" style="display:inline-block;">${emp.Turno || "No asignado"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Turno')"></i>
         </td>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>INICIALES CERTIFICADO:</strong>
-          <span id="inicialesValue display:inline-block;">${emp["Iniciales Certificado"] || "No registradas"}</span>
+          <span id="inicialesValue" style="display:inline-block;">${emp["Iniciales Certificado"] || "No registradas"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Iniciales Certificado')"></i>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>FECHA DE INGRESO:</strong>
-          <span id="fechaValue display:inline-block;">${emp["Fecha de Ingreso"] || "No disponible"}</span>
+          <span id="fechaValue" style="display:inline-block;">${emp["Fecha de Ingreso"] || "No disponible"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Fecha de Ingreso')"></i>
         </td>
         <td colspan="2" class="editable-field" style="padding:2px 5px;">
           <strong>STATUS:</strong>
-          <span id="statusValue display:inline-block;">${emp.Status || "No disponible"}</span>
+          <span id="statusValue" style="display:inline-block;">${emp.Status || "No disponible"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Status')"></i>
         </td>
       </tr>
       <tr>
         <td colspan="4" class="editable-field" style="padding:2px 5px;">
           <strong>NOMENCLATURA:</strong>
-          <span id="nomenclaturaValue display:inline-block;">${emp.Nomenclatura || "No especificada"}</span>
+          <span id="nomenclaturaValue" style="display:inline-block;">${emp.Nomenclatura || "No especificada"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Nomenclatura')"></i>
         </td>
       </tr>
       <tr>
         <td colspan="4" class="editable-field" style="padding:2px 5px;">
           <strong>CAMPAÑA:</strong>
-          <span id="campanaValue display:inline-block;">${emp.Campana || "No especificada"}</span>
+          <span id="campanaValue" style="display:inline-block;">${emp.Campana || "No especificada"}</span>
           <i class="fa-regular fa-pen-to-square edit-icon" onclick="habilitarEdicion('Campana')"></i>
         </td>
       </tr>
-    </tbody>
-  </table>
 </div>
       <tr>
   <td colspan="4" style="padding:2px 5px;">
