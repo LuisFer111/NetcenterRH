@@ -360,23 +360,30 @@ function renderSuggestions(results) {
   `;
 }
 
-async function guardarCampo(campo) {
-  const input = document.getElementById(campo + 'Input');
-  const nuevoValor = input.value;
+document.getElementById('guardarCelularBtn').addEventListener('click', () => {
+  const input = document.getElementById('inputCelular');
+  const nuevoValor = input.value.trim();
+  const nombreEmpleado = document.getElementById('nombreEmpleado').textContent.trim();
 
-  // Aquí llamas al Google Apps Script
-  const url = `https://script.google.com/macros/s/AKfycbxBK98nsUeiYgxCBOFckJ70fsqEUGj9vHZQ4ClksvT6mdQhPCjgtR905s3KgBgpRpwk/exec?campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
+  const url = `https://script.google.com/macros/s/AKfycbxBK98nsUeiYgxCBOFckJ70fsqEUGj9vHZQ4ClksvT6mdQhPCjgtR905s3KgBgpRpwk/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=Celular&valor=${encodeURIComponent(nuevoValor)}`;
 
-  try {
-    const respuesta = await fetch(url);
-    if (respuesta.ok) {
-      alert('Dato actualizado correctamente.');
-      document.getElementById(campo.toLowerCase() + 'Value').textContent = nuevoValor;
-    } else {
-      alert('Error al actualizar.');
-    }
-  } catch (error) {
-    alert('Error al actualizar: ' + error);
-  }
-}
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert('✅ Actualizado correctamente');
+        document.getElementById('celularEmpleado').textContent = nuevoValor;
+        input.style.display = "none";
+        document.getElementById('guardarCelularBtn').style.display = "none";
+        document.getElementById('editarCelularBtn').style.display = "inline-block";
+      } else {
+        alert('⚠️ Error: ' + data.message);
+      }
+    })
+    .catch(err => {
+      alert('❌ Error en la solicitud');
+      console.error(err);
+    });
+});
+
  
