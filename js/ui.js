@@ -350,19 +350,33 @@ function renderSuggestions(results) {
     suggestionsList.appendChild(li);
   });
 }
-    // Habilita la edición del campo específico
+// Variable para controlar edición simultánea
+let editandoCampo = null;
+
+// Habilita la edición del campo específico
 function habilitarEdicion(campo) {
-  const span = document.getElementById(campo.replace(/\s+/g, '').toLowerCase() + 'Value');
+  if (editandoCampo) return alert('Termina de editar el campo actual antes de continuar.');
+
+  editandoCampo = campo;
+
+  const campoId = campo.replace(/\s+/g, '').toLowerCase();
+  const span = document.getElementById(campoId + 'Value');
   const valorActual = span.textContent;
+
   span.innerHTML = `
-    <input type="text" id="${campo.replace(/\s+/g, '')}Input" value="${valorActual}" style="width:70%;padding:3px;">
+    <input type="text" id="${campoId}Input" value="${valorActual}" style="width:70%;padding:3px;">
     <button onclick="guardarCampo('${campo}')" style="margin-left:5px;padding:3px 8px;">Guardar</button>
   `;
+
+  // Ocultar icono lápiz mientras editas
+  const iconoLapiz = span.nextElementSibling;
+  if(iconoLapiz) iconoLapiz.style.display = 'none';
 }
 
 // Guarda el campo editado en Google Sheets usando GET
 async function guardarCampo(campo) {
-  const input = document.getElementById(`${campo}Input`);
+  const campoId = campo.replace(/\s+/g, '').toLowerCase();
+  const input = document.getElementById(`${campoId}Input`);
   const nuevoValor = input.value.trim();
   const nombreEmpleado = document.getElementById('nombreEmpleado').textContent.trim();
 
@@ -375,7 +389,14 @@ async function guardarCampo(campo) {
 
     if (data.status === 'success') {
       alert('✅ Actualizado correctamente');
-      document.getElementById(`${campo.toLowerCase()}Value`).textContent = nuevoValor;
+      const span = document.getElementById(`${campoId}Value`);
+      span.textContent = nuevoValor;
+
+      // Volver a mostrar icono lápiz después de guardar
+      const iconoLapiz = span.nextElementSibling;
+      if(iconoLapiz) iconoLapiz.style.display = 'inline-block';
+
+      editandoCampo = null;
     } else {
       alert('⚠️ Error: ' + data.message);
     }
