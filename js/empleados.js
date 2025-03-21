@@ -5,20 +5,6 @@ let filteredEmployees = [];
 let currentPage = 1;
 const pageSize = 8;
 
-function flattenEmployees(data) {
-  const result = [];
-  function recurse(emp) {
-    result.push(emp);
-    if (emp.Subordinados && emp.Subordinados.length > 0) {
-      emp.Subordinados.forEach(sub => recurse(sub));
-    }
-  }
-  for (const empresaKey in data) {
-    data[empresaKey].empleados.forEach(emp => recurse(emp));
-  }
-  return result;
-}
-
 async function loadEmployees() {
   try {
     const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSkIP8g5l__DthD32Rh0GicEiRBvo17EXKptc_Ea8DIF6KICuJ_jINCjO-6mxz8eCv9CAXApzEIjyJ0/pub?gid=59987663&single=true&output=csv');
@@ -31,11 +17,15 @@ async function loadEmployees() {
     populateCompanyFilter(allEmployees);
     await obtenerDatosVentas();
 
-    // Reconstruir subordinados desde CSV
+    // Limpiar texto para comparar correctamente
+    const normalizarNombre = nombre => nombre.toUpperCase().trim();
+
+    // Reconstruir subordinados desde CSV con nombres normalizados
     allEmployees.forEach(emp => {
-      emp.Subordinados = allEmployees.filter(e => e["Jefe Inmediato"] === emp.Nombre);
-    });
-    
+    emp.Subordinados = allEmployees.filter(e => 
+    normalizarNombre(e["Jefe Inmediato"]) === normalizarNombre(emp.Nombre)
+  );
+});
     filteredEmployees = allEmployees;
     renderGrid(currentPage);
     console.log("✅ Empleados cargados correctamente desde CSV.");
