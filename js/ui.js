@@ -132,15 +132,6 @@ function showEmployeeDetail(emp) {
               <strong>ANTIGÜEDAD:</strong> <span>${ventasPorEmpleado[llaveEmpleado]?.tiempo_en_empresa || "N/A"}</span>
             </td>
           </tr>
-          <tr>
-            <td colspan="4" style="padding:2px 5px;">
-              <strong>SUBORDINADOS:</strong> <span>${
-                emp.Subordinados && emp.Subordinados.length > 0
-                  ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
-                  : "No tiene subordinados"
-              }</span>
-            </td>
-          </tr>
         </tbody>
       </table>
 
