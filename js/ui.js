@@ -124,7 +124,7 @@ function showEmployeeDetail(emp) {
           </tr>
           <tr>
             <td colspan="4" style="padding:2px 5px;">
-              <strong>CAMPAÑA:</strong> <span>${emp.Campaña || "No especificada"}</span>
+              <strong>CAMPAÑA:</strong> <span>${emp.Campana || "No especificada"}</span>
             </td>
           </tr>
           <tr>
