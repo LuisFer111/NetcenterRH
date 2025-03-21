@@ -1,33 +1,4 @@
 // ui.js
-
-// 1) Función para mostrar campos adicionales (si los quieres)
-function generateEmployeeAttributes(emp) {
-  let html = "";
-  const ignoreKeys = ["FotoUrl", "Subordinados", "Nombre", "Empresa", "ID", "Celular",
-                      "Extension Telefonica", "E-mail", "Departamento", "Jefe Inmediato",
-                      "Turno", "Iniciales Certificado", "Fecha de Ingreso", "Status",
-                      "Nomenclatura", "Campaña", "Puesto"];
-  // Agrega o quita claves si no deseas ignorarlas
-
-  let subordinatesStr = "N/A";
-  if (emp.Subordinados && emp.Subordinados.length > 0) {
-    subordinatesStr = emp.Subordinados.map(s => s.Nombre).join(", ");
-  }
-
-  // Añade un "Subordinados" al final
-  // Si ya lo muestras en la tabla, omite esto
-  for (const key in emp) {
-    if (!ignoreKeys.includes(key)) {
-      const value = emp[key] || "N/A";
-      html += `<p><strong>${key}:</strong> ${value}</p>`;
-    }
-  }
-  // Subordinados si no lo muestras arriba
-  // html += `<p><strong>Subordinados:</strong> ${subordinatesStr}</p>`;
-
-  return html;
-}
-
 // 2) Mostrar el detalle del empleado
 function showEmployeeDetail(emp) {
   const logoUrl = getLogoUrl(emp.Empresa);
@@ -38,132 +9,123 @@ function showEmployeeDetail(emp) {
   const llaveEmpleado = normalizarNombre(emp.Nombre);
   const ventas = ventasPorEmpleado[llaveEmpleado];
 
-  // Por defecto
   let ventasTexto = `<p><strong>Datos de Ventas:</strong> No disponible</p>`;
   if (ventas) {
     ventasTexto = `
-    <div style="display: flex; gap: 20px; align-items: flex-start; border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
-      <!-- Sección de información de ventas -->
-      <div style="flex: 1; padding-right: 20px;">
-        <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
-        <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString('en-US',{ minimumFractionDigits:2, maximumFractionDigits:2 })}</span></p>
-        <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString('en-US',{ minimumFractionDigits:2, maximumFractionDigits:2 })}</span></p>
-        <ul style="list-style:none; padding:0; margin:0;">
-          <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | $${ventas.volumen.enero.toLocaleString()}</li>
-          <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | $${ventas.volumen.febrero.toLocaleString()}</li>
-          <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | $${ventas.volumen.marzo.toLocaleString()}</li>
-        </ul>
+      <div style="display: flex; gap: 20px; align-items: flex-start; border:1px solid #ccc; padding:10px; border-radius:5px; background:#f9f9f9;">
+        <!-- Sección de información de ventas -->
+        <div style="flex: 1; padding-right: 20px;">
+          <p><strong>Ventas Totales:</strong> <span style="color:#007bff;">${ventas.ventas_totales}</span></p>
+          <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></p>
+          <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></p>
+          <ul style="list-style:none; padding:0; margin:0;">
+            <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | $${ventas.volumen.enero.toLocaleString()}</li>
+            <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | $${ventas.volumen.febrero.toLocaleString()}</li>
+            <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | $${ventas.volumen.marzo.toLocaleString()}</li>
+          </ul>
+        </div>
+        <!-- Sección de la gráfica -->
+        <div style="width:300px; height:200px; flex-shrink:0; margin-top:23px; transform:translateX(-15px);">
+          <canvas id="ventasChart"></canvas>
+        </div>
       </div>
-      <!-- Sección de la gráfica -->
-      <div style="width:300px; height:200px; flex-shrink:0; margin-top:23px; transform:translateX(-15px);">
-        <canvas id="ventasChart"></canvas>
-      </div>
-    </div>
     `;
   }
 
-  // Tabla principal (ID, Celular, etc.)
+  // Tabla principal
   detailDiv.innerHTML = `
-  <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px; position:relative;">
-    <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" style="max-width:120px;"/>
-    <div style="flex-grow:1;">
-      <h2 id="nombreEmpleado" style="margin:0; color:#333; white-space:nowrap; overflow:hidden;">
-        ${emp.Nombre}
-      </h2>
-      <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
-    </div>
-    <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado"
-      style="position:absolute; right:-10px; top:0; width:120px; height:120px;"/>
-  </div>
-
-  <div style="margin-top:25px;">
-    <table style="width:100%; border-collapse:collapse; margin-top:15px; border-top:1px solid #ccc;">
-      <tbody>
-        <tr>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
-          </td>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>CELULAR:</strong> <span>${emp.Celular || "N/A"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>EXTENSIÓN:</strong> <span>${emp["Extension Telefonica"] || "N/A"}</span>
-          </td>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>E-MAIL:</strong> <span>${emp["E-mail"] || "N/A"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>DEPARTAMENTO:</strong> <span>${emp.Departamento || "No especificado"}</span>
-          </td>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>JEFE DIRECTO:</strong> <span>${emp["Jefe Inmediato"] || "No especificado"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>TURNO:</strong> <span>${emp.Turno || "No asignado"}</span>
-          </td>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>INICIALES CERTIFICADO:</strong> <span>${emp["Iniciales Certificado"] || "No registradas"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>FECHA DE INGRESO:</strong> <span>${emp["Fecha de Ingreso"] || "No disponible"}</span>
-          </td>
-          <td colspan="2" style="padding:2px 5px;">
-            <strong>STATUS:</strong> <span>${emp.Status || "No disponible"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" style="padding:2px 5px;">
-            <strong>NOMENCLATURA:</strong> <span>${emp.Nomenclatura || "No especificada"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" style="padding:2px 5px;">
-            <strong>CAMPAÑA:</strong> <span>${emp.Campaña || "No especificada"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" style="padding:2px 5px;">
-            <strong>ANTIGÜEDAD:</strong> <span>${ventasPorEmpleado[normalizarNombre(emp.Nombre)]?.tiempo_en_empresa || "N/A"}</span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" style="padding:2px 5px;">
-            <strong>SUBORDINADOS:</strong> <span>${
-              emp.Subordinados && emp.Subordinados.length > 0
-                ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
-                : "No tiene subordinados"
-            }</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Aquí mostramos la sección de ventas (ventasTexto) -->
-    <div style="margin-top:10px;">
-      ${ventasTexto}
+    <div style="display:flex; align-items:center; gap:20px; margin-bottom:10px; position:relative;">
+      <img class="logo-empresa" src="${logoUrl}" alt="Logo Empresa" style="max-width:120px;"/>
+      <div style="flex-grow:1;">
+        <h2 id="nombreEmpleado" style="margin:0; color:#333; white-space:nowrap; overflow:hidden;">
+          ${emp.Nombre}
+        </h2>
+        <p style="font-size:14px; color:#666;"><strong>${emp.Puesto}</strong></p>
+      </div>
+      <img class="silueta" src="${siluetaUrl}" alt="Silueta Empleado"
+        style="position:absolute; right:-10px; top:0; width:120px; height:120px;"/>
     </div>
 
-    <!-- Mostrar campos extra (opcional) -->
-    <div style="margin-top:15px; background:#f1f1f1; padding:10px; border-radius:5px;">
-      <h3>Otros campos del JSON (opcional)</h3>
-      ${generateEmployeeAttributes(emp)}
+    <div style="margin-top:25px;">
+      <table style="width:100%; border-collapse:collapse; margin-top:15px; border-top:1px solid #ccc;">
+        <tbody>
+          <tr>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>ID:</strong> <span>${emp.ID || "N/A"}</span>
+            </td>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>CELULAR:</strong> <span>${emp.Celular || "N/A"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>EXTENSIÓN:</strong> <span>${emp["Extension Telefonica"] || "N/A"}</span>
+            </td>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>E-MAIL:</strong> <span>${emp["E-mail"] || "N/A"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>DEPARTAMENTO:</strong> <span>${emp.Departamento || "No especificado"}</span>
+            </td>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>JEFE DIRECTO:</strong> <span>${emp["Jefe Inmediato"] || "No especificado"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>TURNO:</strong> <span>${emp.Turno || "No asignado"}</span>
+            </td>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>INICIALES CERTIFICADO:</strong> <span>${emp["Iniciales Certificado"] || "No registradas"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>FECHA DE INGRESO:</strong> <span>${emp["Fecha de Ingreso"] || "No disponible"}</span>
+            </td>
+            <td colspan="2" style="padding:2px 5px;">
+              <strong>STATUS:</strong> <span>${emp.Status || "No disponible"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="padding:2px 5px;">
+              <strong>NOMENCLATURA:</strong> <span>${emp.Nomenclatura || "No especificada"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="padding:2px 5px;">
+              <strong>CAMPAÑA:</strong> <span>${emp.Campaña || "No especificada"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="padding:2px 5px;">
+              <strong>ANTIGÜEDAD:</strong> <span>${ventasPorEmpleado[llaveEmpleado]?.tiempo_en_empresa || "N/A"}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="padding:2px 5px;">
+              <strong>SUBORDINADOS:</strong> <span>${
+                emp.Subordinados && emp.Subordinados.length > 0
+                  ? emp.Subordinados.map(sub => sub.Nombre).join(", ")
+                  : "No tiene subordinados"
+              }</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:10px;">
+        ${ventasTexto}
+      </div>
     </div>
-  </div>
   `;
 
-  // Ocultamos el grid y mostramos el detalle
   employeesGrid.style.display = "none";
   detailDiv.style.display = "block";
 
-  // Ajustar el tamaño del nombre si es muy largo
+  // Ajustar tamaño del nombre si es largo
   const nombreElem = document.getElementById('nombreEmpleado');
   if (emp.Nombre.length > 25) {
     nombreElem.style.fontSize = "18px";
@@ -171,12 +133,10 @@ function showEmployeeDetail(emp) {
     nombreElem.style.fontSize = "22px";
   }
 
-  // Llamamos a generarGraficaVentas si existen datos de ventas
   if (ventas) {
     setTimeout(() => generarGraficaVentas(ventas), 300);
   }
 }
-
 // 3) Renderizar GRID
 function renderGrid(page) {
   const employeesGrid = document.getElementById('employeesGrid');
