@@ -19,9 +19,24 @@ function showEmployeeDetail(emp) {
           <p><strong>Volumen Total:</strong> <span style="color:#007bff;">$${ventas.volumen_total.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></p>
           <p><strong>Avg. Package Price:</strong> <span style="color:#007bff;">$${ventas.average_package_price.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></p>
           <ul style="list-style:none; padding:0; margin:0;">
-            <li><strong>Enero:</strong> ${ventas.ventas.enero} ventas | $${ventas.volumen.enero.toLocaleString()}</li>
-            <li><strong>Febrero:</strong> ${ventas.ventas.febrero} ventas | $${ventas.volumen.febrero.toLocaleString()}</li>
-            <li><strong>Marzo:</strong> ${ventas.ventas.marzo} ventas | $${ventas.volumen.marzo.toLocaleString()}</li>
+            <li>
+              <strong>Enero:</strong> ${ventas.ventas.enero} ventas |
+              <span style="color:#007bff;">
+                $${ventas.volumen.enero.toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2})}
+              </span>
+            </li>
+            <li>
+              <strong>Febrero:</strong> ${ventas.ventas.febrero} ventas |
+              <span style="color:#007bff;">
+                $${ventas.volumen.febrero.toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2})}
+              </span>
+            </li>
+            <li>
+              <strong>Marzo:</strong> ${ventas.ventas.marzo} ventas |
+              <span style="color:#007bff;">
+                $${ventas.volumen.marzo.toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2})}
+              </span>
+            </li>
           </ul>
         </div>
         <!-- Sección de la gráfica -->
