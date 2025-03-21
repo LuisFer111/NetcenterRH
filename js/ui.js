@@ -366,22 +366,27 @@ function guardarCampo(campo) {
   const nuevoValor = input.value.trim();
   const nombreEmpleado = document.getElementById('nombreEmpleado').textContent.trim();
 
-  const url = `https://script.google.com/macros/s/AKfycbzRXljrEcGq-AOl9iUX5UbV470-jX8kvY_-LM3PBv8HrzoHtIrYrVsyzXA3VziiO5zk/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
+  const url = `https://script.google.com/macros/s/AKfycbzwHiJ7gUX6bOn5NpRFvqpAiFQNJQPa3W_LpITyOpJRi8FAV1xb_QLxBFhiBtyoVvhO/exec?nombre=${encodeURIComponent(nombreEmpleado)}&campo=${encodeURIComponent(campo)}&valor=${encodeURIComponent(nuevoValor)}`;
 
   fetch(url)
-    .then(response => response.json())
-    .then(data => {
+  .then(response => response.text())
+  .then(text => {
+    try {
+      const data = JSON.parse(text);
       if (data.status === 'success') {
         alert('✅ Actualizado correctamente');
-        const span = document.getElementById(campo.replace(/\s+/g, '').toLowerCase() + 'Value');
-        span.textContent = nuevoValor;
+        document.getElementById(campo.toLowerCase() + 'Value').textContent = nuevoValor;
       } else {
         alert('⚠️ Error: ' + data.message);
       }
-    })
-    .catch(err => {
-      alert('❌ Error en la solicitud');
-      console.error(err);
-    });
-}
+    } catch (e) {
+      alert('❌ Error en la respuesta: ' + text);
+      console.error("Respuesta inesperada del servidor:", text);
+    }
+  })
+  .catch(err => {
+    alert('❌ Error en la solicitud: ' + err);
+    console.error("Error detallado:", err);
+  });
+  }
 
